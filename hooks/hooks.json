@@ -1,0 +1,44 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Security check. Respond immediately. Check if this command is safe: $ARGUMENTS. Look for: hardcoded secrets, rm -rf, SQL injection via shell, exposure of sensitive data. Respond {\"ok\": true} if safe, {\"ok\": false, \"reason\": \"...\"} if dangerous. No explanation.",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Security gate. Respond immediately. Check this file change for: hardcoded API keys or secrets, SQL injection, XSS, auth bypass, PII in logs or URLs. $ARGUMENTS. Respond {\"ok\": true} if safe, {\"ok\": false, \"reason\": \"...\"} if a blocking issue is found. Only block on clear violations, not potential issues. No explanation.",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "agent",
+            "prompt": "Test verification.\n\nRun `npm test`. If Playwright tests exist in tests/e2e/, run `npx playwright test` too.\n\nRead CLAUDE.md, then append results to the \"## Test Report\" section using the Edit tool:\n\n**Date:** [date] | **Passed:** [count] | **Failed:** [count] | **Skipped:** [count]\n[failure details if any]\n\nGate: if tests fail, respond {\"ok\": false, \"reason\": \"X tests failing: [details]\"}. If tests pass, respond {\"ok\": true}.",
+            "timeout": 60
+          },
+          {
+            "type": "agent",
+            "prompt": "Pre-stop audit. Three checks: trust, strategy, design. For each item: check, report, move on. Do not deliberate.\n\n## Trust Deep Scan\n\nScan all files changed in this session. For each item answer PASS or FAIL with file:line if FAIL:\n1. Hardcoded API keys, passwords, tokens, secrets?\n2. SQL injection (unsanitized user input in queries)?\n3. XSS (unescaped user content rendered as HTML)?\n4. Auth bypass (missing auth checks on protected routes)?\n5. PII exposure (personal data in logs, errors, URLs)?\n6. Missing RLS policies on Supabase tables?\n7. Secrets in environment config committed to git?\n\n## Strategy Alignment Check\n\nRead CLAUDE.md for the EIID mapping. Compare recent changes against it:\n1. Which EIID layer does each change support? (enrichment / inference / interpretation / delivery / none)\n2. Any file or dependency not traceable to the EIID mapping? If yes, flag as scope creep.\n\nDo not suggest new opportunities here. That is for /superskills:strategy.\n\n## Design Audit\n\nScan all .tsx files changed in this session. For each rule answer PASS or FAIL with file:line if FAIL:\n1. shadcnblocks FIRST: Any UI section replaceable by a shadcnblocks block?\n2. shadcn base SECOND: Any custom component duplicating shadcn?\n3. NEVER custom CSS classes: Any non-Tailwind class names?\n4. Global token file required: Any hardcoded hex/rgb/hsl in components?\n5. Zero inline arbitrary values: Any Tailwind arbitrary syntax (-[...])?\nAlso check: color contrast >= 4.5:1, focus states, alt text, form labels.\n\n## Report to CLAUDE.md\n\nRead CLAUDE.md, then append all findings using the Edit tool to the relevant sections (Security Findings, Architecture Decisions, Design Findings).\n\nAdvisory only. Respond {\"ok\": true} when done.",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
