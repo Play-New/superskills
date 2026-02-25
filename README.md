@@ -18,7 +18,9 @@ In Claude Code, run:
 /plugin install super@superskills
 ```
 
-That's it. Now open your project folder and run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
+To update: `/plugin marketplace update superskills`
+
+Now open your project folder and run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
 
 From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
 
