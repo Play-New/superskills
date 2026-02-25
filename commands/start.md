@@ -13,11 +13,11 @@ If CLAUDE.md already has an EIID mapping, say so and suggest `/super:strategy` i
 
 Five questions. Ask one at a time. Wait for each answer before asking the next.
 
-1. **Who is this for?** Company or client. Industry, size, geography.
-2. **Who uses it?** The person, not the company. Role, what they do every day.
-3. **What do they need?** A result, not a feature.
-4. **What's needed to deliver that?** Which capabilities, which data, which systems.
-5. **What exists already?** What you have access to, what's missing.
+1. **Who is this for?** You, your company, or a client?
+2. **Who will use it?** Who will be the end user of your product?
+3. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
+4. **What's needed to deliver that value?** Tools, services, other products, skills.
+5. **What exists already?** What data and tools do you have access to?
 
 ## 3. Scan Folder
 
