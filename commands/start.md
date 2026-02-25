@@ -1,5 +1,5 @@
 ---
-description: Start a project. Assessment, EIID mapping, writes CLAUDE.md and .superskills/.
+description: Start a project. Assessment, research, EIID mapping, writes CLAUDE.md and .superskills/.
 allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch
 ---
 
@@ -11,30 +11,16 @@ If CLAUDE.md already has an EIID mapping, say so and suggest `/super:strategy` i
 
 ## 2. Assessment
 
-Start from the business context, then the user, then the value chain. Ask these questions one at a time. Wait for each answer before asking the next.
+Four questions. Ask one at a time. Wait for each answer before asking the next.
 
-### The business
-
-1. **Who is this for?** You, your company, or a client? Industry, size, geography. "B2B hardware distribution, 200 employees, Lombardy." This frames the research and the regulatory landscape.
-
-### The user
-
-2. **Who is the end user?** Not the client, not the company — the person who will use what you're building. Role, context, daily reality. "Regional sales manager, 12 accounts, checks email and ERP every morning." Not "sales team."
-3. **What outcome does that user need?** State it as a result, not a feature. "Know which accounts need attention before the day starts" not "a dashboard." If we delivered this perfectly, would the user's problem actually be solved?
-4. **What is the user doing today?** Step by step, the current process. "Check email, open ERP, cross-reference Excel, call supplier." This reveals where value is created and where it's wasted.
-5. **What happens if they don't get it?** This quantifies the pain. "Loses 4 hours/day checking systems manually" or "misses churning accounts until it's too late."
-
-### The value chain
-
-6. **What capabilities must exist to deliver the outcome?** Work backward from the user need. What must the system be able to do? "Detect order anomalies, explain why they matter, notify the right person at the right time."
-7. **What components do those capabilities depend on?** Data sources, systems, APIs, infrastructure. "SAP order history, Gmail inbox, supplier catalogs in Excel, Supabase for storage, Inngest for scheduling."
-8. **For each component: is it novel, custom, product, or commodity?** Novel means nobody has done it (build it). Commodity means many providers offer it interchangeably (use a utility, don't build). If you're building something you could buy, that's waste. If you're outsourcing something novel that differentiates you, that's risk.
-
-The answers to question 8 feed directly into the strategic classification: commodity components → **Automate**. Components requiring human judgment → **Differentiate**. Components creating new connections between systems → **Innovate**.
+1. **Who is this for?** Company or client. Industry, size, geography.
+2. **Who uses it?** The person, not the company. Role, what they do every day.
+3. **What do they need?** A result, not a feature.
+4. **What exists today?** Systems, data, tools, processes already in place.
 
 ## 3. Scan Folder
 
-After the assessment, scan the current directory for documents: md, txt, csv, json, pdf, images, docx, xlsx.
+Scan the current directory for documents: md, txt, csv, json, pdf, images, docx, xlsx.
 Skip node_modules, .git, dist, build, .next, .vercel.
 Claude reads PDFs and images natively. Read every document found.
 
@@ -44,23 +30,22 @@ If documents add information the user didn't mention, incorporate it. If they co
 
 Use the industry and geography from Q1 to search the web. Three searches:
 
-1. **Industry landscape.** "[industry] trends [geography] [year]" — competitive dynamics, regulation, where the sector is heading. What's being automated, what still requires human judgment.
-2. **Value chain evolution.** "[industry] AI automation" — which activities in this industry's value chain are moving from custom to product to commodity? Which components have multiple interchangeable providers (don't build)? Which still require novel work (build)? This is the evolution axis: genesis → custom → product → commodity.
-3. **Platform dynamics.** "[industry] platform disruption" or "[industry] value chain restructuring" — are intermediaries being bypassed? Are new aggregation points emerging? Is value shifting from execution to orchestration? Look for signs of Choudary's "reshuffle": industries where AI collapses execution costs, making the ability to connect systems and coordinate flows the new source of value.
-
-Incorporate findings into the EIID mapping. Cite specific facts. Flag anything that contradicts the user's evolution assessment from Q8.
+1. **Industry landscape.** "[industry] trends [geography] [year]" — competitive dynamics, regulation, where the sector is heading.
+2. **Value chain evolution.** "[industry] AI automation" — which activities are moving from custom to product to commodity? Which components have multiple interchangeable providers? Which still require novel work? This is Wardley's evolution axis: genesis → custom → product → commodity.
+3. **Platform dynamics.** "[industry] platform disruption" or "[industry] value chain restructuring" — are intermediaries being bypassed? Are new aggregation points emerging? Is value shifting from execution to orchestration? Look for signs of Choudary's reshuffle: industries where AI collapses execution costs, making the ability to connect systems and coordinate flows the new source of value.
 
 ## 5. EIID Mapping
 
-Take the value chain from the assessment (user need → capabilities → components) and map it to four layers. Each component belongs to one layer based on its role in delivering value to the user.
+From the four answers, the folder scan, and the research, build the value chain and map it to EIID.
 
-For each component, also ask: where does its value come from?
+**Build the value chain.** Work backward from the user need (Q3) through the existing landscape (Q4) down to infrastructure. What depends on what? What's missing?
 
-- **Commodity components** (well-understood, multiple providers, standardized) → **Automate.** Don't build what you can buy.
-- **Components requiring human judgment** (consequences, accountability, context-dependent decisions) → **Differentiate.** Enhance with better information, but keep humans in the loop.
-- **Components creating new connections** (cross-system data, multi-source inference, orchestration that was previously too expensive) → **Innovate.** These are newly possible. Build them.
+**Classify each component.** Use the research to determine evolution, not the user's opinion:
+- **Commodity** (well-understood, multiple providers, standardized) → **Automate.** Don't build what you can buy.
+- **Requires human judgment** (consequences, accountability, context-dependent) → **Differentiate.** Enhance with better information, keep humans in the loop.
+- **New connections** (cross-system data, multi-source inference, orchestration that was previously too expensive) → **Innovate.** Build it — this is where value is created.
 
-Map to four layers:
+**Map to four layers:**
 
 ### Enrichment
 - Existing data sources (list concrete systems)
@@ -135,10 +120,8 @@ Create or update CLAUDE.md:
 **Industry:** [sector, size, geography]
 
 ## User
-**End user:** [who uses this — role, context]
-**User need:** [outcome, not feature]
-**Current process:** [what they do today]
-**Pain:** [what happens without this, quantified]
+**End user:** [role, daily context]
+**Need:** [outcome, not feature]
 
 ## Stack
 [Detected or recommended, with rationale]
@@ -165,9 +148,9 @@ Create or update CLAUDE.md:
 **Timing:** [optimal moment]
 
 ## Strategic Classification
-**Automate:** [components where scarcity-based value is collapsing]
-**Differentiate:** [components where risk-based value is increasing]
-**Innovate:** [components where coordination-based value is emerging]
+**Automate:** [commodity — don't build what you can buy]
+**Differentiate:** [human judgment — enhance with better information]
+**Innovate:** [new connections — where value is being created]
 
 ## Technology Constraints
 [detected constraints, one per line: "Use X, NOT Y, Z."]
@@ -231,3 +214,4 @@ Add `.superskills/` to the project's `.gitignore` suggestion list. The user deci
 - Concrete items: "Gmail inbox" not "email data."
 - Uncertain items get a question mark. The user refines later.
 - CLAUDE.md is project instructions. `.superskills/` is findings. Keep them separate.
+- The user answers four questions. Everything else — value chain, evolution, classification — you deduce from research and analysis.
