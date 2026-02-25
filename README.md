@@ -18,7 +18,7 @@ In Claude Code, run:
 /plugin install super@superskills
 ```
 
-That's it. Now open your project folder and run `/super:start` — four questions (who's it for, who uses it, what they need, what exists today), then folder scan, web research, and EIID mapping. The plugin deduces everything else: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become through Wardley + EIID eyes.
+That's it. Now open your project folder and run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
 
 From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
 
@@ -129,7 +129,7 @@ Dashboards are configuration surfaces, not discovery tools. The product should g
 
 ## The value chain
 
-`/super:start` asks four questions: who's it for, who uses it, what they need, what exists today. Then it researches the industry and deduces the rest — capabilities, components, dependencies, evolution.
+`/super:start` asks five questions: who's it for, who uses it, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
 
 This produces a chain of dependencies from user need down to infrastructure. Every component in the system exists because something above it requires it. If you can't trace a component back to the user need, it shouldn't be there.
 

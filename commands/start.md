@@ -11,12 +11,13 @@ If CLAUDE.md already has an EIID mapping, say so and suggest `/super:strategy` i
 
 ## 2. Assessment
 
-Four questions. Ask one at a time. Wait for each answer before asking the next.
+Five questions. Ask one at a time. Wait for each answer before asking the next.
 
 1. **Who is this for?** Company or client. Industry, size, geography.
 2. **Who uses it?** The person, not the company. Role, what they do every day.
 3. **What do they need?** A result, not a feature.
-4. **What exists today?** Systems, data, tools, processes already in place.
+4. **What's needed to deliver that?** Which capabilities, which data, which systems.
+5. **What exists already?** What you have access to, what's missing.
 
 ## 3. Scan Folder
 
@@ -38,9 +39,9 @@ Use Q1 (industry, geography) as context, but keep the searches anchored to Q2-Q3
 
 ## 5. EIID Mapping
 
-From the four answers, the folder scan, and the research, build the value chain and map it to EIID.
+From the five answers, the folder scan, and the research, build the value chain and map it to EIID.
 
-**Build the value chain.** Work backward from the user need (Q3) through the existing landscape (Q4) down to infrastructure. What depends on what? What's missing?
+**Build the value chain.** Work backward from the user need (Q3) through what's needed (Q4) and what exists (Q5) down to infrastructure. What depends on what? What's missing?
 
 **Classify each component.** Use the research to determine evolution, not the user's opinion:
 - **Commodity** (well-understood, multiple providers, standardized) → **Automate.** Don't build what you can buy.
