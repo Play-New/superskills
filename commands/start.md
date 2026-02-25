@@ -131,31 +131,31 @@ Create or update CLAUDE.md:
 ## Stack
 [Detected or recommended, with rationale]
 
-## AI-Native Architecture (EIID)
+## EIID
 
-### Enrichment
-**Existing Data:** [sources]
-**Missing Data:** [gaps]
-**Connections:** [systems to integrate]
+### Enrichment (data)
+**Have:** [sources already connected]
+**Missing:** [gaps to fill]
+**Connect:** [systems to integrate]
 
-### Inference
-**Patterns:** [what to detect]
-**Predictions:** [what to forecast]
-**Anomalies:** [what to flag]
+### Inference (patterns)
+**Detect:** [what to spot]
+**Predict:** [what to forecast]
+**Flag:** [anomalies to catch]
 
-### Interpretation
-**Insights:** [what to surface]
-**Framing:** [how to present]
+### Interpretation (insights)
+**Surface:** [what to tell the user]
+**Frame as:** [comparison, trend, explanation, recommendation]
 
-### Delivery
-**Channels:** [where]
-**Triggers:** [when]
+### Delivery (reach)
+**Channels:** [where the user already is]
+**Triggers:** [when to send]
 **Timing:** [optimal moment]
 
-## Strategic Classification
-**Automate:** [commodity — don't build what you can buy]
-**Differentiate:** [human judgment — enhance with better information]
-**Innovate:** [new connections — where value is being created]
+## Build or Buy
+**Buy:** [commodity — don't build what you can buy]
+**Enhance:** [needs human judgment — give them better information]
+**Build:** [new connections — this is where value is created]
 
 ## Technology Constraints
 [detected constraints, one per line: "Use X, NOT Y, Z."]
@@ -204,14 +204,13 @@ Create `.superskills/` directory with two files:
 
 Add `.superskills/` to the project's `.gitignore` suggestion list. The user decides whether to track it.
 
-## 10. Suggest Next Steps
+## 10. What's Next
 
-- `/super:strategy` to validate mapping and set priorities
-- Has UI? `/super:design` for design system setup (shadcn + shadcnblocks registry, or detected framework)
-- Handles user data? `/super:trust` for OWASP + GDPR
-- Needs tests? `/super:test` for vitest + Playwright
-- Has heavy deps? `/super:performance` for bundle + CWV budgets
-- Full audit? `/super:review` for parallel review across all skills
+Tell the user:
+
+**Next step:** run `/super:strategy` to validate priorities and decide what to build first.
+
+Then start building. The plugin watches what you do. When you want a check, run `/super:review` for a full audit (security, design, tests, performance, strategy — all at once).
 
 ## 11. Rules
 

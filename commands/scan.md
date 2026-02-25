@@ -91,28 +91,28 @@ CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 **Inferred user:** [who this seems built for]
 **Inferred need:** [what they're trying to accomplish]
 
-## AI-Native Architecture (EIID)
+## EIID
 
-### Enrichment
-**Connected:** [data sources found]
+### Enrichment (data)
+**Have:** [data sources found]
 **Opportunity:** [what could be connected]
 
-### Inference
-**Present:** [analysis/detection found, or "none"]
+### Inference (patterns)
+**Have:** [analysis/detection found, or "none"]
 **Opportunity:** [patterns, predictions, anomalies that could be added]
 
-### Interpretation
-**Present:** [insight formatting found, or "none"]
+### Interpretation (insights)
+**Have:** [insight formatting found, or "none"]
 **Opportunity:** [how raw data could become actionable]
 
-### Delivery
-**Present:** [notification/messaging found, or "none"]
+### Delivery (reach)
+**Have:** [notification/messaging found, or "none"]
 **Opportunity:** [channels, triggers, timing improvements]
 
-## Strategic Classification
-**Automate:** [commodity components — don't build what you can buy]
-**Differentiate:** [components needing human judgment — enhance with better information]
-**Innovate:** [new connections — where value is being created]
+## Build or Buy
+**Buy:** [commodity — don't build what you can buy]
+**Enhance:** [needs human judgment — give them better information]
+**Build:** [new connections — where value is being created]
 
 ## Technology Constraints
 [detected constraints, one per line]

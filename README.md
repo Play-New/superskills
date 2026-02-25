@@ -48,7 +48,7 @@ Each command detects whether setup has been done. First run configures. After th
 
 ## Hooks
 
-Three checks fire on their own:
+Two checks fire on their own:
 
 ```
   You write code
@@ -64,25 +64,17 @@ Three checks fire on their own:
   │ Test gate   │  Before task completion: runs test suite.
   │ (stop)      │  Blocks if tests fail.
   └────────────┘
-       │
-       ▼
-  ┌────────────┐
-  │ Audit       │  Before task completion: trust (7 checks),
-  │ (stop)      │  strategy alignment, design rules.
-  └────────────┘  Advisory. Writes to .superskills/report.md.
 ```
 
-An EIID awareness skill also fires during planning. It reads CLAUDE.md for the EIID mapping and `.superskills/report.md` for the Project Profile. Flags work that doesn't trace to any layer, reminds about recurring patterns.
+An EIID awareness skill also fires during planning. It reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
 
-## What blocks, what advises
+For a full audit (security, design, strategy, performance), run `/super:review` when you're ready.
 
-Trust and testing can block task completion. Strategy, design, and performance findings go to `.superskills/report.md` without stopping you.
+## What blocks
 
-**Write guard blocks on:** hardcoded secrets (API keys, passwords, tokens) in source code. Ignores .env, config, migrations, SQL, markdown.
+**Write guard:** hardcoded secrets in source code. Ignores .env, config, migrations, markdown.
 
-**Trust audit flags:** SQL injection, XSS, auth bypass, PII exposure. Runs at task completion, advisory.
-
-**Testing blocks on:** any failing test.
+**Test gate:** failing tests. Skips if no tests exist.
 
 ## Where things go
 
