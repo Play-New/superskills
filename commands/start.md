@@ -13,7 +13,7 @@ If CLAUDE.md already has an EIID mapping, say so and suggest `/super:strategy` i
 
 Five questions. Ask one at a time. Wait for each answer before asking the next.
 
-1. **Who is this for?** You, your company, or a client?
+1. **Who is this for?** You, your company, or a client? What do they do, where?
 2. **Who will use it?** Who will be the end user of your product?
 3. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
 4. **What's needed to deliver that value?** Tools, services, other products, skills.
