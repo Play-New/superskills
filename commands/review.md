@@ -1,26 +1,24 @@
 ---
-description: Full project review. Uses agent teams for parallel audit when available, sequential fallback otherwise.
+description: Full project review. Security, design, strategy, performance, tests — all at once.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Review
 
-Comprehensive project audit. Runs each skill's review mode and synthesizes findings.
+Full audit of the project. Runs each check in order and writes findings to `.superskills/`.
 
 ## Prerequisites
 
 Read CLAUDE.md. If no EIID mapping exists, stop and suggest `/super:start` first.
 
-## Agent Team Mode
+## 1. Tests
 
-If agent teams are enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`), create a team of teammates. Each gets its own context and works in parallel. They can share findings with each other.
+Run `npm test -- --run`. If Playwright configured, run `npx playwright test`. Run `npx tsc --noEmit`.
 
-### Team Structure
+If tests fail, report failures and ask whether to continue with the remaining audits or stop.
 
-**testing-reviewer** (runs first, others wait for it)
-Run `npm test -- --run`. If Playwright tests exist in tests/e2e/ or e2e/, run `npx playwright test`. Run `npx tsc --noEmit`. Report pass/fail counts with failure details. If tests fail, flag as blocking.
+## 2. Trust
 
-**trust-reviewer** (after tests pass)
 Scan all source files for:
 1. Hardcoded API keys, passwords, tokens, secrets
 2. SQL injection (unsanitized user input in queries)
@@ -33,24 +31,21 @@ Scan all source files for:
 9. GDPR compliance (consent, export, deletion, minimization, retention)
 10. Stack-adaptive checks (Supabase, Vercel, Inngest, Next.js)
 
-Flag BLOCK items: hardcoded credentials, SQL injection, XSS, auth bypass, PII exposure.
-Share BLOCK findings with all teammates so they can account for them.
+## 3. Strategy
 
-**strategy-reviewer** (after tests pass)
 Read CLAUDE.md EIID mapping. For each source file:
 1. Which EIID layer does it support? (enrichment / inference / interpretation / delivery / none)
 2. If "none", flag as scope creep.
 3. Any dependency not traceable to the EIID mapping? Flag it.
 
-Run the 11-question opportunity scan:
+Run the opportunity scan:
 - Enrichment: unused data sources? Cross-references possible? External APIs to fill gaps?
 - Inference: unanalyzed patterns? Predictions not built? Missing anomaly detection?
 - Interpretation: results not surfaced? Insights lacking context?
 - Delivery: unreached channels? Timing improvements? Missed triggers?
 
-Share scope creep findings with trust-reviewer (scope creep often introduces unreviewed attack surface).
+## 4. Design
 
-**design-reviewer** (after tests pass)
 Detect UI framework from package.json, then scan all component files.
 
 Universal rules (always):
@@ -69,9 +64,8 @@ Framework-specific rules (adapt to detected stack):
 - Chakra/MUI/Mantine: use framework components before custom, style through framework APIs
 - Tailwind only: no custom CSS classes, no arbitrary values
 
-Share component-level findings with performance-reviewer (design violations often correlate with bundle issues).
+## 5. Performance
 
-**performance-reviewer** (after tests pass)
 Check:
 - Bundle sizes, largest dependencies, missing dynamic imports, tree-shaking
 - Core Web Vitals: LCP sources, INP blocking, CLS shifts
@@ -79,29 +73,9 @@ Check:
 - API costs: LLM call sites, token estimates, $/month projection, caching opportunities
 - Stack-adaptive: Supabase queries, Vercel ISR/edge, Inngest batching, Next.js Server Components
 
-Cross-reference with design-reviewer findings on heavy custom components.
-
-### Synthesis
-
-After all teammates finish, the lead reads all findings and writes a consolidated report.
-
-## Sequential Fallback
-
-If agent teams are not enabled, run each review sequentially in this order:
-
-1. **Tests.** Run `npm test -- --run`. If Playwright configured, run `npx playwright test`. Run `npx tsc --noEmit`. If tests fail, report failures and ask whether to continue with the remaining audits or stop.
-
-2. **Trust.** OWASP Top 10 scan, secrets scan, GDPR compliance, stack-adaptive checks. Flag BLOCK items.
-
-3. **Strategy.** EIID alignment check on all source files. 11-question opportunity scan.
-
-4. **Design.** Detect UI framework, apply universal rules (accessibility, tokens, responsive) + framework-specific rules.
-
-5. **Performance.** Bundle analysis, Core Web Vitals, database patterns, API costs, stack-adaptive checks.
-
 ## Output
 
-Read CLAUDE.md for project context (stack, EIID mapping, constraints). Write all findings to `.superskills/`:
+Write all findings to `.superskills/`:
 
 - Test results → **replace** Test Report in `.superskills/report.md` (keep last 3 runs)
 - Trust findings → **replace** Security Findings in `.superskills/report.md`
@@ -111,18 +85,18 @@ Read CLAUDE.md for project context (stack, EIID mapping, constraints). Write all
 
 **Update status counts** at the top of `.superskills/report.md`.
 
-**Update Project Profile** in `.superskills/report.md`: note which EIID layers have the most code coverage, which issue types recur, and any project-specific patterns learned.
+**Update Project Profile** in `.superskills/report.md`: note which EIID layers have the most code, which issues recur, and any patterns learned.
 
-At the end, print a summary:
+Print a summary at the end:
 
 ```
 ## Review Summary — [date]
 
 Tests:        [passed/failed/skipped]
-Trust:        [BLOCK count] blocking, [HIGH count] high, [MEDIUM count] medium
+Trust:        [blocking count] blocking, [high count] high
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
-Design:       [violation count] violations, [a11y count] accessibility issues
-Performance:  [issue count] issues, [estimated savings]
+Design:       [violation count] violations
+Performance:  [issue count] issues
 
-Blocking:     [yes/no — yes if any test failure, trust BLOCK, or test BLOCK]
+Blocking:     [yes/no]
 ```

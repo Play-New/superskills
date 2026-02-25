@@ -37,7 +37,7 @@ From that point: hooks watch what you build, commands audit specific domains, an
 |---------|------|
 | `/super:start` | Full assessment, web research, EIID mapping, writes CLAUDE.md |
 | `/super:scan` | Read everything, see it through EIID eyes, write what it could become |
-| `/super:review` | Full audit: tests, trust, strategy, design, performance (parallel with agent teams) |
+| `/super:review` | Full audit: tests, trust, strategy, design, performance |
 | `/super:strategy` | Alignment check against EIID, scope creep detection, opportunity scan |
 | `/super:trust` | OWASP Top 10, GDPR, secrets scan, auth verification |
 | `/super:design` | Framework-adaptive design audit, WCAG 2.1 AA, design tokens |
@@ -150,13 +150,9 @@ When `/super:start` maps a project, it classifies each component:
 
 **Innovate.** New coordination. Build it — this is where value is created.
 
-## Parallel review
+## Review
 
-`/super:review` runs all audits on the full project. If Claude Code's agent teams are enabled (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`), it spawns teammates that work in parallel: testing, trust, strategy, design, performance. Each reviewer has its own context window and can share findings with the others. The trust reviewer notices an unprotected route and shares it with the strategy reviewer, who checks whether that route maps to an EIID layer. The design reviewer flags a heavy custom component and the performance reviewer estimates its bundle impact.
-
-Tests run first. The other reviewers start after tests pass, because auditing broken code wastes time.
-
-If agent teams are not enabled, `/super:review` runs the same audits sequentially. Same output, one at a time.
+`/super:review` runs all audits on the full project: tests, trust, strategy, design, performance. Tests run first — auditing broken code wastes time. Everything else runs in order after tests pass.
 
 ## Design rules
 
