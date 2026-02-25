@@ -126,7 +126,7 @@ Dashboards are configuration surfaces, not discovery tools. The product should g
 
 ## The value chain
 
-`/super:start` begins with the end user and works backward. Who uses what you're building? What outcome do they need? What capabilities deliver that outcome? What components do those capabilities depend on?
+`/super:start` begins with the business context, then the user, then maps the value chain. Who is this for? Who uses it? What outcome do they need? What capabilities deliver that outcome? What components do those capabilities depend on?
 
 This produces a chain of dependencies from user need down to infrastructure. Every component in the system exists because something above it requires it. If you can't trace a component back to the user need, it shouldn't be there.
 
@@ -202,7 +202,7 @@ superskills/                             the plugin
 ├── .claude-plugin/plugin.json           plugin name: "super"
 ├── commands/
 │   ├── start.md                         full assessment entry point
-│   ├── scan.md                          quick setup (no questions)
+│   ├── scan.md                          Wardley + EIID analysis (no questions)
 │   ├── review.md                        parallel audit (agent teams)
 │   ├── strategy.md
 │   ├── trust.md
@@ -223,7 +223,7 @@ your-project/                            what gets generated
     └── decisions.md                     architecture log (append-only)
 ```
 
-12 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
+12 markdown files, 2 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
 
 ## License
 
