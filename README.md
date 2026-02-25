@@ -152,7 +152,7 @@ When `/super:start` maps a project, it classifies each component:
 
 ## Review
 
-`/super:review` runs all audits on the full project: tests, trust, strategy, design, performance. Tests run first — auditing broken code wastes time. Everything else runs in order after tests pass.
+`/super:review` runs all audits on the full project: tests, trust, strategy, design, performance. Tests run first — auditing broken code wastes time. If agent teams are available, the remaining four audits run in parallel. Otherwise, they run in order.
 
 ## Design rules
 

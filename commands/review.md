@@ -5,7 +5,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 # Review
 
-Full audit of the project. Runs each check in order and writes findings to `.superskills/`.
+Full audit of the project. If agent teams are available, run tests first then the other four audits in parallel. Otherwise, run everything sequentially.
 
 ## Prerequisites
 
