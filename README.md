@@ -11,11 +11,14 @@ A Claude Code plugin for building AI-native products.
 
 ## Install
 
-```bash
-claude plugin install superskills
+In Claude Code, run:
+
+```
+/plugin marketplace add Play-New/superskills
+/plugin install super@superskills
 ```
 
-Open Claude Code in your project folder. Run `/super:start` for the full assessment: eight questions that start from the business context, move to the end user, then map the value chain. Followed by folder scan, web research, and EIID mapping. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become through Wardley + EIID eyes.
+That's it. Now open your project folder and run `/super:start` for the full assessment: eight questions that start from the business context, move to the end user, then map the value chain. Followed by folder scan, web research, and EIID mapping. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become through Wardley + EIID eyes.
 
 From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
 

@@ -1,0 +1,26 @@
+{
+  "name": "superskills",
+  "owner": {
+    "name": "Play New",
+    "email": "hello@playnew.it"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Autonomous skills for AI-native product development"
+  },
+  "plugins": [
+    {
+      "name": "super",
+      "version": "1.0.0",
+      "description": "EIID framework, stack-adaptive audits, strategic continuity.",
+      "author": {
+        "name": "Play New",
+        "url": "https://github.com/Play-New"
+      },
+      "source": ".",
+      "license": "MIT",
+      "category": "development",
+      "keywords": ["eiid", "strategy", "security", "design", "testing", "performance"]
+    }
+  ]
+}
