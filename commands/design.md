@@ -29,12 +29,30 @@ Read package.json. Identify which UI framework is installed:
 
 If none detected, ask the user what they want. Suggest shadcn + Tailwind as default for new projects but do not impose it.
 
-### 2. Set Up Design Tokens
+### 2. Choose Aesthetic Direction
 
-Regardless of framework, establish a token system. For shadcn projects, also suggest the shadcnblocks registry for pre-built page sections.
+The design system is not just a toolkit — it's the product's personality. Before setting up tokens, decide what that personality is.
+
+Read CLAUDE.md for business context (who the user is, what the product does). Then ask the user:
+
+**What should this feel like?** Give 3-4 concrete directions to choose from, inferred from the product context. Examples:
+
+- A fintech dashboard → "clean and authoritative" (tight spacing, monospace accents, muted palette with sharp data colors)
+- A creative tool → "expressive and spatial" (generous whitespace, bold type scale, warm palette, playful motion)
+- An ops platform → "dense and functional" (compact layout, high information density, neutral palette, minimal decoration)
+- A consumer app → "soft and inviting" (rounded corners, friendly type, pastel palette, smooth transitions)
+
+Each direction should specify: **typography pairing** (display + body), **color character** (not just "primary/secondary" — what feeling), **spatial rhythm** (tight/generous/mixed), **surface treatment** (flat/layered/textured), **motion approach** (minimal/smooth/playful).
+
+The user picks one. If they have brand assets (colors, fonts, logo), incorporate them. If not, make distinctive choices — never fall back to default shadcn gray or generic fonts (Inter, Roboto, Arial).
+
+### 3. Encode Direction as Tokens
+
+All aesthetic choices become design tokens. No creative decision should live in component code — it all goes in the token layer.
 
 **For shadcn + Tailwind:**
 - Create globals.css with CSS custom properties in HSL. Both `:root` (light) and `.dark` (dark).
+- Include variables for: colors (background, foreground, card, primary, secondary, accent, muted, destructive, border, ring), border-radius, font-family (display + body), font-size scale, spacing scale, shadow scale, transition durations.
 - Configure tailwind.config.ts extending from CSS variables.
 - Set up cn() utility in `src/lib/utils.ts`. Install: `npm install clsx tailwind-merge`
 - Initialize shadcn: `npx shadcn init`
@@ -56,34 +74,38 @@ Regardless of framework, establish a token system. For shadcn projects, also sug
   ```
 
 **For Chakra UI:**
-- Create theme.ts extending Chakra's default theme with custom colors, fonts, spacing.
+- Create theme.ts extending Chakra's default theme with custom colors, fonts, spacing, radii, shadows.
 - Wrap app in ChakraProvider with custom theme.
 
 **For MUI:**
-- Create theme.ts with createTheme(). Set palette, typography, spacing.
+- Create theme.ts with createTheme(). Set palette, typography (display + body), spacing, shape, shadows.
 - Wrap app in ThemeProvider.
 
 **For Mantine:**
 - Create theme.ts with MantineProvider theme object.
-- Set colors, primaryColor, fontFamily, spacing.
+- Set colors, primaryColor, fontFamily (display + body), spacing, radius, shadows.
 
 **For Tailwind only:**
-- Create globals.css with CSS custom properties.
+- Create globals.css with CSS custom properties (same token set as shadcn).
 - Configure tailwind.config.ts extending from CSS variables.
-- No component library enforcement.
 
-**For any framework:** ask for brand assets — color palette (primary, secondary, accent, destructive), font family, logo path. Map to the framework's token system.
+**Key rule:** the token file IS the aesthetic. If you removed all components and rebuilt from scratch using only the tokens, the product should still look the same. No creative decisions in component code.
 
-### 3. Write Design Configuration
+### 4. Write Design Configuration
 
-Add the design system config to the Design System section of CLAUDE.md (this is stable project configuration, not a finding):
+Add the design system config to the Design System section of CLAUDE.md:
 
 ```
 ## Design System
 **Framework:** [detected]
 **Token source:** [globals.css / theme.ts / etc.]
 **Component library:** [shadcn / Chakra / MUI / Mantine / none]
+**Direction:** [chosen aesthetic in one sentence: "clean and authoritative — tight spacing, monospace accents, muted palette"]
+**Typography:** [display font] + [body font]
+**Color character:** [what the palette feels like, not just the values]
 ```
+
+This is what Claude reads at session start. It prevents aesthetic drift across sessions.
 
 ---
 
@@ -148,13 +170,24 @@ Detect the UI framework and apply only the relevant rules.
 **No framework detected:**
 - Only universal rules apply. No framework-specific enforcement.
 
+### Aesthetic Consistency
+
+Check that the chosen direction (from CLAUDE.md Design System) is being followed:
+
+13. No font-family declarations in component files — all typography from tokens
+14. No one-off shadows, border-radius, or transition values — use the token scale
+15. No inline styles that override the token system
+16. Components on different pages should feel like the same product — same spacing rhythm, same surface treatment, same color usage patterns
+
+Flag violations as: "aesthetic drift — [what's happening] — should use [which token]."
+
 ### Design Quality
 
 When reviewing component code, also check for:
 
-- **Intentional aesthetics.** Are components visually cohesive or piecemeal? Do typography, spacing, and color choices follow a consistent direction?
+- **Cohesion across pages.** Do all pages look like they belong to the same product? Same type scale, same spacing, same color usage. If page A uses generous whitespace and page B is cramped, flag it.
 - **Motion and interaction.** Are transitions present where they improve UX (page transitions, loading states, hover feedback)? Are they smooth and purposeful?
-- **Layout composition.** Does the layout use the design system's grid/spacing consistently? Are there spacing inconsistencies?
+- **Layout composition.** Does the layout use the design system's grid/spacing consistently?
 
 These are advisory observations, not blocking rules. Note them as suggestions.
 
