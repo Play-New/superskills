@@ -11,16 +11,23 @@ A Claude Code plugin for building AI-native products.
 
 ## Install
 
-In Claude Code, run:
+Add the marketplace once (this is global):
 
 ```
 /plugin marketplace add Play-New/superskills
-/plugin install super@superskills
 ```
+
+Then install in the project where you need it:
+
+```
+/plugin install super@superskills --scope project
+```
+
+This activates the plugin only in that project. Hooks, commands, and skills stay contained — other projects are not affected.
 
 To update: `/plugin marketplace update superskills`
 
-Now open your project folder and run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
+Run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
 
 From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
 
