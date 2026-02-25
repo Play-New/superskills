@@ -56,7 +56,7 @@ Three checks fire on their own:
        ▼
   ┌────────────┐
   │ Write guard │  After file write/edit: blocks hardcoded
-  │ (post-tool) │  API keys, injection, XSS
+  │ (post-tool) │  secrets in source code
   └────────────┘
        │
        ▼
@@ -78,7 +78,9 @@ An EIID awareness skill also fires during planning. It reads CLAUDE.md for the E
 
 Trust and testing can block task completion. Strategy, design, and performance findings go to `.superskills/report.md` without stopping you.
 
-**Trust blocks on:** hardcoded credentials, SQL injection, XSS, auth bypass on protected routes, PII in logs/errors/URLs.
+**Write guard blocks on:** hardcoded secrets (API keys, passwords, tokens) in source code. Ignores .env, config, migrations, SQL, markdown.
+
+**Trust audit flags:** SQL injection, XSS, auth bypass, PII exposure. Runs at task completion, advisory.
 
 **Testing blocks on:** any failing test.
 
