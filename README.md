@@ -15,7 +15,7 @@ A Claude Code plugin for building AI-native products.
 claude plugin install superskills
 ```
 
-Open Claude Code in your project folder. Run `/super:start` for the full assessment: eight questions that start from the business context, move to the end user, then map the value chain. Followed by folder scan, web research, and EIID mapping. Or run `/super:scan` for a quick setup that reads what's already there and writes CLAUDE.md without questions.
+Open Claude Code in your project folder. Run `/super:start` for the full assessment: eight questions that start from the business context, move to the end user, then map the value chain. Followed by folder scan, web research, and EIID mapping. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become through Wardley + EIID eyes.
 
 From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
 
@@ -24,7 +24,7 @@ From that point: hooks watch what you build, commands audit specific domains, an
 | Command | Does |
 |---------|------|
 | `/super:start` | Full assessment, web research, EIID mapping, writes CLAUDE.md |
-| `/super:scan` | Quick setup: folder scan, stack detection, constraints, minimal CLAUDE.md |
+| `/super:scan` | Read everything, see it through Wardley + EIID eyes, write what it could become |
 | `/super:review` | Full audit: tests, trust, strategy, design, performance (parallel with agent teams) |
 | `/super:strategy` | Alignment check against EIID, scope creep detection, opportunity scan |
 | `/super:trust` | OWASP Top 10, GDPR, secrets scan, auth verification |
