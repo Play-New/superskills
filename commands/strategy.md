@@ -7,31 +7,32 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 
 ## Detect Mode
 
-Read CLAUDE.md. If the Architecture Decisions section has content beyond the initial "/superskills:start" entry, run **review mode**. Otherwise, run **init mode**.
+Check `.superskills/decisions.md`. If it has content beyond the initial `/super:start` entry, run **review mode**. Otherwise, run **init mode**.
 
 ---
 
 ## Init Mode
 
 1. Validate EIID mapping in CLAUDE.md. Flag anything vague or missing.
-2. Classify each EIID element using Wardley evolution:
-   - **Commodity** (automate first): well-understood, many providers, low risk
-   - **Product** (buy or integrate): stable, some providers
-   - **Custom/Genesis** (build carefully, flag for human review): novel, uncertain, high risk
-3. Set priorities: commodity first (quick wins), genesis flagged for extra attention.
-4. Write the first Architecture Decision to CLAUDE.md.
+2. Classify each EIID element by constraint type:
+   - **Automate** (scarcity-based value collapsing): well-understood, many providers, AI eroding the advantage
+   - **Differentiate** (risk-based value increasing): requires human judgment, benefits from better information
+   - **Innovate** (coordination-based value emerging): newly possible connections between systems, teams, data
+3. Set priorities: automate first (quick wins), innovate flagged for careful design.
+4. Write the first Architecture Decision to `.superskills/decisions.md`.
 
 ### Output
 
-Append to CLAUDE.md Architecture Decisions:
+Read CLAUDE.md for project context (EIID mapping, strategic classification). **Append** to `.superskills/decisions.md`:
 
 ```
 ### [date] - Strategic Priorities
 
 **Type:** decision
 **Summary:** [priorities and rationale]
-**Commodity (automate):** [list]
-**Genesis (human judgment):** [list]
+**Automate:** [list]
+**Differentiate:** [list]
+**Innovate:** [list]
 ```
 
 ---
@@ -70,6 +71,6 @@ Check each item against the codebase. Answer yes or no. If yes, describe the opp
 
 ### Output
 
-Append each finding to CLAUDE.md Architecture Decisions with:
+Read CLAUDE.md for project context. **Append** each finding to `.superskills/decisions.md` (append-only — it is a decision log, history matters):
 - **Type:** alignment-check | opportunity | drift-warning
 - **Summary:** 1-2 sentences

@@ -25,22 +25,34 @@ Read CLAUDE.md for the EIID mapping. Compare recent changes against it:
 1. Which EIID layer does each change support? (enrichment / inference / interpretation / delivery / none)
 2. Any file or dependency not traceable to the EIID mapping? Flag as scope creep.
 
-Do not suggest new opportunities. That is for `/superskills:strategy`.
+Do not suggest new opportunities. That is for `/super:strategy`.
 
 ## Design Audit
 
-Scan all .tsx files changed in this session. For each rule answer PASS or FAIL with file:line if FAIL:
+Scan all component files changed in this session (.tsx, .jsx, .vue, .svelte). For each rule answer PASS or FAIL with file:line if FAIL.
 
-1. shadcnblocks FIRST: Any UI section replaceable by a shadcnblocks block?
-2. shadcn base SECOND: Any custom component duplicating shadcn?
-3. NEVER custom CSS classes: Any non-Tailwind class names?
-4. Global token file required: Any hardcoded hex/rgb/hsl in components?
-5. Zero inline arbitrary values: Any Tailwind arbitrary syntax (-[...])?
+**Universal rules (always apply):**
+1. Color contrast >= 4.5:1 for normal text, 3:1 for large text
+2. Focus states on interactive elements
+3. Alt text on images
+4. Labels on form inputs
+5. No hardcoded color values (hex, rgb, hsl) in components — use design tokens
+6. `cursor-pointer` on all clickable elements (buttons, links, cards with onClick, toggles, tabs)
+7. No Unicode escape sequences for accents — use UTF-8 directly (`è` not `\u00e8`)
 
-Also check: color contrast >= 4.5:1, focus states, alt text, form labels.
+**Framework-specific rules (detect from package.json):**
+- shadcn + Tailwind: check shadcnblocks registry via CLI before custom sections, shadcn base second, no custom CSS classes, no arbitrary Tailwind values
+- Chakra/MUI/Mantine: use framework components before custom, styling through framework APIs
+- Tailwind only: no custom CSS classes, no arbitrary values
+- No framework: skip framework-specific checks
 
 ## Report
 
-Read CLAUDE.md, then append all findings using the Edit tool to the relevant sections (Security Findings, Architecture Decisions, Design Findings).
+Read CLAUDE.md for project context. Write findings to `.superskills/`:
+
+- **Replace** Security Findings and Design Findings in `.superskills/report.md` (each audit is a snapshot).
+- **Append** strategy alignment findings to `.superskills/decisions.md`.
+- Update status counts at the top of `.superskills/report.md`.
+- If Project Profile exists in report.md, update recurring patterns.
 
 Advisory only. Respond `{"ok": true}` when done.

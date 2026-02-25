@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 ## Detect Mode
 
-Read CLAUDE.md. If Security Findings section has content, run **audit mode**. Otherwise, run **init mode**.
+Check `.superskills/report.md`. If Security Findings section has content, run **audit mode**. Otherwise, run **init mode**.
 
 ---
 
@@ -26,7 +26,7 @@ Read CLAUDE.md. If Security Findings section has content, run **audit mode**. Ot
    - Auth middleware for Next.js
    - Security headers in next.config
    - Environment variable validation
-4. Write initial security posture to CLAUDE.md Security Findings.
+4. Write initial security posture to `.superskills/report.md` Security Findings.
 
 ---
 
@@ -102,7 +102,7 @@ Everything else: severity rated HIGH / MEDIUM / LOW.
 
 ### Output
 
-Append to CLAUDE.md Security Findings:
+Read CLAUDE.md for project context (stack, EIID mapping, constraints). Write findings to `.superskills/report.md` — **replace** the Security Findings section (each audit is a fresh snapshot). Update the status counts at the top of report.md.
 
 | Severity | File:line | Issue | Fix |
 |----------|-----------|-------|-----|

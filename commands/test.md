@@ -61,7 +61,7 @@ Run in sequence:
 
 ### Output
 
-Append to CLAUDE.md Test Report:
+Write results to `.superskills/report.md` — **replace** the Test Report section. Keep the last 3 runs for trend visibility. Drop older entries. Update the status counts at the top of report.md.
 
 ```
 **Date:** [date] | **Passed:** [count] | **Failed:** [count] | **Skipped:** [count]

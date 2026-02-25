@@ -1,12 +1,12 @@
 {
-  "name": "superskills",
+  "name": "super",
   "version": "1.0.0",
-  "description": "Five autonomous skills for AI-native product development. EIID framework, stack-adaptive audits, strategic continuity.",
+  "description": "Autonomous skills for AI-native product development. EIID framework, stack-adaptive audits, strategic continuity.",
   "author": {
     "name": "Play New",
     "url": "https://github.com/Play-New"
   },
   "repository": "https://github.com/Play-New/superskills",
   "license": "MIT",
-  "keywords": ["eiid", "wardley", "strategy", "security", "design", "testing", "performance"]
+  "keywords": ["eiid", "strategy", "security", "design", "testing", "performance"]
 }

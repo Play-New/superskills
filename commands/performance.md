@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 ## Detect Mode
 
-Read CLAUDE.md. If Performance Budget section has content, run **review mode**. Otherwise, run **init mode**.
+Check `.superskills/report.md`. If Performance Budget section has content, run **review mode**. Otherwise, run **init mode**.
 
 ---
 
@@ -24,7 +24,7 @@ Read CLAUDE.md. If Performance Budget section has content, run **review mode**. 
 
 3. Set up Web Vitals reporting in layout.tsx.
 
-4. Write budget to CLAUDE.md Performance Budget section.
+4. Write budget to `.superskills/report.md` Performance Budget section.
 
 ---
 
@@ -86,7 +86,7 @@ Detect from package.json. Apply only relevant sections.
 
 ### Output
 
-Append to CLAUDE.md Performance Budget:
+Read CLAUDE.md for project context (stack, EIID mapping). Write findings to `.superskills/report.md` — **replace** the Performance Budget section (each audit is a fresh snapshot). Update the status counts at the top of report.md.
 
 | Category | Issue | Impact | Fix | Estimated Savings |
 |----------|-------|--------|-----|-------------------|
