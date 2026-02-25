@@ -37,13 +37,13 @@ Output format: "Use Prisma, NOT Drizzle, TypeORM, Kysely, Sequelize."
 
 ## 5. Research
 
-From what you've read, infer the industry and problem domain. Then search the web:
+From what you've read, infer the user, their problem, and the domain. Then search the web close to the problem:
 
-1. **Industry landscape.** "[inferred industry] trends [year]" — what's changing, what's being automated, what still requires human judgment.
-2. **Value chain evolution.** "[inferred industry] AI automation" — which activities are moving from custom to commodity? What can you buy instead of build?
-3. **Platform dynamics.** "[inferred industry] platform disruption" — is value shifting from execution to orchestration? Are intermediaries being bypassed? Are new aggregation points emerging?
+1. **How this problem gets solved today.** "[inferred user role] [inferred problem] tools" — what products and solutions exist? What's good, what's broken, what's missing?
+2. **What's commoditizing.** "[inferred problem domain] AI automation [year]" — which parts of this solution space are becoming commodity? What can you buy instead of build?
+3. **Where value is shifting.** "[inferred problem domain] platform" — is value moving from execution to orchestration? Are intermediaries being bypassed? Are new connections emerging?
 
-If you can't confidently infer the industry, skip this step and note it in the analysis.
+If you can't confidently infer the domain, skip this step and note it in the analysis.
 
 ## 6. Read the Project Through Wardley + EIID Eyes
 
@@ -77,6 +77,8 @@ Write all of this as a brief, opinionated analysis. Not a checklist. A narrative
 ## 7. Write CLAUDE.md
 
 CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
+
+**Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
 
 ```
 # [Project Name from package.json or folder name]

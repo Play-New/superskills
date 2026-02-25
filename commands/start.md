@@ -28,11 +28,13 @@ If documents add information the user didn't mention, incorporate it. If they co
 
 ## 4. Research
 
-Use the industry and geography from Q1 to search the web. Three searches:
+Search the web close to the user's problem, not just the industry. Three searches:
 
-1. **Industry landscape.** "[industry] trends [geography] [year]" — competitive dynamics, regulation, where the sector is heading.
-2. **Value chain evolution.** "[industry] AI automation" — which activities are moving from custom to product to commodity? Which components have multiple interchangeable providers? Which still require novel work? This is Wardley's evolution axis: genesis → custom → product → commodity.
-3. **Platform dynamics.** "[industry] platform disruption" or "[industry] value chain restructuring" — are intermediaries being bypassed? Are new aggregation points emerging? Is value shifting from execution to orchestration? Look for signs of Choudary's reshuffle: industries where AI collapses execution costs, making the ability to connect systems and coordinate flows the new source of value.
+1. **How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
+2. **What's commoditizing.** "[problem domain] AI automation [year]" — which parts of this solution space are becoming commodity? What can you buy instead of build? Where is the evolution axis (Wardley: genesis → custom → product → commodity) moving fastest?
+3. **Where value is shifting.** "[problem domain] platform" or "[industry] value chain restructuring" — are intermediaries being bypassed? Is value moving from execution to orchestration? Look for Choudary's reshuffle: where AI collapses execution costs, the ability to connect systems and coordinate flows becomes the new source of value.
+
+Use Q1 (industry, geography) as context, but keep the searches anchored to Q2-Q3 (user, need).
 
 ## 5. EIID Mapping
 
@@ -109,6 +111,8 @@ Write detected constraints to the Technology Constraints section of CLAUDE.md. I
 ## 8. Write CLAUDE.md
 
 CLAUDE.md contains only stable project instructions. Findings go to `.superskills/`. Keep CLAUDE.md under 100 lines.
+
+**Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
 
 Create or update CLAUDE.md:
 
