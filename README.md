@@ -27,7 +27,7 @@ From that point: hooks watch what you build, commands audit specific domains, an
 | Command | Does |
 |---------|------|
 | `/super:start` | Full assessment, web research, EIID mapping, writes CLAUDE.md |
-| `/super:scan` | Read everything, see it through Wardley + EIID eyes, write what it could become |
+| `/super:scan` | Read everything, see it through EIID eyes, write what it could become |
 | `/super:review` | Full audit: tests, trust, strategy, design, performance (parallel with agent teams) |
 | `/super:strategy` | Alignment check against EIID, scope creep detection, opportunity scan |
 | `/super:trust` | OWASP Top 10, GDPR, secrets scan, auth verification |
@@ -107,13 +107,13 @@ SuperSkills organizes this into four layers.
 
 ```
  ┌─────────────────────────────────────────┐
- │  DELIVERY        channels + triggers     │
- ├─────────────────────────────────────────┤
- │  INTERPRETATION  insights + framing      │
+ │  ENRICHMENT      sources + normalize     │
  ├─────────────────────────────────────────┤
  │  INFERENCE       detect, predict, flag   │
  ├─────────────────────────────────────────┤
- │  ENRICHMENT      sources + normalize     │
+ │  INTERPRETATION  insights + framing      │
+ ├─────────────────────────────────────────┤
+ │  DELIVERY        channels + triggers     │
  └─────────────────────────────────────────┘
 ```
 
@@ -207,7 +207,7 @@ superskills/                             the plugin
 │   └── marketplace.json                marketplace definition
 ├── commands/
 │   ├── start.md                         full assessment entry point
-│   ├── scan.md                          Wardley + EIID analysis (no questions)
+│   ├── scan.md                          EIID analysis (no questions)
 │   ├── review.md                        parallel audit (agent teams)
 │   ├── strategy.md
 │   ├── trust.md
@@ -229,6 +229,10 @@ your-project/                            what gets generated
 ```
 
 12 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
+
+## References
+
+The strategic thinking behind SuperSkills draws from Simon Wardley's value chain mapping and evolution axis, and Sangeet Paul Choudary's work on platform dynamics and AI-driven value chain restructuring.
 
 ## License
 
