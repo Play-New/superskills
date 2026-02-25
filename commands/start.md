@@ -219,4 +219,4 @@ Add `.superskills/` to the project's `.gitignore` suggestion list. The user deci
 - Concrete items: "Gmail inbox" not "email data."
 - Uncertain items get a question mark. The user refines later.
 - CLAUDE.md is project instructions. `.superskills/` is findings. Keep them separate.
-- The user answers four questions. Everything else — value chain, evolution, classification — you deduce from research and analysis.
+- The user answers five questions. Everything else — value chain, evolution, classification — you deduce from research and analysis.

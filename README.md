@@ -202,7 +202,9 @@ If no framework is detected, only universal rules apply.
 
 ```
 superskills/                             the plugin
-├── .claude-plugin/plugin.json           plugin name: "super"
+├── .claude-plugin/
+│   ├── plugin.json                     plugin name: "super"
+│   └── marketplace.json                marketplace definition
 ├── commands/
 │   ├── start.md                         full assessment entry point
 │   ├── scan.md                          Wardley + EIID analysis (no questions)
@@ -226,7 +228,7 @@ your-project/                            what gets generated
     └── decisions.md                     architecture log (append-only)
 ```
 
-12 markdown files, 2 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
+12 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
 
 ## License
 
