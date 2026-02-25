@@ -1,17 +1,5 @@
 {
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Security check. Respond immediately. Check if this command is safe: $ARGUMENTS. Look for: hardcoded secrets, rm -rf, SQL injection via shell, exposure of sensitive data. Respond {\"ok\": true} if safe, {\"ok\": false, \"reason\": \"...\"} if dangerous. No explanation.",
-            "timeout": 15
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",

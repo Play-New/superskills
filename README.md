@@ -41,16 +41,10 @@ Each command detects whether setup has been done. First run configures. After th
 
 ## Hooks
 
-Four checks fire on their own:
+Three checks fire on their own:
 
 ```
   You write code
-       │
-       ▼
-  ┌────────────┐
-  │ Bash guard  │  Before shell commands: blocks secrets,
-  │ (pre-tool)  │  rm -rf, SQL injection via shell
-  └────────────┘
        │
        ▼
   ┌────────────┐
