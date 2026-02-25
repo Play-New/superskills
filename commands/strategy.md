@@ -72,5 +72,12 @@ Check each item against the codebase. Answer yes or no. If yes, describe the opp
 ### Output
 
 Read CLAUDE.md for project context. **Append** each finding to `.superskills/decisions.md` (append-only — it is a decision log, history matters):
-- **Type:** alignment-check | opportunity | drift-warning
-- **Summary:** 1-2 sentences
+
+```
+### [date] - [title]
+
+**Type:** alignment-check | opportunity | drift-warning
+**Summary:** [1-2 sentences]
+**EIID Layer:** [enrichment / inference / interpretation / delivery / none]
+**Action:** [what to do about it]
+```

@@ -50,21 +50,21 @@ From the five answers, the folder scan, and the research, build the value chain 
 
 **Map to four layers:**
 
-### Enrichment
+### Enrichment (data)
 - Existing data sources (list concrete systems)
 - Missing data that is available (public APIs, partner data, user behavior)
 - Connections to build
 
-### Inference
+### Inference (patterns)
 - Patterns to detect (specific: "orders deviating >20% from historical average")
 - Predictions to make
 - Anomalies to flag
 
-### Interpretation
+### Interpretation (insights)
 - Insights to surface (actionable statements, not raw data)
 - Framing: comparison, trend, explanation, recommendation
 
-### Delivery
+### Delivery (reach)
 - Channels: email, Slack, WhatsApp, Telegram, SMS, Discord, dashboard
 - Triggers: threshold crossed, schedule, event, user request
 - Timing: when is the insight most valuable?

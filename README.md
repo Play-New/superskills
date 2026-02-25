@@ -72,7 +72,7 @@ For a full audit (security, design, strategy, performance), run `/super:review` 
 
 ## What blocks
 
-**Write guard:** hardcoded secrets in source code. Ignores .env, config, migrations, markdown.
+**Write guard:** hardcoded secrets in source code. Ignores .env, config, migrations, SQL, lock files, markdown, JSON config.
 
 **Test gate:** failing tests. Skips if no tests exist.
 
@@ -209,8 +209,7 @@ superskills/                             the plugin
 │   └── performance.md
 ├── skills/eiid-awareness/SKILL.md       auto-invoked during planning
 ├── agents/
-│   ├── stop-tests.md                    test gate
-│   └── stop-audit.md                    trust + strategy + design
+│   └── stop-tests.md                    test gate
 ├── hooks/hooks.json
 └── README.md
 
@@ -221,7 +220,7 @@ your-project/                            what gets generated
     └── decisions.md                     architecture log (append-only)
 ```
 
-12 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
+11 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
 
 ## References
 

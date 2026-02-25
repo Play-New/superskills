@@ -5,7 +5,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch
 
 # SuperSkills — Scan
 
-No questions, no web search. Read what's there and tell the user what this project could become.
+No questions. Read what's there, research the problem space, and tell the user what this project could become.
 
 ## 1. Check State
 
@@ -88,8 +88,8 @@ CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 **Stack:** [detected stack]
 
 ## User
-**Inferred user:** [who this seems built for]
-**Inferred need:** [what they're trying to accomplish]
+**End user:** [who this seems built for]
+**Need:** [what they're trying to accomplish]
 
 ## EIID
 
