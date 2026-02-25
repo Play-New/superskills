@@ -1,6 +1,6 @@
 ---
 description: Quick setup. Scan folder, read everything, see the project through Wardley + EIID eyes. Write CLAUDE.md and .superskills/.
-allowed-tools: Read, Glob, Grep, Write, Edit
+allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch
 ---
 
 # SuperSkills — Scan
@@ -35,9 +35,19 @@ For each tool category where exactly one alternative is installed, generate a ne
 
 Output format: "Use Prisma, NOT Drizzle, TypeORM, Kysely, Sequelize."
 
-## 5. Read the Project Through Wardley + EIID Eyes
+## 5. Research
 
-Now look at what you've read — code, docs, data, config — and answer these questions:
+From what you've read, infer the industry and problem domain. Then search the web:
+
+1. **Industry landscape.** "[inferred industry] trends [year]" — what's changing, what's being automated, what still requires human judgment.
+2. **Value chain evolution.** "[inferred industry] AI automation" — which activities are moving from custom to commodity? What can you buy instead of build?
+3. **Platform dynamics.** "[inferred industry] platform disruption" — is value shifting from execution to orchestration? Are intermediaries being bypassed? Are new aggregation points emerging?
+
+If you can't confidently infer the industry, skip this step and note it in the analysis.
+
+## 6. Read the Project Through Wardley + EIID Eyes
+
+Now look at what you've read — code, docs, data, research — and answer these questions:
 
 ### Value chain
 - **Who is the user?** Infer from the code: who is this built for? What are they trying to do?
@@ -64,7 +74,7 @@ Look at the project as it is today. Then ask: what could it become if it were AI
 
 Write all of this as a brief, opinionated analysis. Not a checklist. A narrative: "This is a [X] that does [Y]. The value chain runs from [user need] through [activities]. The [component] is commodity — don't build it. The opportunity is in [where EIID layers could add value]. If this were AI-native, it would [concrete description]."
 
-## 6. Write CLAUDE.md
+## 7. Write CLAUDE.md
 
 CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 
@@ -106,7 +116,7 @@ CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 [detected constraints, one per line]
 ```
 
-## 7. Write .superskills/
+## 8. Write .superskills/
 
 Create `.superskills/` directory with two files:
 
@@ -139,7 +149,7 @@ Create `.superskills/` directory with two files:
 [empty — populated by /super:strategy]
 ```
 
-## 8. Suggest Next Steps
+## 9. Suggest Next Steps
 
 - `/super:start` for full strategic assessment with business context and web research
 - `/super:strategy` to validate the EIID mapping and set priorities
@@ -147,7 +157,7 @@ Create `.superskills/` directory with two files:
 - `/super:test` for test setup
 - `/super:review` for full parallel audit
 
-## 9. Rules
+## 10. Rules
 
 - Read everything, infer boldly, but mark inferences as inferences.
 - Be opinionated. "This is commodity, don't build it" is more useful than "this could potentially be considered commodity."
