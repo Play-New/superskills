@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "Security gate. Respond immediately. Check this file change for: hardcoded API keys or secrets, SQL injection, XSS, auth bypass, PII in logs or URLs. $ARGUMENTS. Respond {\"ok\": true} if safe, {\"ok\": false, \"reason\": \"...\"} if a blocking issue is found. Only block on clear violations, not potential issues. No explanation.",
+            "prompt": "Security gate. Respond immediately. Check this file change for: hardcoded API keys or secrets, SQL injection, XSS, auth bypass, PII in logs or URLs. Ignore SQL in migration files (supabase/migrations/*, prisma/migrations/*, drizzle/*). $ARGUMENTS. Respond {\"ok\": true} if safe, {\"ok\": false, \"reason\": \"...\"} if a blocking issue is found. Only block on clear violations, not potential issues. No explanation.",
             "timeout": 15
           }
         ]
