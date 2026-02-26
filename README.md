@@ -60,9 +60,12 @@ Three checks fire on their own:
   └─────────────────┘
        │
        ▼
+  Session ends
+       │
+       ▼
   ┌─────────────────┐
-  │ Token guard      │  After file write/edit: blocks hardcoded
-  │ (post-tool)      │  colors, fonts, arbitrary values in UI files
+  │ Token guard      │  Before task completion: blocks hardcoded
+  │ (stop)           │  colors, fonts, arbitrary values in UI files
   └─────────────────┘  (only if .superskills/design-system.md exists)
        │
        ▼
@@ -82,7 +85,7 @@ For a full audit (security, design, strategy, performance), run `/super:review` 
 
 **Secrets guard:** hardcoded secrets in source code. Ignores .env, config, migrations, SQL, lock files, markdown, JSON config.
 
-**Token guard:** hardcoded color values, font-family declarations, arbitrary Tailwind values in UI component files. Only active when `.superskills/design-system.md` exists. Ignores .css files, config files, theme files.
+**Token guard:** hardcoded color values, font-family declarations, arbitrary Tailwind values in UI component files. Runs once at session end instead of per-edit. Only active when `.superskills/design-system.md` exists. Ignores .css files, config files, theme files.
 
 **Test gate:** failing tests. Skips if no tests exist.
 
