@@ -19,21 +19,11 @@ Claude reads PDFs and images natively. Read every document found.
 
 ## 3. Detect Stack
 
-Read package.json if it exists. Identify:
-- Framework (Next.js, Remix, Astro, SvelteKit, Nuxt, etc.)
-- UI library (shadcn, Chakra, MUI, Mantine, Ant Design, Tailwind, etc.)
-- Backend (Supabase, Firebase, AWS Amplify, Convex, etc.)
-- ORM (Prisma, Drizzle, TypeORM, Kysely, etc.)
-- Auth (NextAuth, Clerk, Lucia, Supabase Auth, etc.)
-- Test runner (Vitest, Jest, Mocha, etc.)
-- Linter (ESLint, Biome, oxlint, etc.)
-- Package manager (from lock file)
+Read package.json if it exists. Identify the installed tools by category: framework, UI library, backend, ORM, auth, test runner, linter, package manager (from lock file). Name what's actually installed, not what could be.
 
 ## 4. Detect Constraints
 
-For each tool category where exactly one alternative is installed, generate a negative constraint.
-
-Output format: "Use Prisma, NOT Drizzle, TypeORM, Kysely, Sequelize."
+For each tool category where exactly one tool is installed, identify the popular alternatives in that same category and generate a negative constraint. The format: "Use [installed tool], NOT [alternatives]."
 
 ## 5. Research
 
@@ -78,6 +68,8 @@ Write all of this as a brief, opinionated analysis. Not a checklist. A narrative
 
 CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 
+Read `reference/examples/claude-md-saas.md` for tone and structure. Match that level of specificity.
+
 **Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
 
 ```
@@ -116,6 +108,13 @@ CLAUDE.md contains only stable project instructions. Keep it under 100 lines.
 
 ## Technology Constraints
 [detected constraints, one per line]
+
+## Code Architecture
+- No source file over 200 lines. Split by responsibility.
+- One component per file. One utility per file.
+- Colocation: tests next to source, types next to usage.
+- Prefer composition over inheritance.
+- If a module has two distinct modes, split into separate files.
 ```
 
 ## 8. Write .superskills/

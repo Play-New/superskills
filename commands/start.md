@@ -91,26 +91,19 @@ For existing projects, detect stack from package.json and adapt recommendations.
 
 ## 7. Detect Constraints
 
-If a package.json exists, read it. For each tool category where exactly one alternative is installed, generate a negative constraint to prevent Claude from suggesting the wrong tool.
+If a package.json exists, read it. For each tool category (ORM, test runner, linter, CSS, state management, backend, auth, server framework, package manager), check whether exactly one tool is installed.
 
-Categories to check:
-- ORM: Prisma, Drizzle, TypeORM, Kysely, Sequelize
-- Test runner: Vitest, Jest, Mocha
-- Linter: ESLint, Biome, oxlint
-- CSS: Tailwind CSS, styled-components, Emotion, vanilla-extract
-- State: Zustand, Jotai, Redux Toolkit, Valtio
-- Backend: Supabase, Firebase, AWS Amplify
-- Auth: NextAuth, Clerk, Lucia, Supabase Auth
-- Server: Express, Fastify, Hono, Koa
-- Package manager: detect from lock file (package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lock)
+When a single tool is detected in a category, identify the popular alternatives in that same category and generate a negative constraint. The format: "Use [installed tool], NOT [alternatives]." This prevents Claude from suggesting the wrong tool in future sessions.
 
-Output format: "Use Prisma, NOT Drizzle, TypeORM, Kysely, Sequelize."
+Detect the package manager from the lock file (package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lock).
 
 Write detected constraints to the Technology Constraints section of CLAUDE.md. If no package.json exists, skip this step.
 
 ## 8. Write CLAUDE.md
 
 CLAUDE.md contains only stable project instructions. Findings go to `.superskills/`. Keep CLAUDE.md under 100 lines.
+
+Read `reference/examples/claude-md-saas.md` for tone and structure. Match that level of specificity.
 
 **Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
 
@@ -158,6 +151,13 @@ Create or update CLAUDE.md:
 
 ## Technology Constraints
 [detected constraints, one per line: "Use X, NOT Y, Z."]
+
+## Code Architecture
+- No source file over 200 lines. Split by responsibility.
+- One component per file. One utility per file.
+- Colocation: tests next to source, types next to usage.
+- Prefer composition over inheritance.
+- If a module has two distinct modes, split into separate files.
 
 ## Design System
 **Framework:** [detected or recommended]

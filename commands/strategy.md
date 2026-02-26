@@ -5,6 +5,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit
 
 # Strategy
 
+Read `reference/examples/decisions-saas.md` for tone and structure. Match that level of specificity — type labels, EIID layer, concrete actions.
+
 ## Detect Mode
 
 Check `.superskills/decisions.md`. If it has content beyond the initial `/super:start` entry, run **review mode**. Otherwise, run **init mode**.

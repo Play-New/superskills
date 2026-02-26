@@ -45,7 +45,7 @@ Scan all source files. For each item: PASS or FAIL with file:line.
 7. **Auth failures.** Weak session handling? Missing rate limiting?
 8. **Data integrity.** Missing input validation on Server Actions or API routes?
 9. **Logging failures.** Security events not logged? PII in logs?
-10. **SSRF.** Server-side requests to user-controlled URLs?
+10. **CSRF.** State-changing actions without CSRF tokens? Missing SameSite cookies?
 
 ### Secrets Scan
 

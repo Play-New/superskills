@@ -48,31 +48,41 @@ Each command detects whether setup has been done. First run configures. After th
 
 ## Hooks
 
-Two checks fire on their own:
+Three checks fire on their own:
 
 ```
   You write code
        │
        ▼
-  ┌────────────┐
-  │ Write guard │  After file write/edit: blocks hardcoded
-  │ (post-tool) │  secrets in source code
-  └────────────┘
+  ┌─────────────────┐
+  │ Secrets guard    │  After file write/edit: blocks hardcoded
+  │ (post-tool)      │  secrets in source code
+  └─────────────────┘
        │
        ▼
-  ┌────────────┐
-  │ Test gate   │  Before task completion: runs test suite.
-  │ (stop)      │  Blocks if tests fail.
-  └────────────┘
+  ┌─────────────────┐
+  │ Token guard      │  After file write/edit: blocks hardcoded
+  │ (post-tool)      │  colors, fonts, arbitrary values in UI files
+  └─────────────────┘  (only if .superskills/design-system.md exists)
+       │
+       ▼
+  ┌─────────────────┐
+  │ Test gate        │  Before task completion: runs test suite.
+  │ (stop)           │  Blocks if tests fail.
+  └─────────────────┘
 ```
 
-An EIID awareness skill also fires during planning. It reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
+Two skills fire during planning:
+- **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
+- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, and new variants when existing patterns fit.
 
 For a full audit (security, design, strategy, performance), run `/super:review` when you're ready.
 
 ## What blocks
 
-**Write guard:** hardcoded secrets in source code. Ignores .env, config, migrations, SQL, lock files, markdown, JSON config.
+**Secrets guard:** hardcoded secrets in source code. Ignores .env, config, migrations, SQL, lock files, markdown, JSON config.
+
+**Token guard:** hardcoded color values, font-family declarations, arbitrary Tailwind values in UI component files. Only active when `.superskills/design-system.md` exists. Ignores .css files, config files, theme files.
 
 **Test gate:** failing tests. Skips if no tests exist.
 
@@ -157,39 +167,37 @@ When `/super:start` maps a project, it classifies each component:
 
 ## Design rules
 
-The design skill adapts to the project's UI framework. It detects what's installed (shadcn, Chakra, MUI, Mantine, Tailwind, or nothing) and applies the right rules.
+The design skill adapts to the project's UI framework. It detects what's installed and applies the right rules.
 
 **Universal rules** (always enforced, any framework):
 - WCAG 2.1 AA: 4.5:1 contrast, focus states, alt text, form labels, 44x44px touch targets
-- Token compliance: no hardcoded color values in components
 - `cursor-pointer` on all clickable elements
-- No Unicode escape sequences for accents (UTF-8 directly)
 - Responsive: works at 320px, consistent breakpoints
 
-**Framework-specific rules** (only for detected framework):
-- shadcn + Tailwind: search existing components across registries before building custom, semantic tokens only (`text-foreground` not `text-neutral-500`), `gap-*` not `space-y-*`, no custom CSS, no arbitrary Tailwind values
-- Chakra/MUI/Mantine: use framework components before custom, style through framework APIs
-- Tailwind only: no custom CSS classes, no arbitrary values
+Token compliance (no hardcoded colors, fonts, arbitrary values in UI files) is enforced by the token guard hook, not the design review.
+
+**Framework-specific rules** (adapted to detected stack):
+- Component-library projects: search existing registries before building custom, use semantic tokens, follow the framework's conventions
+- CSS-utility projects: utility classes only, no arbitrary values, no custom CSS classes
+- Component frameworks: use the framework's API, theme overrides in the theme file
 
 If no framework is detected, only universal rules apply.
 
-## Default stack
+## Stack
 
-`/super:start` recommends this for new projects. Audits adapt to whatever is installed.
+`/super:start` recommends a stack for new projects based on what the EIID mapping needs. For existing projects, it detects what's installed and adapts.
 
-| Default | Role |
-|---------|------|
-| Supabase | Database, auth, storage, embeddings |
-| Vercel | Hosting, edge functions |
-| Inngest | Workflows, cron, retry |
-| Next.js | Frontend, Server Components default |
-| shadcn + Tailwind | UI components and styling (suggested, not imposed) |
+Five infrastructure roles to fill:
 
-| When needed | Role |
-|-------------|------|
-| Brevo | Email/SMS/WhatsApp delivery |
-| Telegram/Slack/Discord SDK | Messaging delivery |
-| Apify/Supermemory/Playwright | Enrichment, scraping |
+| Role | Criteria |
+|------|----------|
+| Database + auth | Managed, with row-level security and realtime |
+| Hosting | Edge-capable, preview deployments |
+| Workflows | Scheduled jobs, retry, event-driven |
+| Frontend | Server-side rendering, streaming |
+| UI components | Registry-based, token-driven styling |
+
+Delivery channels (email, messaging, SMS) and enrichment tools (scraping, APIs) are added when the EIID mapping calls for them. The plugin doesn't prescribe specific tools. It detects what's installed and enforces consistency with that choice.
 
 ## Structure
 
@@ -209,10 +217,22 @@ superskills/                             the plugin
 │   ├── design.md
 │   ├── test.md
 │   └── performance.md
-├── skills/eiid-awareness/SKILL.md       auto-invoked during planning
+├── skills/
+│   ├── eiid-awareness/SKILL.md          auto-invoked during planning
+│   └── design-awareness/SKILL.md        auto-invoked during planning
 ├── agents/
 │   └── stop-tests.md                    test gate
 ├── hooks/hooks.json
+├── reference/
+│   ├── claude-md-template.md            CLAUDE.md blank structure
+│   ├── design-system-template.md        design-system.md blank structure
+│   ├── decisions-template.md            decisions.md blank structure
+│   ├── design-critique.md              4-layer critique framework
+│   ├── design-craft.md                 subtle layering, motion, atmosphere, color
+│   └── examples/
+│       ├── claude-md-saas.md            filled example (fleet management SaaS)
+│       ├── design-system-saas.md        filled example (Nova style, dense data)
+│       └── decisions-saas.md            filled example (2 weeks of decisions)
 └── README.md
 
 your-project/                            what gets generated
@@ -223,7 +243,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + tokens + patterns
 ```
 
-11 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.
+20 markdown files, 3 JSON in the plugin. Commands under 3K tokens each. Reference files show what the output looks like and how to execute craft.
 
 ## References
 

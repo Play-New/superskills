@@ -46,23 +46,30 @@ Run the opportunity scan:
 
 ## 4. Design
 
-Detect UI framework from package.json, then scan all component files.
+Token compliance and component discovery are handled continuously by the hook and skill. Review catches what automation misses.
 
-Universal rules (always):
+Accessibility (blocking):
 1. Color contrast 4.5:1 normal, 3:1 large
 2. Focus states on interactive elements
 3. Alt text on images
 4. Labels on form inputs
 5. Touch targets 44x44px
-6. No hardcoded color values in components — use design tokens
-7. `cursor-pointer` on all clickable elements
-8. No Unicode escape sequences for accents — use UTF-8 directly
-9. Responsive: works at 320px, consistent breakpoints
+6. Semantic HTML: heading hierarchy, landmarks, ARIA
+7. Keyboard navigation: all interactive elements reachable via tab
+8. `cursor-pointer` on all clickable elements
 
-Framework-specific rules (adapt to detected stack):
-- shadcn + Tailwind: check shadcnblocks registry via CLI before custom sections, shadcn base second, no custom CSS, no arbitrary Tailwind
-- Chakra/MUI/Mantine: use framework components before custom, style through framework APIs
-- Tailwind only: no custom CSS classes, no arbitrary values
+Cross-file consistency (blocking if widespread):
+1. Type scale: same sizes and weights everywhere
+2. Spacing rhythm: consistent multiples across pages
+3. Surface treatment: same card/border/shadow patterns
+4. Color usage: same semantic colors for same purposes
+
+Craft (advisory):
+1. Name test: describe the UI to someone who cannot see it. Generic description = generic design.
+2. Swap test: swap typeface or layout for a default. Where it wouldn't matter = where you defaulted.
+3. Spatial composition: intentional asymmetry, overlap, density variation?
+4. Atmosphere: backgrounds and surfaces create a sense of place?
+5. Motion: one orchestrated page load beats scattered micro-interactions.
 
 ## 5. Performance
 
