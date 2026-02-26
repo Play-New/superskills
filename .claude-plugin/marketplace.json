@@ -5,13 +5,13 @@
     "email": "hello@playnew.it"
   },
   "metadata": {
-    "version": "1.0.0",
+    "version": "2026.2.26.1010",
     "description": "Autonomous skills for AI-native product development"
   },
   "plugins": [
     {
       "name": "super",
-      "version": "1.0.0",
+      "version": "2026.2.26.1010",
       "description": "EIID framework, stack-adaptive audits, strategic continuity.",
       "author": {
         "name": "Play New",

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Auto-update version on every commit
+# Uses timestamp format: YYYY.MM.DD.HHMM
+# This ensures plugin cache refreshes on every update
+
+VERSION=$(date +"%Y.%-m.%-d.%H%M")
+
+# Update plugin.json
+sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" .claude-plugin/plugin.json
+
+# Update marketplace.json (both metadata and plugin entry)
+sed -i '' "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" .claude-plugin/marketplace.json
+
+# Stage the updated files
+git add .claude-plugin/plugin.json .claude-plugin/marketplace.json
+
+echo "Version updated to $VERSION"

@@ -1,5 +1,5 @@
 ---
-description: Design system. First run detects framework and sets up tokens. After that, framework-adaptive audit + universal accessibility rules.
+description: Design system with craft. First run explores the product, chooses a direction, generates tokens. After that, audits consistency, tokens, accessibility, and craft.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 ## Detect Mode
 
-Check for globals.css with CSS custom properties OR components.json OR a UI framework in package.json. If a design system is already configured, run **review mode**. Otherwise, run **init mode**.
+Check for `.superskills/design-system.md` or globals.css with CSS custom properties or components.json. If a design system is configured, run **review mode**. Otherwise, run **init mode**.
 
 ---
 
@@ -15,7 +15,7 @@ Check for globals.css with CSS custom properties OR components.json OR a UI fram
 
 ### 1. Detect UI Framework
 
-Read package.json. Identify which UI framework is installed:
+Read package.json. Identify the UI framework:
 
 | Framework | Detection |
 |-----------|-----------|
@@ -23,99 +23,133 @@ Read package.json. Identify which UI framework is installed:
 | Chakra UI | `@chakra-ui/react` |
 | MUI | `@mui/material` |
 | Mantine | `@mantine/core` |
-| Ant Design | `antd` |
 | Tailwind only | `tailwindcss` without component library |
 | None detected | no UI deps |
 
-If none detected, ask the user what they want. Suggest shadcn + Tailwind as default for new projects but do not impose it.
+If none detected, ask the user. Suggest shadcn + Tailwind for new projects.
 
-### 2. Choose Aesthetic Direction
+### 2. Explore the Product's World
 
-The design system is not just a toolkit — it's the product's personality. Before setting up tokens, decide what that personality is.
+Read CLAUDE.md for business context. Before choosing any visual direction, explore:
 
-Read CLAUDE.md for business context (who the user is, what the product does). Then ask the user:
+**Who opens this interface?** Not "users" — the actual person. Where are they? What's on their mind? A teacher at 7am with coffee is not a developer debugging at midnight.
 
-**What should this feel like?** Give 3-4 concrete directions to choose from, inferred from the product context. Examples:
+**What must they accomplish?** The verb. Grade submissions. Find the broken deployment. Approve the payment.
 
-- A fintech dashboard → "clean and authoritative" (tight spacing, monospace accents, muted palette with sharp data colors)
-- A creative tool → "expressive and spatial" (generous whitespace, bold type scale, warm palette, playful motion)
-- An ops platform → "dense and functional" (compact layout, high information density, neutral palette, minimal decoration)
-- A consumer app → "soft and inviting" (rounded corners, friendly type, pastel palette, smooth transitions)
+**What should this feel like?** Say it in words that mean something. "Clean and modern" means nothing. Warm like a notebook? Cold like a terminal? Dense like a trading floor? Calm like a reading app?
 
-Each direction should specify: **typography pairing** (display + body), **color character** (not just "primary/secondary" — what feeling), **spatial rhythm** (tight/generous/mixed), **surface treatment** (flat/layered/textured), **motion approach** (minimal/smooth/playful).
+Then produce:
 
-The user picks one. If they have brand assets (colors, fonts, logo), incorporate them. If not, make distinctive choices — never fall back to default shadcn gray or generic fonts (Inter, Roboto, Arial).
+- **Domain concepts:** 5+ metaphors and vocabulary from this product's world. Not features — territory.
+- **Color world:** 5+ colors that exist naturally in this product's domain. If this were a physical space, what would you see?
+- **Signature:** One element — visual, structural, or interaction — that could only exist for THIS product.
+- **Defaults to reject:** 3 obvious choices you will NOT use. Name them explicitly so you can avoid them.
 
-### 3. Encode Direction as Tokens
+Do not propose a direction until all four are produced.
 
-All aesthetic choices become design tokens. No creative decision should live in component code — it all goes in the token layer.
+### 3. Choose Style Preset
+
+For shadcn projects, pick a style that matches the product:
+
+| Style | Character | Spacing | Shape | For |
+|-------|-----------|---------|-------|-----|
+| **Vega** | Classic | Standard | Medium radius | General purpose |
+| **Nova** | Compact | Tight | Standard | Data-heavy dashboards |
+| **Maia** | Soft | Generous | Rounded/pill | Consumer apps |
+| **Lyra** | Sharp | Standard | Boxy/none | Technical tools |
+| **Mira** | Dense | Very tight | Compact | Admin interfaces |
+
+Present the recommendation to the user with reasoning. The style determines spacing rhythm, border radius, and component density throughout the project.
+
+For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
+
+### 4. Choose Typography
+
+Pick a display font + body font pairing that matches the direction. Never fall back to generic fonts.
+
+**Banned:** Inter, Roboto, Arial, system-ui as primary choices. These are defaults, not decisions.
+
+**Good pairings by direction:**
+- Technical/precise: monospace display (JetBrains Mono, IBM Plex Mono) + clean body (Geist, Satoshi)
+- Warm/approachable: rounded display (Nunito, Quicksand) + readable body (Source Sans, Lato)
+- Editorial/authoritative: serif display (Fraunces, Playfair Display) + neutral body (DM Sans, Outfit)
+- Bold/modern: geometric display (Clash Display, Cabinet Grotesk) + refined body (Satoshi, General Sans)
+
+Ask the user if they have brand fonts. If they do, use those. If not, choose from the direction.
+
+### 5. Generate Token Layer
+
+All aesthetic choices become design tokens. No creative decision lives in component code.
 
 **For shadcn + Tailwind:**
-- Create globals.css with CSS custom properties in HSL. Both `:root` (light) and `.dark` (dark).
-- Include variables for: colors (background, foreground, card, primary, secondary, accent, muted, destructive, border, ring), border-radius, font-family (display + body), font-size scale, spacing scale, shadow scale, transition durations.
-- Configure tailwind.config.ts extending from CSS variables.
-- Set up cn() utility in `src/lib/utils.ts`. Install: `npm install clsx tailwind-merge`
-- Initialize shadcn: `npx shadcn init`
+- Run `npx shadcn@latest create` with the chosen style, or generate `globals.css` manually
+- CSS custom properties in OKLCH (Tailwind v4) or HSL. Both `:root` and `.dark`
+- Variables for: colors (background, foreground, card, primary, secondary, accent, muted, destructive, border, ring), `--radius`, `--font-display`, `--font-body`, spacing scale, shadow scale, transition durations
+- Token names should evoke the product's world — not just `--gray-700` but names that someone reading only the tokens could guess what product this is
+- Set up cn() utility: `npm install clsx tailwind-merge`
+- Initialize: `npx shadcn init`
 - Add base components: `npx shadcn add button card input label badge dialog dropdown-menu table`
-- Add shadcnblocks registry to components.json:
-  ```json
-  "registries": {
-    "@shadcnblocks": {
-      "url": "https://shadcnblocks.com/r/{name}"
-    }
-  }
-  ```
-  Then install blocks via CLI: `npx shadcn add @shadcnblocks/hero-1`, `npx shadcn add @shadcnblocks/login-1`, etc. The CLI handles all dependencies automatically.
-  For Pro/Premium blocks, add API key to `.env` (`SHADCNBLOCKS_API_KEY=sk_live_...`) and auth header to the registry config:
-  ```json
-  "headers": {
-    "Authorization": "Bearer ${SHADCNBLOCKS_API_KEY}"
-  }
-  ```
 
-**For Chakra UI:**
-- Create theme.ts extending Chakra's default theme with custom colors, fonts, spacing, radii, shadows.
-- Wrap app in ChakraProvider with custom theme.
-
-**For MUI:**
-- Create theme.ts with createTheme(). Set palette, typography (display + body), spacing, shape, shadows.
-- Wrap app in ThemeProvider.
-
-**For Mantine:**
-- Create theme.ts with MantineProvider theme object.
-- Set colors, primaryColor, fontFamily (display + body), spacing, radius, shadows.
+**For Chakra/MUI/Mantine:**
+- Create theme.ts with full token set: colors, fonts (display + body), spacing, radii, shadows
+- Wrap app in the framework's provider
 
 **For Tailwind only:**
-- Create globals.css with CSS custom properties (same token set as shadcn).
-- Configure tailwind.config.ts extending from CSS variables.
+- Create globals.css with the same CSS variable set
+- Configure tailwind.config.ts extending from variables
 
-**Key rule:** the token file IS the aesthetic. If you removed all components and rebuilt from scratch using only the tokens, the product should still look the same. No creative decisions in component code.
+**Key rule:** the token file IS the aesthetic. Strip all components and rebuild from tokens alone — the product should still look the same.
 
-### 4. Write Design Configuration
+### 6. Write Design Configuration
 
-Add the design system config to the Design System section of CLAUDE.md:
+Write to two places:
+
+**CLAUDE.md** — stable instructions Claude reads at session start:
 
 ```
 ## Design System
 **Framework:** [detected]
+**Style:** [Vega/Nova/Maia/Lyra/Mira or n/a]
 **Token source:** [globals.css / theme.ts / etc.]
-**Component library:** [shadcn / Chakra / MUI / Mantine / none]
-**Direction:** [chosen aesthetic in one sentence: "clean and authoritative — tight spacing, monospace accents, muted palette"]
+**Direction:** [one sentence: "dense and authoritative — tight spacing, monospace accents, slate palette with amber data highlights"]
 **Typography:** [display font] + [body font]
-**Color character:** [what the palette feels like, not just the values]
+**Color character:** [what the palette feels like]
+**Signature:** [the one element unique to this product]
 ```
 
-This is what Claude reads at session start. It prevents aesthetic drift across sessions.
+**`.superskills/design-system.md`** — detailed design decisions for enforcement:
+
+```
+# Design System
+
+## Direction
+**Feel:** [intent statement]
+**Domain concepts:** [5+ from exploration]
+**Rejected defaults:** [3 things you chose NOT to do]
+
+## Tokens
+**Spacing base:** [4px]
+**Scale:** [4, 8, 12, 16, 24, 32]
+**Radius:** [per style preset]
+**Depth strategy:** [borders-only / subtle-shadows / layered]
+**Color primitives:** [foreground levels, surfaces, accent, semantic]
+
+## Component Patterns
+[populated as components are built — spacing, heights, padding patterns]
+
+## Decisions
+| Decision | Why | Date |
+|----------|-----|------|
+| [first decision from init] | [rationale] | [date] |
+```
 
 ---
 
 ## Review Mode
 
-Two categories of rules: **universal** (always apply, framework-agnostic) and **framework-specific** (adapt to detected stack).
+Read CLAUDE.md and `.superskills/design-system.md` for context. Three categories of checks.
 
-### Universal Rules (always enforced)
-
-These are objective, measurable standards. They apply regardless of UI framework.
+### Hard Rules (blocking)
 
 **Accessibility (WCAG 2.1 AA):**
 1. Color contrast: 4.5:1 normal text, 3:1 large text
@@ -123,78 +157,67 @@ These are objective, measurable standards. They apply regardless of UI framework
 3. Alt text on all images
 4. Labels on all form inputs (not just placeholder)
 5. Touch targets: 44x44px minimum
-6. Semantic HTML: proper heading hierarchy, landmarks, ARIA where needed
+6. Semantic HTML: proper heading hierarchy, landmarks, ARIA
 7. Keyboard navigation: all interactive elements reachable via tab
 
 **Token compliance:**
-8. No hardcoded color values (hex, rgb, hsl) in component files. All colors from design tokens (CSS variables, theme object, or equivalent).
+8. No hardcoded color values (hex, rgb, hsl, oklch) in component files — all from tokens
+9. No font-family declarations in components — all from tokens
+10. No one-off shadow, border-radius, or transition values — use the token scale
+11. No inline styles that override the token system
+12. No arbitrary Tailwind values (`-[...]` syntax) — if you need a value, add it to the token scale
 
 **Interaction:**
-9. All clickable elements must have `cursor-pointer` (buttons, links, cards with onClick, toggles, tabs, dropdowns). No flat cursor on interactive elements.
-
-**Text encoding:**
-10. No Unicode escape sequences for accented characters. Use UTF-8 directly: `è`, `é`, `ù`, `à`, not `\u00e8`, `\u00e9`, `\u00f9`, `\u00e0`. Applies to all text content in components, labels, placeholders, error messages.
+13. `cursor-pointer` on all clickable elements
+14. No Unicode escape sequences for accented characters — use UTF-8 directly
 
 **Responsive:**
-11. Layout works at 320px minimum
-12. Consistent breakpoint usage
+15. Layout works at 320px minimum
+16. Consistent breakpoint usage
 
 ### Framework-Specific Rules
 
-Detect the UI framework and apply only the relevant rules.
-
-**shadcn + Tailwind projects:**
-1. Before building custom sections, check the shadcnblocks registry via CLI: `npx shadcn add @shadcnblocks/<block>`. Covers: hero, pricing, dashboard, auth, settings, features, testimonials, FAQ, footer, navbar, sidebar, stats, CTA, contact, blog, 404.
+**shadcn + Tailwind:**
+1. Search existing components across registries before building custom. Check @shadcn (440+ components), @reui (700+), @animate-ui (200+), @diceui (100+), @blocks, and community registries. Install via `npx shadcn@latest add @registry/component-name`.
 2. Use shadcn base components before custom implementations
-3. No custom CSS classes — Tailwind utility classes only
-4. No arbitrary Tailwind values — no `-[...]` syntax
+3. Tailwind utility classes only — no custom CSS classes
+4. Use `gap-*` for flex/grid containers — not `space-y-*` or margins
+5. Semantic color tokens only (`text-foreground`, `bg-muted`) — not Tailwind colors (`text-neutral-500`, `bg-gray-100`)
+6. Use `data-slot` attributes on component wrappers
+7. Use CVA (Class Variance Authority) for component variants
+8. Spacing values must match the style preset (Maia=generous, Nova/Mira=compact)
 
-**Chakra UI projects:**
-1. Use Chakra components before custom implementations
-2. All styling through Chakra's style props or theme — no inline styles
-3. Responsive styles through Chakra's array/object syntax, not media queries
+**Chakra/MUI/Mantine:**
+1. Use framework components before custom implementations
+2. All styling through framework APIs — no inline CSS
+3. Theme overrides in theme file, not per-component
 
-**MUI projects:**
-1. Use MUI components before custom implementations
-2. All styling through sx prop or styled() — no inline CSS
-3. Theme overrides in theme.ts, not per-component
+**Tailwind only:**
+1. Utility classes only — no custom CSS classes
+2. No arbitrary values
 
-**Mantine projects:**
-1. Use Mantine components before custom implementations
-2. All styling through Mantine's styles API or sx — no inline CSS
+### Craft Checks (advisory)
 
-**Tailwind-only projects:**
-1. No custom CSS classes — Tailwind utility classes only
-2. No arbitrary Tailwind values — no `-[...]` syntax
+Run these against the output before presenting:
 
-**No framework detected:**
-- Only universal rules apply. No framework-specific enforcement.
+**The swap test:** If you swapped the typeface for a generic one, would anyone notice? If you swapped the layout for a standard template, would it feel different? Where swapping wouldn't matter = where you defaulted.
 
-### Aesthetic Consistency
+**The squint test:** Blur your eyes. Can you still perceive hierarchy? Is anything jumping out harshly?
 
-Check that the chosen direction (from CLAUDE.md Design System) is being followed:
+**The token test:** Read the CSS variables. Do they sound like they belong to this product, or could they belong to any project?
 
-13. No font-family declarations in component files — all typography from tokens
-14. No one-off shadows, border-radius, or transition values — use the token scale
-15. No inline styles that override the token system
-16. Components on different pages should feel like the same product — same spacing rhythm, same surface treatment, same color usage patterns
+**Cross-page cohesion:** Do all pages feel like the same product? Same type scale, same spacing, same color usage, same surface treatment. If page A uses generous whitespace and page B is cramped, flag it.
 
-Flag violations as: "aesthetic drift — [what's happening] — should use [which token]."
+**Motion:** Are transitions present where they improve UX (page transitions, loading states, hover feedback)? Are they consistent? Use 150ms for hover/focus, 200ms for color transitions, 300ms for modal enter/exit.
 
-### Design Quality
-
-When reviewing component code, also check for:
-
-- **Cohesion across pages.** Do all pages look like they belong to the same product? Same type scale, same spacing, same color usage. If page A uses generous whitespace and page B is cramped, flag it.
-- **Motion and interaction.** Are transitions present where they improve UX (page transitions, loading states, hover feedback)? Are they smooth and purposeful?
-- **Layout composition.** Does the layout use the design system's grid/spacing consistently?
-
-These are advisory observations, not blocking rules. Note them as suggestions.
+Flag craft issues as suggestions, not violations.
 
 ### Output
 
-Read CLAUDE.md for project context (stack, design system config). Write findings to `.superskills/report.md` — **replace** the Design Findings section (each audit is a fresh snapshot). Update the status counts at the top of report.md.
+Write findings to `.superskills/report.md` — **replace** the Design Findings section. Update status counts.
 
 | File:line | Rule | Issue | Fix |
 |-----------|------|-------|-----|
-| path:line | universal/N or [framework]/N or a11y or responsive or quality | description | fix |
+| path:line | hard/N or framework/N or craft | description | fix |
+
+If new component patterns were established during the review, append them to `.superskills/design-system.md`.

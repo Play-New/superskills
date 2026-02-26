@@ -40,7 +40,7 @@ From that point: hooks watch what you build, commands audit specific domains, an
 | `/super:review` | Full audit: tests, trust, strategy, design, performance |
 | `/super:strategy` | Alignment check against EIID, scope creep detection, opportunity scan |
 | `/super:trust` | OWASP Top 10, GDPR, secrets scan, auth verification |
-| `/super:design` | Framework-adaptive design audit, WCAG 2.1 AA, design tokens |
+| `/super:design` | Design system with craft: intent-first init, token enforcement, consistency audit |
 | `/super:test` | vitest + Playwright, blocks on failure |
 | `/super:performance` | Bundle size, Core Web Vitals, N+1 queries, API costs |
 
@@ -85,6 +85,7 @@ Two concerns, two places.
 **`.superskills/`** contains volatile findings:
 - `report.md` — security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
 - `decisions.md` — architecture decisions log. Append-only.
+- `design-system.md` — design direction, tokens, component patterns. Updated as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This follows the same pattern as Anthropic's code-review plugin (reads CLAUDE.md, writes findings elsewhere) and Trail of Bits skills (standalone report files).
 
@@ -166,7 +167,7 @@ The design skill adapts to the project's UI framework. It detects what's install
 - Responsive: works at 320px, consistent breakpoints
 
 **Framework-specific rules** (only for detected framework):
-- shadcn + Tailwind: check shadcnblocks registry via CLI (`npx shadcn add @shadcnblocks/<block>`) before building custom sections, shadcn base components second, no custom CSS, no arbitrary Tailwind values
+- shadcn + Tailwind: search existing components across registries before building custom, semantic tokens only (`text-foreground` not `text-neutral-500`), `gap-*` not `space-y-*`, no custom CSS, no arbitrary Tailwind values
 - Chakra/MUI/Mantine: use framework components before custom, style through framework APIs
 - Tailwind only: no custom CSS classes, no arbitrary values
 
@@ -183,7 +184,6 @@ If no framework is detected, only universal rules apply.
 | Inngest | Workflows, cron, retry |
 | Next.js | Frontend, Server Components default |
 | shadcn + Tailwind | UI components and styling (suggested, not imposed) |
-| shadcnblocks registry | Pre-built sections via CLI: `npx shadcn add @shadcnblocks/<block>` |
 
 | When needed | Role |
 |-------------|------|
@@ -198,6 +198,8 @@ superskills/                             the plugin
 ├── .claude-plugin/
 │   ├── plugin.json                     plugin name: "super"
 │   └── marketplace.json                marketplace definition
+├── .githooks/
+│   └── pre-commit                      auto-version on commit
 ├── commands/
 │   ├── start.md                         full assessment entry point
 │   ├── scan.md                          EIID analysis (no questions)
@@ -217,7 +219,8 @@ your-project/                            what gets generated
 ├── CLAUDE.md                            stable instructions (~100 lines)
 └── .superskills/
     ├── report.md                        volatile findings (replaced each audit)
-    └── decisions.md                     architecture log (append-only)
+    ├── decisions.md                     architecture log (append-only)
+    └── design-system.md                 design direction + tokens + patterns
 ```
 
 11 markdown files, 3 JSON in the plugin. Each command under 3K tokens. Fits in one context window.

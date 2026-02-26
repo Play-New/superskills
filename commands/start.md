@@ -80,7 +80,6 @@ For new projects:
 | Inngest | Workflows, cron, retry |
 | Next.js | Frontend, Server Components default |
 | shadcn + Tailwind | UI components and styling |
-| shadcnblocks registry | Pre-built sections via CLI: `npx shadcn add @shadcnblocks/<block>` |
 
 | Conditional | When |
 |-------------|------|
