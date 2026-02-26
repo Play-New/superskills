@@ -10,19 +10,18 @@
             "timeout": 15
           }
         ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Token gate. Respond immediately. If .superskills/design-system.md does not exist, respond {\"ok\": true} and stop. Check this file change in .tsx, .jsx, .vue, .svelte files for: hardcoded color values (hex #xxx/#xxxxxx, rgb(), hsl(), oklch()), inline font-family declarations, arbitrary Tailwind values (-[...] syntax), one-off shadow or border-radius values. Respond {\"ok\": true} if clean. Respond {\"ok\": false, \"reason\": \"...\"} if violations found. Ignore: .css files, .superskills/ directory, config files, tailwind.config.*, theme files, node_modules. No explanation. $ARGUMENTS",
-            "timeout": 15
-          }
-        ]
       }
     ],
     "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Token gate. Respond immediately. If .superskills/design-system.md does not exist, respond {\"ok\": true} and stop. Scan all .tsx, .jsx, .vue, .svelte files changed in this session for: hardcoded color values (hex #xxx/#xxxxxx, rgb(), hsl(), oklch()), inline font-family declarations, arbitrary Tailwind values (-[...] syntax), one-off shadow or border-radius values. Respond {\"ok\": true} if clean. Respond {\"ok\": false, \"reason\": \"...\"} if violations found. Ignore: .css files, .superskills/ directory, config files, tailwind.config.*, theme files, node_modules. No explanation. $ARGUMENTS",
+            "timeout": 15
+          }
+        ]
+      },
       {
         "hooks": [
           {
