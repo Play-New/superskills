@@ -11,26 +11,6 @@
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Token gate. Respond immediately. If .superskills/design-system.md does not exist, respond {\"ok\": true} and stop. Scan all .tsx, .jsx, .vue, .svelte files changed in this session for: hardcoded color values (hex #xxx/#xxxxxx, rgb(), hsl(), oklch()), inline font-family declarations, arbitrary Tailwind values (-[...] syntax), one-off shadow or border-radius values. Respond {\"ok\": true} if clean. Respond {\"ok\": false, \"reason\": \"...\"} if violations found. Ignore: .css files, .superskills/ directory, config files, tailwind.config.*, theme files, node_modules. No explanation. $ARGUMENTS",
-            "timeout": 15
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "agent",
-            "prompt": "Test verification.\n\nFirst check: does CLAUDE.md exist in the project root? If not, respond {\"ok\": true} and stop — this project has not been configured with SuperSkills.\n\nSecond check: does package.json have a test script? Are there test files (*.test.*, *.spec.*, tests/, __tests__/)? If neither, respond {\"ok\": true} and stop — no tests to run.\n\nIf both checks pass, run `npm test`. If Playwright tests exist in tests/e2e/, run `npx playwright test` too.\n\nWrite results to `.superskills/report.md` — REPLACE the \"## Test Report\" section. Keep the last 3 runs for trend visibility, drop older entries. Update status counts at the top of report.md.\n\n**Date:** [date] | **Passed:** [count] | **Failed:** [count] | **Skipped:** [count]\n[failure details if any]\n\nGate: if tests fail, respond {\"ok\": false, \"reason\": \"X tests failing: [details]\"}. If tests pass, respond {\"ok\": true}.",
-            "timeout": 60
-          }
-        ]
-      }
     ]
   }
 }

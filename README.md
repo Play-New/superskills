@@ -29,7 +29,7 @@ To update: `/plugin marketplace update superskills`
 
 Run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
 
-From that point: hooks watch what you build, commands audit specific domains, and findings accumulate in `.superskills/`.
+From that point: the secrets guard watches file writes, skills advise during planning, commands audit specific domains, and findings accumulate in `.superskills/`.
 
 ## Commands
 
@@ -48,30 +48,15 @@ Each command detects whether setup has been done. First run configures. After th
 
 ## Hooks
 
-Three checks fire on their own:
+One hook fires automatically:
 
 ```
-  You write code
+  You write or edit a file
        │
        ▼
   ┌─────────────────┐
   │ Secrets guard    │  After file write/edit: blocks hardcoded
   │ (post-tool)      │  secrets in source code
-  └─────────────────┘
-       │
-       ▼
-  Session ends
-       │
-       ▼
-  ┌─────────────────┐
-  │ Token guard      │  Before task completion: blocks hardcoded
-  │ (stop)           │  colors, fonts, arbitrary values in UI files
-  └─────────────────┘  (only if .superskills/design-system.md exists)
-       │
-       ▼
-  ┌─────────────────┐
-  │ Test gate        │  Before task completion: runs test suite.
-  │ (stop)           │  Blocks if tests fail.
   └─────────────────┘
 ```
 
@@ -79,15 +64,11 @@ Two skills fire during planning:
 - **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
 - **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, and new variants when existing patterns fit.
 
-For a full audit (security, design, strategy, performance), run `/super:review` when you're ready.
+Design token enforcement and test running are on-demand: `/super:design` audits tokens, `/super:test` runs the suite. They don't fire automatically because Stop hooks add latency and noise to every session.
 
 ## What blocks
 
 **Secrets guard:** hardcoded secrets in source code. Ignores .env, config, migrations, SQL, lock files, markdown, JSON config.
-
-**Token guard:** hardcoded color values, font-family declarations, arbitrary Tailwind values in UI component files. Runs once at session end instead of per-edit. Only active when `.superskills/design-system.md` exists. Ignores .css files, config files, theme files.
-
-**Test gate:** failing tests. Skips if no tests exist.
 
 ## Where things go
 
@@ -224,8 +205,8 @@ superskills/                             the plugin
 │   ├── eiid-awareness/SKILL.md          auto-invoked during planning
 │   └── design-awareness/SKILL.md        auto-invoked during planning
 ├── agents/
-│   └── stop-tests.md                    test gate
-├── hooks/hooks.json
+│   └── stop-tests.md                    test runner agent
+├── hooks/hooks.json                     secrets guard only
 ├── reference/
 │   ├── claude-md-template.md            CLAUDE.md blank structure
 │   ├── design-system-template.md        design-system.md blank structure
