@@ -26,7 +26,7 @@ Read package.json. Identify the UI framework:
 | Tailwind only | `tailwindcss` without component library |
 | None detected | no UI deps |
 
-If none detected, ask the user. Suggest shadcn + Tailwind for new projects.
+If none detected, ask the user. Suggest shadcn + Tailwind for new projects — base components share tokens, which guarantees consistency from day one.
 
 ### 2. Explore the Product's World
 
