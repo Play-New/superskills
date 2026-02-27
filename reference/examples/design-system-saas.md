@@ -3,6 +3,8 @@
 ## Direction
 **Feel:** Operational control room. Dense information, calm surfaces, amber sparks when attention is needed.
 **Domain concepts:** Fleet, route, alert threshold, maintenance window, duty cycle, fuel baseline
+**Color world:** Asphalt gray, diesel amber, dashboard green, hazard red. The palette of a truck yard at 6am.
+**Signature:** The attention count — a single amber number at the top of every screen showing vehicles needing action right now. No other fleet tool leads with this.
 **Rejected defaults:** Rounded consumer app look, blue-heavy SaaS palette, card-heavy dashboard with big spacing
 
 ## Information Architecture

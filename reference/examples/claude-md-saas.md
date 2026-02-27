@@ -57,3 +57,5 @@ Use pnpm, NOT npm, yarn, bun.
 **Direction:** Dense and operational — tight spacing, monospace data, slate palette with amber alerts
 **Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports
 **Typography:** IBM Plex Mono (data) + Geist (body)
+**Color character:** Industrial calm. Slate surfaces, amber when something needs attention, emerald when healthy. Red reserved for actual emergencies.
+**Signature:** The attention count — a single amber number at the top of every screen showing vehicles needing action right now.

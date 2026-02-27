@@ -57,18 +57,27 @@ Do not propose a direction until all four items above are produced.
 
 Before any visual decisions, define the structure of the product. Screen hierarchy determines density. Density determines typography and spacing. Skipping this step produces interfaces where everything has equal weight.
 
-**a) Core objects.** Identify the 3-6 things users care about. Not features, not pages. The nouns of the product. A fleet app's objects: Vehicles, Alerts, Routes, Reports. An e-commerce app's objects: Products, Orders, Customers, Analytics. Each object typically maps to a nav destination and at least one screen (index + detail).
+Read CLAUDE.md for the EIID mapping. The four layers determine what the product shows and where:
+
+- **Delivery** outputs (channels, triggers, timing) define the primary screens. These are where the user spends time.
+- **Interpretation** outputs (insights, framing) define the focal points. The most valuable content on each screen comes from this layer.
+- **Inference** outputs (detections, predictions, anomalies) feed into interpretation. They surface as alerts, scores, trend indicators.
+- **Enrichment** configuration (data sources, connections) lives deep. Users set it up once, then rarely touch it.
+
+This is the priority stack: delivery screens get the most attention, enrichment config gets the least.
+
+**a) Core objects.** Derive from the EIID mapping. Each delivery channel or interpretation output suggests an object the user cares about. A fleet app with "vehicles needing attention" in interpretation and "WhatsApp alerts" in delivery produces objects like Vehicles, Alerts, Routes, Reports. Not features, not pages. The nouns of the product. Each object typically maps to a nav destination and at least one screen (index + detail).
 
 **b) Navigation budget.** Choose type (sidebar, top bar, tab bar, hybrid) and populate with items derived from the objects. Budget: 5-8 items for sidebar, 3-5 for top bar. Everything that doesn't fit lives inside a screen, behind a menu, or in settings. Document what was excluded and where it went. Labels must be specific to this product. Test: if a label could belong to any product, it's too generic.
 
-**c) Screen map with focal points.** For each primary screen, name ONE element that gets the most visual weight. Not "the dashboard" but "the active alerts count." If a screen has no single focal point, it either needs splitting or prioritizing. Include drill-down screens (Vehicle Detail) that aren't nav items but are primary interaction targets.
+**c) Screen map with focal points.** For each primary screen, name ONE element that gets the most visual weight. Focal points should come from interpretation or inference outputs, not from enrichment or configuration. Not "the dashboard" but "the active alerts count." If a screen has no single focal point, it either needs splitting or prioritizing. Include drill-down screens (Vehicle Detail) that aren't nav items but are primary interaction targets.
 
-**d) Above the fold.** For each screen, 2-4 elements visible without scrolling. This is the attention budget. Adding something above the fold means naming what moves below it.
+**d) Above the fold.** For each screen, 2-4 elements visible without scrolling. This is the attention budget. Interpretation outputs (actionable insights) and inference outputs (live indicators) go above the fold. Enrichment status and configuration go below. Adding something above the fold means naming what moves below it.
 
-**e) Content depth.** Three tiers mapped to task frequency:
-- Surface (multiple times daily): visible on primary screen without interaction
-- One click (daily/weekly): behind a tab, drawer, or expand
-- Deep (monthly/rarely): behind navigation, search, or settings
+**e) Content depth.** Three tiers mapped to EIID layers and task frequency:
+- Surface (multiple times daily): delivery screens, interpretation insights, inference alerts. Visible without interaction.
+- One click (daily/weekly): inference detail (trend charts, history, comparisons that explain the surface). Behind a tab, drawer, or expand.
+- Deep (monthly/rarely): enrichment configuration (data sources, connections), delivery channel setup (triggers, schedules). Behind navigation, search, or settings.
 
 Each feature, metric, or action belongs to exactly one tier. No tier overflow: if surface gets crowded, something moves to one-click.
 
