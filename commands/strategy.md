@@ -1,41 +1,231 @@
 ---
-description: Strategic alignment. First run validates EIID and sets priorities. After that, alignment review and opportunity scan.
-allowed-tools: Read, Glob, Grep, Write, Edit
+description: Entry point. Assessment, EIID mapping, scaffolding, priorities. First run builds the project foundation. After that, alignment review and opportunity scan.
+allowed-tools: Read, Glob, Grep, Write, Edit, WebSearch, WebFetch
 ---
 
 # Strategy
 
-Read `reference/examples/decisions-saas.md` for tone and structure. Match that level of specificity — type labels, EIID layer, concrete actions.
+Read `reference/examples/claude-md-saas.md` for tone and structure. Match that level of specificity — type labels, EIID layer, concrete actions. Read `reference/examples/decisions-saas.md` for decision log format.
 
 ## Detect Mode
 
-Check `.superskills/decisions.md`. If it has content beyond the initial `/super:start` entry, run **review mode**. Otherwise, run **init mode**.
+Check for CLAUDE.md with an EIID mapping section. If it has one, run **review mode**. Otherwise, run **init mode**.
 
 ---
 
 ## Init Mode
 
-1. Validate EIID mapping in CLAUDE.md. Flag anything vague or missing.
-2. Classify each EIID element by constraint type:
+### 1. Scan Folder
+
+Scan the current directory for documents: md, txt, csv, json, pdf, images, docx, xlsx.
+Skip node_modules, .git, dist, build, .next, .vercel.
+Claude reads PDFs and images natively. Read every document found.
+
+### 2. Detect Stack and Constraints
+
+Read package.json if it exists.
+
+**Stack detection:** identify installed tools by category: framework, UI library, backend, ORM, auth, test runner, linter, package manager (from lock file). Name what's actually installed, not what could be.
+
+**Constraint generation:** for each tool category where exactly one tool is installed, identify the popular alternatives in that same category and generate a negative constraint. The format: "Use [installed tool], NOT [alternatives]." Detect the package manager from the lock file (package-lock.json, pnpm-lock.yaml, yarn.lock, bun.lock).
+
+### 3. Assessment
+
+Five questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
+
+1. **Who is this for?** You, your company, or a client? What do they do, where?
+2. **Who will use it?** Who will be the end user of your product?
+3. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
+4. **What's needed to deliver that value?** Tools, services, other products, skills.
+5. **What exists already?** What data and tools do you have access to?
+
+If documents from the folder scan add information the user didn't mention, incorporate it. If they contradict the user's answers, ask to clarify.
+
+### 4. Research
+
+Search the web close to the user's problem, not just the industry. Three searches:
+
+1. **How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
+2. **What's commoditizing.** "[problem domain] AI automation [year]" — which parts of this solution space are becoming commodity? What can you buy instead of build? Where is the evolution axis (Wardley: genesis → custom → product → commodity) moving fastest?
+3. **Where value is shifting.** "[problem domain] platform" or "[industry] value chain restructuring" — are intermediaries being bypassed? Is value moving from execution to orchestration? Look for Choudary's reshuffle: where AI collapses execution costs, the ability to connect systems and coordinate flows becomes the new source of value.
+
+Use the assessment answers as context, but keep the searches anchored to the end user and their need.
+
+### 5. EIID Mapping
+
+From the folder scan, stack detection, user context, and research, build the value chain and map it to EIID.
+
+**Build the value chain.** Work backward from the user need through what's needed and what exists down to infrastructure. What depends on what? What's missing?
+
+**Classify each component.** Use the research to determine evolution, not the user's opinion:
+- **Commodity** (well-understood, multiple providers, standardized) → **Automate.** Don't build what you can buy.
+- **Requires human judgment** (consequences, accountability, context-dependent) → **Differentiate.** Enhance with better information, keep humans in the loop.
+- **New connections** (cross-system data, multi-source inference, orchestration that was previously too expensive) → **Innovate.** Build it — this is where value is created.
+
+**Map to four layers:**
+
+#### Enrichment (data)
+- Existing data sources (list concrete systems)
+- Missing data that is available (public APIs, partner data, user behavior)
+- Connections to build
+
+#### Inference (patterns)
+- Patterns to detect (specific: "orders deviating >20% from historical average")
+- Predictions to make
+- Anomalies to flag
+
+#### Interpretation (insights)
+- Insights to surface (actionable statements, not raw data)
+- Framing: comparison, trend, explanation, recommendation
+
+#### Delivery (reach)
+- Channels: email, Slack, WhatsApp, Telegram, SMS, Discord, dashboard
+- Triggers: threshold crossed, schedule, event, user request
+- Timing: when is the insight most valuable?
+
+**Platform dynamics** as closing observation: is value concentrated in execution or coordination? Could this become a platform? Are intermediaries being bypassed?
+
+### 6. Stack Recommendation
+
+For new projects:
+
+| Always | Role |
+|--------|------|
+| Supabase | Database, auth, storage, embeddings |
+| Vercel | Hosting, edge functions |
+| Inngest | Workflows, cron, retry |
+| Next.js | Frontend, Server Components default |
+| shadcn + Tailwind | UI components and styling |
+
+| Conditional | When |
+|-------------|------|
+| Brevo | Email/SMS/WhatsApp delivery |
+| Telegram/Slack/Discord SDK | Messaging delivery |
+| Apify/Supermemory/Playwright | Enrichment, scraping |
+
+For existing projects, confirm detected stack and adapt recommendations.
+
+### 7. Set Priorities
+
+1. Validate the EIID mapping. Flag anything vague or missing.
+2. Classify each EIID element:
    - **Automate** (scarcity-based value collapsing): well-understood, many providers, AI eroding the advantage
    - **Differentiate** (risk-based value increasing): requires human judgment, benefits from better information
    - **Innovate** (coordination-based value emerging): newly possible connections between systems, teams, data
 3. Set priorities: automate first (quick wins), innovate flagged for careful design.
 4. Write the first Architecture Decision to `.superskills/decisions.md`.
 
-### Output
+### 8. Write CLAUDE.md
 
-Read CLAUDE.md for project context (EIID mapping, strategic classification). **Append** to `.superskills/decisions.md`:
+CLAUDE.md contains only stable project instructions. Findings go to `.superskills/`. Keep CLAUDE.md under 100 lines.
+
+Read `reference/examples/claude-md-saas.md` for tone and structure. Match that level of specificity.
+
+**Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
+
+Create or update CLAUDE.md:
 
 ```
-### [date] - Strategic Priorities
+# [Project Name]
 
-**Type:** decision
-**Summary:** [priorities and rationale]
-**Automate:** [list]
-**Differentiate:** [list]
-**Innovate:** [list]
+## Business
+**Client:** [who is paying]
+**Industry:** [sector, size, geography]
+
+## User
+**End user:** [role, daily context]
+**Need:** [outcome, not feature]
+
+## Stack
+[Detected or recommended, with rationale]
+
+## EIID
+
+### Enrichment (data)
+**Have:** [sources already connected]
+**Missing:** [gaps to fill]
+**Connect:** [systems to integrate]
+
+### Inference (patterns)
+**Detect:** [what to spot]
+**Predict:** [what to forecast]
+**Flag:** [anomalies to catch]
+
+### Interpretation (insights)
+**Surface:** [what to tell the user]
+**Frame as:** [comparison, trend, explanation, recommendation]
+
+### Delivery (reach)
+**Channels:** [where the user already is]
+**Triggers:** [when to send]
+**Timing:** [optimal moment]
+
+## Build or Buy
+**Buy:** [commodity — don't build what you can buy]
+**Enhance:** [needs human judgment — give them better information]
+**Build:** [new connections — this is where value is created]
+
+## Technology Constraints
+[detected constraints, one per line: "Use X, NOT Y, Z."]
+
+## Code Architecture
+- No source file over 200 lines. Split by responsibility.
+- One component per file. One utility per file.
+- Colocation: tests next to source, types next to usage.
+- Prefer composition over inheritance.
+- If a module has two distinct modes, split into separate files.
+
+## Design System
+**Framework:** [detected or recommended]
+**Token source:** [globals.css / theme.ts / etc.]
 ```
+
+### 9. Write .superskills/
+
+Create `.superskills/` directory with two files:
+
+**`.superskills/report.md`** — volatile findings, replaced on each audit:
+```
+# SuperSkills Report
+
+**Last review:** [date]
+**Blockers:** [count or "none"]
+**Warnings:** [count or "none"]
+
+## Security Findings
+[empty — populated by /super:review]
+
+## Design Findings
+[empty — populated by /super:design or /super:review]
+
+## Test Report
+[empty — populated by /super:review]
+
+## Performance Budget
+[empty — populated by /super:review]
+
+## Project Profile
+**EIID Balance:** [which layers have the most code, which are underdeveloped]
+**Recurring Patterns:** none yet
+**Learned:** none yet
+```
+
+**`.superskills/decisions.md`** — architecture decisions log, append-only:
+```
+# Architecture Decisions
+
+[empty — populated by /super:strategy]
+```
+
+Add `.superskills/` to the project's `.gitignore` suggestion list. The user decides whether to track it.
+
+### 10. What's Next
+
+Tell the user:
+
+**Next step:** run `/super:design` for design system setup, or `/super:review` for a full quality audit (tests, security, strategy alignment, design consistency, performance).
+
+Then start building. The plugin watches what you do. When you want a check, run `/super:review` for a full audit — all at once.
 
 ---
 
@@ -78,8 +268,19 @@ Read CLAUDE.md for project context. **Append** each finding to `.superskills/dec
 ```
 ### [date] - [title]
 
-**Type:** alignment-check | opportunity | drift-warning
+**Type:** alignment-check | opportunity | drift-warning | decision
 **Summary:** [1-2 sentences]
 **EIID Layer:** [enrichment / inference / interpretation / delivery / none]
 **Action:** [what to do about it]
 ```
+
+---
+
+## Rules
+
+- One conversation, then write. Do not iterate endlessly.
+- Concrete items: "Gmail inbox" not "email data."
+- Uncertain items get a question mark. The user refines later.
+- Mark inferences as inferences.
+- CLAUDE.md is project instructions. `.superskills/` is findings. Keep them separate.
+- In init mode, the user answers questions or confirms inferences. Everything else — value chain, evolution, classification — you deduce from research and analysis.

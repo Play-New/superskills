@@ -5,6 +5,23 @@
 **Domain concepts:** Fleet, route, alert threshold, maintenance window, duty cycle, fuel baseline
 **Rejected defaults:** Rounded consumer app look, blue-heavy SaaS palette, card-heavy dashboard with big spacing
 
+## Information Architecture
+**Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports. Settings at sidebar bottom. User profile in avatar menu.
+**Excluded from nav:** Integrations (inside Settings), Export (inside Reports), Vehicle Detail (drill-down from Fleet)
+
+| Screen | Focal Point | Above the Fold | One Click | Deep |
+|--------|-------------|----------------|-----------|------|
+| Fleet Overview | Vehicles needing attention count | Attention count, fleet map, today's active/idle split | Vehicle list with sort/filter, mileage leaders | Bulk actions, export fleet data |
+| Vehicle Detail | Status badge | Status badge, current location, next service date | Maintenance history tab, fuel trend chart, trip log | Edit vehicle info, assign to route, decommission |
+| Alerts | Unacknowledged count | Unacknowledged count, active alerts list, severity breakdown | Alert timeline, acknowledged history | Alert rule configuration, notification channels |
+| Maintenance | Upcoming service list | Upcoming service list, overdue count, this week's schedule | Service history per vehicle, cost breakdown | Service provider management, parts inventory |
+| Reports | Fleet health score | Fleet health score, fuel efficiency trend, alert frequency | Custom date range, vehicle comparison, route analysis | Report builder, scheduled reports, export templates |
+
+**Content depth rules:**
+- Surface: current state — live positions, active alerts, today's numbers, items needing immediate action
+- One click: context — history tabs, trend charts, timelines, comparisons that explain the current state
+- Deep: configuration — alert rules, report builder, integrations, exports, bulk operations
+
 ## Tokens
 **Spacing base:** 4px
 **Scale:** 4, 8, 12, 16, 24, 32

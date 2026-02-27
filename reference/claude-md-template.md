@@ -1,6 +1,6 @@
 # CLAUDE.md Template
 
-The plugin generates this file via `/super:start` or `/super:scan`. It contains stable project instructions that Claude reads at session start. Target: under 100 lines. Findings go to `.superskills/`, not here.
+The plugin generates this file via `/super:strategy`. It contains stable project instructions that Claude reads at session start. Target: under 100 lines. Findings go to `.superskills/`, not here.
 
 ---
 

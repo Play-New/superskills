@@ -11,5 +11,6 @@ When planning changes to UI code:
 3. **Component discovery:** before building any custom component, search for existing implementations. Run `npx shadcn@latest add` to explore available registries and components. Check the shadcn ecosystem: base registry, community registries (@reui, @animate-ui, @diceui, and others). If a component exists, install it instead of building custom.
 4. **Direction check:** does this change match the established aesthetic direction? Flag drift from the documented feel, color world, or signature element.
 5. **Pattern reuse:** if `.superskills/design-system.md` has documented measurements (heights, padding, radius), use them. Do not create new variants when an existing pattern fits.
+6. **Hierarchy check:** if `.superskills/design-system.md` has an Information Architecture section, check three things. Navigation budget: if the change adds a nav item, count existing items against the budget; exceeding means something moves down or the new item nests inside an existing screen. Focal point: if the change adds content to a screen's primary zone, check if it competes with the documented focal point. Content depth: if the change surfaces something that belongs at one-click or deep tier based on documented rules, flag it.
 
 One line per observation. Only when relevant. Not blocking. Brief.

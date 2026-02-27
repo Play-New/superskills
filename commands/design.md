@@ -53,7 +53,28 @@ Also consider:
 
 Do not propose a direction until all four items above are produced.
 
-### 3. Choose Style Direction
+### 3. Define Information Architecture
+
+Before any visual decisions, define the structure of the product. Screen hierarchy determines density. Density determines typography and spacing. Skipping this step produces interfaces where everything has equal weight.
+
+**a) Core objects.** Identify the 3-6 things users care about. Not features, not pages. The nouns of the product. A fleet app's objects: Vehicles, Alerts, Routes, Reports. An e-commerce app's objects: Products, Orders, Customers, Analytics. Each object typically maps to a nav destination and at least one screen (index + detail).
+
+**b) Navigation budget.** Choose type (sidebar, top bar, tab bar, hybrid) and populate with items derived from the objects. Budget: 5-8 items for sidebar, 3-5 for top bar. Everything that doesn't fit lives inside a screen, behind a menu, or in settings. Document what was excluded and where it went. Labels must be specific to this product. Test: if a label could belong to any product, it's too generic.
+
+**c) Screen map with focal points.** For each primary screen, name ONE element that gets the most visual weight. Not "the dashboard" but "the active alerts count." If a screen has no single focal point, it either needs splitting or prioritizing. Include drill-down screens (Vehicle Detail) that aren't nav items but are primary interaction targets.
+
+**d) Above the fold.** For each screen, 2-4 elements visible without scrolling. This is the attention budget. Adding something above the fold means naming what moves below it.
+
+**e) Content depth.** Three tiers mapped to task frequency:
+- Surface (multiple times daily): visible on primary screen without interaction
+- One click (daily/weekly): behind a tab, drawer, or expand
+- Deep (monthly/rarely): behind navigation, search, or settings
+
+Each feature, metric, or action belongs to exactly one tier. No tier overflow: if surface gets crowded, something moves to one-click.
+
+Do not proceed to style direction until IA is defined and confirmed. Screen structure determines density, which determines typography and spacing.
+
+### 4. Choose Style Direction
 
 For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character from step 2. The style determines spacing rhythm, border radius, and component density. Present the recommendation to the user with reasoning.
 
@@ -64,7 +85,7 @@ Three dimensions to decide:
 
 For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
 
-### 4. Choose Typography
+### 5. Choose Typography
 
 Pick a display font + body font pairing that matches the direction. Ask the user if they have brand fonts first. If they do, use those.
 
@@ -74,7 +95,7 @@ If not, search for fonts that match the direction. Browse foundries (Google Font
 
 Pick two: one display font (headings, hero text) and one body font (paragraphs, UI labels). They should contrast in character but share similar x-height.
 
-### 5. Generate Token Layer
+### 6. Generate Token Layer
 
 All aesthetic choices become design tokens. No creative decision lives in component code.
 
@@ -107,7 +128,7 @@ If no existing UI code is found, skip extraction and propose tokens from the dir
 
 **Key rule:** the token file IS the aesthetic. Strip all components and rebuild from tokens alone — the product should still look the same.
 
-### 6. Write Design Configuration
+### 7. Write Design Configuration
 
 Read `reference/examples/design-system-saas.md` for tone and structure. Match that level of specificity — concrete values, rationale for each decision, measurement table populated from the start.
 
@@ -121,6 +142,7 @@ Write to two places:
 **Style:** [chosen style or n/a]
 **Token source:** [globals.css / theme.ts / etc.]
 **Direction:** [one sentence: "dense and authoritative — tight spacing, monospace accents, slate palette with amber data highlights"]
+**Navigation:** [type] — [nav items]
 **Typography:** [display font] + [body font]
 **Color character:** [what the palette feels like]
 **Signature:** [the one element unique to this product]
@@ -135,6 +157,19 @@ Write to two places:
 **Feel:** [intent statement]
 **Domain concepts:** [5+ from exploration]
 **Rejected defaults:** [3 things you chose NOT to do]
+
+## Information Architecture
+**Navigation:** [type] — [items, 5-8 max]
+**Excluded from nav:** [what was cut, where it lives instead]
+
+| Screen | Focal Point | Above the Fold | One Click | Deep |
+|--------|-------------|----------------|-----------|------|
+| [screen] | [one element] | [2-4 items] | [behind tab/drawer] | [behind nav/search] |
+
+**Content depth rules:**
+- Surface: [what qualifies — tied to task frequency]
+- One click: [what qualifies]
+- Deep: [what qualifies]
 
 ## Tokens
 **Spacing base:** [4px]

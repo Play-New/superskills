@@ -27,7 +27,7 @@ This activates the plugin only in that project. Hooks, commands, and skills stay
 
 To update: `/plugin marketplace update superskills`
 
-Run `/super:start` — five questions (who's it for, who uses it, what they need, what's needed to deliver it, what exists already), then folder scan, web research, and EIID mapping. The plugin deduces the rest: value chain, evolution, strategic classification. Or run `/super:scan` to skip the questions — it reads everything in the folder and tells you what the project could become.
+Run `/super:strategy` — it scans the folder, detects the stack, asks five questions (who's it for, who uses it, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
 
 From that point: the secrets guard watches file writes, skills advise during planning, commands audit specific domains, and findings accumulate in `.superskills/`.
 
@@ -35,14 +35,9 @@ From that point: the secrets guard watches file writes, skills advise during pla
 
 | Command | Does |
 |---------|------|
-| `/super:start` | Full assessment, web research, EIID mapping, writes CLAUDE.md |
-| `/super:scan` | Read everything, see it through EIID eyes, write what it could become |
-| `/super:review` | Full audit: tests, trust, strategy, design, performance |
-| `/super:strategy` | Alignment check against EIID, scope creep detection, opportunity scan |
-| `/super:trust` | OWASP Top 10, GDPR, secrets scan, auth verification |
-| `/super:design` | Design system with craft: intent-first init, token enforcement, consistency audit |
-| `/super:test` | vitest + Playwright, blocks on failure |
-| `/super:performance` | Bundle size, Core Web Vitals, N+1 queries, API costs |
+| `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities — or alignment review and opportunity scan |
+| `/super:design` | Design system with craft: intent-first init, information architecture, token enforcement, consistency audit |
+| `/super:review` | Full quality audit: tests, security, strategy alignment, design consistency, performance |
 
 Each command detects whether setup has been done. First run configures. After that, it audits.
 
@@ -62,9 +57,9 @@ One hook fires automatically:
 
 Two skills fire during planning:
 - **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
-- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, and new variants when existing patterns fit.
+- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, new variants when existing patterns fit, and changes that violate the documented information architecture (navigation budget, focal points, content depth tiers).
 
-Design token enforcement and test running are on-demand: `/super:design` audits tokens, `/super:test` runs the suite. They don't fire automatically because Stop hooks add latency and noise to every session.
+Design token enforcement and test running are on-demand: `/super:design` audits tokens, `/super:review` runs the full suite. They don't fire automatically because Stop hooks add latency and noise to every session.
 
 ## What blocks
 
@@ -121,7 +116,7 @@ Dashboards are configuration surfaces, not discovery tools. The product should g
 
 ## The value chain
 
-`/super:start` asks five questions: who's it for, who uses it, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
+`/super:strategy` scans the folder, detects the stack, and asks five questions: who's it for, who uses it, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
 
 This produces a chain of dependencies from user need down to infrastructure. Every component in the system exists because something above it requires it. If you can't trace a component back to the user need, it shouldn't be there.
 
@@ -137,7 +132,7 @@ Three types of constraints determine where to focus:
 
 **Coordination components** connect systems, teams, or data sources in ways that were previously too expensive. A CRM, an ERP, and a supplier portal in a single inference pipeline used to require a year-long integration project. Now it's a configuration problem. New value emerges where these connections create insights nobody had before.
 
-When `/super:start` maps a project, it classifies each component:
+When `/super:strategy` maps a project, it classifies each component:
 
 **Automate.** Commodity. Don't build what you can buy.
 
@@ -147,11 +142,24 @@ When `/super:start` maps a project, it classifies each component:
 
 ## Review
 
-`/super:review` runs all audits on the full project: tests, trust, strategy, design, performance. Tests run first — auditing broken code wastes time. If agent teams are available, the remaining four audits run in parallel. Otherwise, they run in order.
+`/super:review` runs all audits on the full project: tests, security, strategy alignment, design consistency, performance. Tests run first — auditing broken code wastes time. If tests fail, it asks whether to continue with the remaining audits or stop. If agent teams are available, the remaining four audits run in parallel. Otherwise, they run in order.
+
+The review covers:
+- **Tests:** vitest + Playwright setup (if missing) and full suite run
+- **Security:** OWASP Top 10, GDPR (6 checks), secrets scan, stack-adaptive checks (Supabase RLS, Vercel env vars, Inngest signing keys, Next.js Server Actions)
+- **Strategy:** EIID alignment per file, scope creep detection, 11-question opportunity scan
+- **Design:** accessibility (WCAG 2.1 AA, 8 checks), cross-file consistency, craft advisory (name test, swap test, composition, atmosphere, motion)
+- **Performance:** bundle analysis, Core Web Vitals, N+1 queries, API costs, stack-adaptive checks
 
 ## Design rules
 
 The design skill adapts to the project's UI framework. It detects what's installed and applies the right rules.
+
+**Information architecture** (init mode, before any visual decisions):
+- Core objects: 3-6 things users care about, each mapping to a nav destination
+- Navigation budget: 5-8 items for sidebar, 3-5 for top bar, everything else nests or goes to settings
+- Screen map with one focal point per screen and 2-4 elements above the fold
+- Content depth tiers: surface (daily), one click (weekly), deep (monthly) — every feature belongs to exactly one tier
 
 **Universal rules** (always enforced, any framework):
 - WCAG 2.1 AA: 4.5:1 contrast, focus states, alt text, form labels, 44x44px touch targets
@@ -169,7 +177,7 @@ If no framework is detected, only universal rules apply.
 
 ## Stack
 
-`/super:start` recommends a stack for new projects based on what the EIID mapping needs. For existing projects, it detects what's installed and adapts.
+`/super:strategy` recommends a stack for new projects based on what the EIID mapping needs. For existing projects, it detects what's installed and adapts.
 
 Five infrastructure roles to fill:
 
@@ -193,14 +201,9 @@ superskills/                             the plugin
 ├── .githooks/
 │   └── pre-commit                      auto-version on commit
 ├── commands/
-│   ├── start.md                         full assessment entry point
-│   ├── scan.md                          EIID analysis (no questions)
-│   ├── review.md                        parallel audit (agent teams)
-│   ├── strategy.md
-│   ├── trust.md
-│   ├── design.md
-│   ├── test.md
-│   └── performance.md
+│   ├── strategy.md                     entry point: assessment, EIID, priorities
+│   ├── design.md                       design system with craft
+│   └── review.md                       full quality audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          auto-invoked during planning
 │   └── design-awareness/SKILL.md        auto-invoked during planning
@@ -227,7 +230,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + tokens + patterns
 ```
 
-20 markdown files, 3 JSON in the plugin. Commands under 3K tokens each. Reference files show what the output looks like and how to execute craft.
+3 commands, 2 skills, 1 agent, 1 hook. 15 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
 
 ## References
 

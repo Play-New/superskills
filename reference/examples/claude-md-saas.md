@@ -55,4 +55,5 @@ Use pnpm, NOT npm, yarn, bun.
 **Style:** Nova (compact, data-heavy)
 **Token source:** globals.css (OKLCH)
 **Direction:** Dense and operational — tight spacing, monospace data, slate palette with amber alerts
+**Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports
 **Typography:** IBM Plex Mono (data) + Geist (body)

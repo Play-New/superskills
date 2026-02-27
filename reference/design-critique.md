@@ -13,6 +13,16 @@ Rhythm, proportion, focal points.
 
 Uniform spacing and equal-weight elements are the signature of undesigned interfaces. Varying density communicates importance.
 
+### Information Architecture
+
+Five checks for structure before style:
+
+1. **Navigation budget:** Count top-level items. More than 8 means hierarchy was skipped. Check: could any items merge or nest? Are labels specific to this product or could they belong to anything?
+2. **Focal point test:** Per screen, identify the single element with most visual weight. If two elements compete (same size, color intensity, position), the screen has no hierarchy.
+3. **Primary/secondary/tertiary split:** Primary = focal point + main action. Secondary = supporting data, context. Tertiary = metadata, timestamps, IDs. If everything reads at the same level, the split was never made.
+4. **Trade-off test:** For every surface element, ask: would removing this and putting it behind a tab or drawer hurt the core task? If not, it should move. Every visible element costs attention from every other visible element.
+5. **Frequency match:** Things the user does every session belong on the surface. Weekly tasks go one click deep. Monthly tasks go behind navigation. If a monthly task sits on the surface, it's stealing attention from daily work.
+
 ## 2. Craft
 
 Micro-decisions that separate designed from generated.
