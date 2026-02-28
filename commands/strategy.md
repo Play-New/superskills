@@ -87,25 +87,23 @@ From the folder scan, stack detection, user context, and research, build the val
 
 ### 6. Stack Recommendation
 
-For existing projects: confirm detected stack and adapt recommendations. Do not suggest replacing what's already installed unless it's fundamentally unable to fill its role.
+For new projects:
 
-For new projects, recommend tools that fill these roles. Search for current options in each category. Prioritize managed services that reduce operational overhead.
+| Always | Role |
+|--------|------|
+| Supabase | Database, auth, storage, embeddings |
+| Vercel | Hosting, edge functions |
+| Inngest | Workflows, cron, retry |
+| Next.js | Frontend, Server Components default |
+| shadcn + Tailwind | UI components and styling |
 
-| Role | Responsibility | Selection criteria |
-|------|---|---|
-| Database + auth | Data storage, row-level security, auth, realtime | Managed, RLS capable, auth built-in or integrated |
-| Hosting | Deployment, edge functions, preview environments | Edge-capable, preview deploys, CI/CD integration |
-| Workflows | Scheduled jobs, event-driven pipelines, retry | Durable execution, cron, retry with backoff |
-| Frontend | Server rendering, streaming, routing | SSR/SSG capable, streaming support |
-| UI components | Component library, design tokens, styling | Registry-based, token-driven, accessible by default |
+| Conditional | When |
+|-------------|------|
+| Brevo | Email/SMS/WhatsApp delivery |
+| Telegram/Slack/Discord SDK | Messaging delivery |
+| Apify/Supermemory/Playwright | Enrichment, scraping |
 
-Conditional roles (add when the EIID mapping calls for them):
-
-| Role | When needed |
-|------|---|
-| Email/SMS/messaging delivery | Delivery layer includes push channels |
-| Scraping/enrichment tools | Enrichment layer needs external data sources |
-| Vector storage/embeddings | Inference layer uses semantic search or similarity |
+For existing projects, confirm detected stack and adapt recommendations.
 
 ### 7. Set Priorities
 
