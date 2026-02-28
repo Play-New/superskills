@@ -13,5 +13,10 @@ When planning changes to the codebase:
 5. **Delivery check:** does this reach the user where they already are, or does it require context-switching?
 6. **Profile check:** does the Project Profile flag any recurring patterns relevant to this change? (e.g., "new API routes tend to lack auth checks" — remind about auth if adding a route.)
 7. Surface missed opportunities from the 11-question scan only when clearly relevant to the current change.
+8. **Staleness nudge:** compare CLAUDE.md against the actual codebase. If any of these are true, suggest "CLAUDE.md may be stale. Consider running `/super:strategy` to refresh it."
+   - Dependencies in package.json not reflected in the Stack or Technology Constraints section (3+ untracked deps)
+   - Source files that don't map to any documented EIID layer (5+ unmapped files)
+   - EIID layers documented but empty in the codebase, or developed in code but missing from CLAUDE.md
+   - A component's approach has shifted (e.g., classified as "innovate" but commodity alternatives now exist, or classified as "automate" but was custom-built)
 
 One line per observation. Only when relevant. Not blocking. Brief.

@@ -145,25 +145,24 @@ Create or update CLAUDE.md:
 **Have:** [sources already connected]
 **Missing:** [gaps to fill]
 **Connect:** [systems to integrate]
+**Approach:** [automate / differentiate / innovate — per component]
 
 ### Inference (patterns)
 **Detect:** [what to spot]
 **Predict:** [what to forecast]
 **Flag:** [anomalies to catch]
+**Approach:** [automate / differentiate / innovate — per component]
 
 ### Interpretation (insights)
 **Surface:** [what to tell the user]
 **Frame as:** [comparison, trend, explanation, recommendation]
+**Approach:** [automate / differentiate / innovate — per component]
 
 ### Delivery (reach)
 **Channels:** [where the user already is]
 **Triggers:** [when to send]
 **Timing:** [optimal moment]
-
-## Build or Buy
-**Buy:** [commodity — don't build what you can buy]
-**Enhance:** [needs human judgment — give them better information]
-**Build:** [new connections — this is where value is created]
+**Approach:** [automate / differentiate / innovate — per component]
 
 ## Technology Constraints
 [detected constraints, one per line: "Use X, NOT Y, Z."]
@@ -182,7 +181,7 @@ Create or update CLAUDE.md:
 
 ### 9. Write .superskills/
 
-Create `.superskills/` directory with two files:
+Create `.superskills/` directory. Step 7 already created `.superskills/decisions.md` with the first architecture decision. Create the remaining file:
 
 **`.superskills/report.md`** — volatile findings, replaced on each audit:
 ```
@@ -208,13 +207,6 @@ Create `.superskills/` directory with two files:
 **EIID Balance:** [which layers have the most code, which are underdeveloped]
 **Recurring Patterns:** none yet
 **Learned:** none yet
-```
-
-**`.superskills/decisions.md`** — architecture decisions log, append-only:
-```
-# Architecture Decisions
-
-[empty — populated by /super:strategy]
 ```
 
 Add `.superskills/` to the project's `.gitignore` suggestion list. The user decides whether to track it.
@@ -260,6 +252,18 @@ Check each item against the codebase. Answer yes or no. If yes, describe the opp
 9. Any channel the users frequent that the system does not reach?
 10. Any timing improvement (deliver sooner, deliver at the right moment)?
 11. Any trigger condition that would catch events currently missed?
+
+### CLAUDE.md Refresh
+
+After the alignment check and opportunity scan, compare CLAUDE.md against the actual codebase. Check for drift:
+
+1. **Stack:** read package.json. Are there dependencies not reflected in the Stack section? Are documented tools no longer installed? Update the Stack section and regenerate Technology Constraints.
+2. **EIID mapping:** are there EIID layers documented but empty in code, or developed in code but missing from the mapping? Has a component's approach changed (e.g., something classified as "innovate" is now commodity, or "automate" was custom-built instead)? Update the mapping to reflect what actually exists.
+3. **User/Business:** if the alignment check or opportunity scan revealed a shift in user need or business context, flag it. Do not auto-update these sections without user confirmation.
+
+If drift is found in 1-2: show the proposed CLAUDE.md changes, get user confirmation, then apply. If drift is found in 3: flag it and ask the user.
+
+If no drift is found, skip this step.
 
 ### Output
 

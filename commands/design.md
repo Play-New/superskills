@@ -1,6 +1,6 @@
 ---
 description: Design system with craft. First run explores the product, chooses a direction, generates tokens. After that, audits consistency, tokens, accessibility, and craft.
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebFetch, WebSearch
 ---
 
 # Design
@@ -30,7 +30,7 @@ If none detected, ask the user. Suggest shadcn + Tailwind for new projects — b
 
 ### 2. Explore the Product's World
 
-Read CLAUDE.md for business context. Before choosing any visual direction, explore:
+Read CLAUDE.md for business context and EIID mapping. Before choosing any visual direction, explore:
 
 **Who opens this interface?** Not "users" — the actual person. Where are they? What's on their mind? A teacher at 7am with coffee is not a developer debugging at midnight.
 
@@ -53,7 +53,44 @@ Also consider:
 
 Do not propose a direction until all four items above are produced.
 
-### 3. Define Information Architecture
+### 3. Direction Assessment
+
+Present findings from step 2 to the user. Then collect input in a single block. The user answers what they want, skips what they don't.
+
+**References:**
+"Any visual references? URLs of sites you admire, screenshots, Figma files, brand names. Even from different domains, as long as something about them feels right for this product."
+
+For each reference provided:
+- URLs: fetch the page, analyze layout density, palette, typography, spacing rhythm, atmosphere, navigation pattern
+- Screenshots/images: view the image, same analysis
+- Figma URLs: get design context via Figma tools, same analysis
+- Brand names: search for the brand's visual identity, then analyze
+
+**Anti-references:**
+"Anything you've seen and actively don't want? Sites, styles, or patterns that would be wrong here."
+
+**Existing assets:**
+"Any brand material? Logo, colors, fonts, illustration style, tone guide. Even a rough sketch."
+
+For existing assets: analyze and incorporate as constraints. Brand colors become the palette foundation. Brand fonts skip the typography selection step. A logo's character informs the direction.
+
+**Direction check:**
+"Step 2 produced this direction: [summary]. Does this match? Anything to push further, pull back, or change entirely?"
+
+**Constraints:**
+"Hard constraints? Required colors, mandated fonts, accessibility targets beyond AA, platform requirements."
+
+Process all inputs. For each reference and anti-reference, extract concrete patterns:
+- What to borrow: specific and named ("the tight sidebar density from Linear", "the amber-on-dark palette from that dashboard screenshot")
+- What to avoid: specific and named ("the generic card grid from that SaaS site", "the low-contrast gray text")
+
+Produce a reference summary: 3-7 distilled patterns across all references. Not "modern and clean" but "tight 8px grid, monochrome surfaces, single accent color for CTAs, generous whitespace between sections."
+
+Revise the direction from step 2 based on assessment answers. If the user provided nothing, proceed with step 2's direction as-is.
+
+Store the reference summary in `.superskills/design-system.md` under a References section.
+
+### 4. Define Information Architecture
 
 Before any visual decisions, define the structure of the product. Screen hierarchy determines density. Density determines typography and spacing. Skipping this step produces interfaces where everything has equal weight.
 
@@ -83,7 +120,7 @@ Each feature, metric, or action belongs to exactly one tier. No tier overflow: i
 
 Do not proceed to style direction until IA is defined and confirmed. Screen structure determines density, which determines typography and spacing.
 
-### 4. Choose Style Direction
+### 5. Choose Style Direction
 
 For shadcn projects, run `npx shadcn@latest init` to see available styles. Pick the one that matches the product's character from step 2. The style determines spacing rhythm, border radius, and component density. Present the recommendation to the user with reasoning.
 
@@ -94,17 +131,19 @@ Three dimensions to decide:
 
 For non-shadcn projects, skip this step — the equivalent decisions are encoded directly in the theme file.
 
-### 5. Choose Typography
+### 6. Choose Typography
 
-Pick a display font + body font pairing that matches the direction. Ask the user if they have brand fonts first. If they do, use those.
+Ask the user if they have brand fonts first. If they do, use those.
 
-If not, search for fonts that match the direction. Browse foundries (Google Fonts, Fontshare, Atipo) for options. Choose based on the product's character, not popularity.
+If not, pick a display font + body font pairing that matches the direction. Read `reference/design-craft.md` for the Typography Character section. Search for fonts that match the direction. Browse foundries (Google Fonts, Fontshare, Atipo, fonts.bunny.net) for options. Choose based on the product's character, not popularity.
 
 **The default test:** if the font is what the framework installs by default, or what most AI-generated projects use, it's not a design decision. Choose intentionally. A fleet management dashboard and a children's reading app should not share the same typeface.
 
 Pick two: one display font (headings, hero text) and one body font (paragraphs, UI labels). They should contrast in character but share similar x-height.
 
-### 6. Generate Token Layer
+If references from step 3 included typography patterns, use them as starting points.
+
+### 7. Generate Token Layer
 
 All aesthetic choices become design tokens. No creative decision lives in component code.
 
@@ -137,7 +176,7 @@ If no existing UI code is found, skip extraction and propose tokens from the dir
 
 **Key rule:** the token file IS the aesthetic. Strip all components and rebuild from tokens alone — the product should still look the same.
 
-### 7. Write Design Configuration
+### 8. Write Design Configuration
 
 Read `reference/examples/design-system-saas.md` for tone and structure. Match that level of specificity — concrete values, rationale for each decision, measurement table populated from the start.
 
@@ -166,6 +205,11 @@ Write to two places:
 **Feel:** [intent statement]
 **Domain concepts:** [5+ from exploration]
 **Rejected defaults:** [3 things you chose NOT to do]
+
+## References
+**Borrowed:** [specific patterns from references: "tight sidebar density from Linear", "amber-on-dark from the dashboard screenshot"]
+**Avoided:** [specific anti-patterns: "generic card grid", "low-contrast body text"]
+**Assets:** [brand materials incorporated: "logo uses geometric sans, informed display font choice"]
 
 ## Information Architecture
 **Navigation:** [type] — [items, 5-8 max]
@@ -204,6 +248,8 @@ Write to two places:
 ## Review Mode
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Token compliance and component discovery are handled by the hook and skill respectively. Review focuses on what automation cannot catch.
+
+Read `reference/design-critique.md` for the full critique framework. Start with layer 0 (strategic alignment), then work through all five layers.
 
 ### Accessibility (blocking)
 
@@ -253,21 +299,7 @@ Compare across all component files:
 
 ### Craft (advisory)
 
-Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply the four critique layers:
-
-**Composition:** does the layout have rhythm, proportion, and focal points? Or is spacing uniform and everything equal weight?
-
-**Craft:** are surfaces subtly layered (2-5% lightness shifts, low-opacity borders)? Do all interactive elements have hover, focus, active, disabled states? Is typography hierarchy visible without color?
-
-**Content:** does placeholder data feel real? Do labels and headings speak the same voice? Are empty states designed?
-
-**Structure:** are there CSS workarounds (negative margins, calc for basic spacing, absolute positioning for layout, !important, magic numbers)? These signal incomplete structure.
-
-Then run these identity tests:
-
-**The name test:** describe the UI to someone who cannot see it. If it sounds generic, the design lacks identity.
-
-**The swap test:** swap the typeface for a default. Swap the layout for a template. Where it wouldn't matter = where you defaulted.
+Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply all five critique layers (0 through 4), then run the identity tests from layer 5.
 
 Flag craft issues as suggestions, not violations.
 

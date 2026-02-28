@@ -17,25 +17,24 @@ Next.js 15 (App Router), Supabase (database + auth + realtime), Inngest (schedul
 **Have:** Telematics API (GPS, fuel, mileage), maintenance records in Supabase
 **Missing:** Weather data for route conditions, tire pressure from OBD-II
 **Connect:** Telematics API polling every 5 min via Inngest cron
+**Approach:** Automate — telematics polling is commodity (Inngest cron). Weather API is commodity (public APIs). OBD-II integration is differentiate (hardware-dependent, needs fleet manager input on which vehicles).
 
 ### Inference (patterns)
 **Detect:** Vehicles deviating >15% from fuel efficiency baseline
 **Predict:** Maintenance window based on mileage + last service + vehicle age
 **Flag:** Idle time anomalies (vehicle stationary during work hours)
+**Approach:** Innovate — cross-source correlation (telematics + maintenance + weather = predictive insight). No off-the-shelf product does this for mid-market fleets.
 
 ### Interpretation (insights)
 **Surface:** "Vehicle DE-4521 is 800km from next service and fuel efficiency dropped 18% this week"
 **Frame as:** Comparison to fleet average + trend over 4 weeks + recommended action
+**Approach:** Differentiate — maintenance scheduling needs fleet manager judgment on priority. System provides data, human decides.
 
 ### Delivery (reach)
 **Channels:** Dashboard (primary), WhatsApp (urgent), email (weekly digest)
 **Triggers:** Efficiency drop > 10%, maintenance window < 500km, idle > 2h
 **Timing:** WhatsApp alerts during business hours only (7-19 CET)
-
-## Build or Buy
-**Buy:** Auth (Supabase Auth), hosting (Vercel), email delivery (Brevo)
-**Enhance:** Maintenance scheduling — fleet manager decides priority, system provides data
-**Build:** Cross-source correlation (telematics + maintenance + weather = predictive insight)
+**Approach:** Automate — auth (Supabase Auth), hosting (Vercel), email delivery (Brevo), WhatsApp delivery (Brevo). All commodity.
 
 ## Technology Constraints
 Use Supabase, NOT Firebase, AWS Amplify.

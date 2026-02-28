@@ -29,14 +29,15 @@ To update: `/plugin marketplace update superskills`
 
 Run `/super:strategy` — it scans the folder, detects the stack, asks five questions (who's it for, who uses it, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
 
-From that point: the secrets guard watches file writes, skills advise during planning, commands audit specific domains, and findings accumulate in `.superskills/`.
+From that point: the secrets guard watches file writes, skills advise during planning (and nudge when files are stale), commands audit specific domains, and findings accumulate in `.superskills/`.
 
 ## Commands
 
 | Command | Does |
 |---------|------|
-| `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities — or alignment review and opportunity scan |
-| `/super:design` | Design system with craft: intent-first init, information architecture, token enforcement, consistency audit |
+| `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities — or alignment review, opportunity scan, and CLAUDE.md refresh |
+| `/super:design` | Design system with craft: direction assessment (references, assets, constraints), information architecture, token enforcement, consistency audit |
+| `/super:redesign` | Single-screen craft improvement: strategic critique, reference-informed proposals, implementation |
 | `/super:review` | Full quality audit: tests, security, strategy alignment, design consistency, performance |
 
 Each command detects whether setup has been done. First run configures. After that, it audits.
@@ -56,8 +57,8 @@ One hook fires automatically:
 ```
 
 Two skills fire during planning:
-- **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer.
-- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, new variants when existing patterns fit, and changes that violate the documented information architecture (navigation budget, focal points, content depth tiers).
+- **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer. Nudges toward `/super:strategy` when CLAUDE.md is stale (untracked deps, unmapped files, shifted approaches).
+- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, new variants when existing patterns fit, and changes that violate the documented information architecture. Nudges toward `/super:design` or `/super:redesign` when the component patterns table falls behind the codebase.
 
 Design token enforcement and test running are on-demand: `/super:design` audits tokens, `/super:review` runs the full suite. They don't fire automatically because Stop hooks add latency and noise to every session.
 
@@ -69,12 +70,12 @@ Design token enforcement and test running are on-demand: `/super:design` audits 
 
 Two concerns, two places.
 
-**CLAUDE.md** contains stable project instructions: context, stack, EIID mapping, strategic classification, technology constraints, design system config. It changes rarely. Claude reads it at session start to understand the project. Target: under 100 lines.
+**CLAUDE.md** contains stable project instructions: context, stack, EIID mapping with strategic approach per layer, technology constraints, design system config. It changes rarely — updated by `/super:strategy` (init or review refresh) and `/super:design` (Design System section). Claude reads it at session start to understand the project. Target: under 100 lines.
 
 **`.superskills/`** contains volatile findings:
 - `report.md` — security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
-- `decisions.md` — architecture decisions log. Append-only.
-- `design-system.md` — design direction, tokens, component patterns. Updated as the system evolves.
+- `decisions.md` — architecture decisions log. Append-only. Updated by `/super:strategy` review, `/super:review`, and `/super:redesign`.
+- `design-system.md` — design direction, references, tokens, component patterns. Updated by `/super:design` and `/super:redesign` as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This follows the same pattern as Anthropic's code-review plugin (reads CLAUDE.md, writes findings elsewhere) and Trail of Bits skills (standalone report files).
 
@@ -124,21 +125,47 @@ This produces a chain of dependencies from user need down to infrastructure. Eve
 
 Components evolve. What was novel becomes custom, then product, then commodity. A churn prediction model that took a data science team six months is now an API call. The compute is cheap. The hard part is knowing what questions to ask.
 
-Three types of constraints determine where to focus:
+Each EIID layer carries a strategic approach:
 
-**Commodity components** are well-understood, with multiple interchangeable providers. Building these in-house is waste. Use utilities, APIs, existing services. Authentication, storage, email delivery, basic analytics — don't build what you can buy.
+**Automate.** Commodity components with multiple interchangeable providers. Authentication, storage, email delivery, basic analytics. Don't build what you can buy.
 
-**Judgment components** require human decision-making with real consequences. AI cannot own outcomes. A system can flag that a customer is likely to churn, but deciding whether to offer a 20% discount or call the CEO requires someone who understands the relationship and is willing to be wrong. These components need better information flowing to the human, not automation replacing them.
+**Differentiate.** Components requiring human judgment with real consequences. A system can flag that a customer is likely to churn, but deciding whether to offer a 20% discount or call the CEO requires someone who understands the relationship. These components need better information flowing to the human, not automation replacing them.
 
-**Coordination components** connect systems, teams, or data sources in ways that were previously too expensive. A CRM, an ERP, and a supplier portal in a single inference pipeline used to require a year-long integration project. Now it's a configuration problem. New value emerges where these connections create insights nobody had before.
+**Innovate.** New connections between systems, teams, or data sources that were previously too expensive. A CRM, an ERP, and a supplier portal in a single inference pipeline used to require a year-long integration project. Now it's a configuration problem. New value emerges where these connections create insights nobody had before.
 
-When `/super:strategy` maps a project, it classifies each component:
+The approach lives inside each EIID layer, not in a separate section, because the same layer can contain components at different evolution stages. A fleet app's enrichment layer might automate telematics polling (commodity) while differentiating OBD-II integration (hardware-dependent, needs fleet manager input).
 
-**Automate.** Commodity. Don't build what you can buy.
+## Design
 
-**Differentiate.** Judgment required. Enhance with better information.
+`/super:design` handles the full design lifecycle. Init mode explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, and generates a token-based design system. Review mode audits consistency, accessibility, and craft.
 
-**Innovate.** New coordination. Build it — this is where value is created.
+`/super:redesign` takes a single screen and improves it. It runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, proposes changes tied to strategy or craft principles, and implements approved changes.
+
+The design critique starts from strategy. The element with the most visual weight on each screen should map to the highest-value EIID layer. Interpretation and delivery outputs dominate. Enrichment configuration stays buried. A beautiful interface that misaligns with the value chain is a failure.
+
+**Information architecture** (init mode, before any visual decisions):
+- Core objects: 3-6 things users care about, each mapping to a nav destination
+- Navigation budget: 5-8 items for sidebar, 3-5 for top bar, everything else nests or goes to settings
+- Screen map with one focal point per screen and 2-4 elements above the fold
+- Content depth tiers: surface (daily), one click (weekly), deep (monthly) — every feature belongs to exactly one tier
+
+**Direction assessment** (init mode, after product exploration):
+- References: URLs, screenshots, Figma files, brand names — analyzed for applicable patterns
+- Anti-references: things to explicitly avoid
+- Existing assets: brand materials that constrain choices
+- User confirmation of the proposed direction
+
+**Universal rules** (always enforced, any framework):
+- WCAG 2.1 AA: 4.5:1 contrast, focus states, alt text, form labels, 44x44px touch targets
+- `cursor-pointer` on all clickable elements
+- Responsive: works at 320px, consistent breakpoints
+
+**Framework-specific rules** (adapted to detected stack):
+- Component-library projects: search existing registries before building custom, use semantic tokens, follow the framework's conventions
+- CSS-utility projects: utility classes only, no arbitrary values, no custom CSS classes
+- Component frameworks: use the framework's API, theme overrides in the theme file
+
+If no framework is detected, only universal rules apply.
 
 ## Review
 
@@ -148,32 +175,8 @@ The review covers:
 - **Tests:** vitest + Playwright setup (if missing) and full suite run
 - **Security:** OWASP Top 10, GDPR (6 checks), secrets scan, stack-adaptive checks (Supabase RLS, Vercel env vars, Inngest signing keys, Next.js Server Actions)
 - **Strategy:** EIID alignment per file, scope creep detection, 11-question opportunity scan
-- **Design:** accessibility (WCAG 2.1 AA, 8 checks), information architecture (nav budget, focal points, content depth, screen coverage), cross-file consistency, craft advisory (name test, swap test, composition, atmosphere, motion)
+- **Design:** accessibility (WCAG 2.1 AA, 8 checks), information architecture review, cross-file consistency, craft advisory (six-layer critique)
 - **Performance:** bundle analysis, Core Web Vitals, N+1 queries, API costs, stack-adaptive checks
-
-## Design rules
-
-The design skill adapts to the project's UI framework. It detects what's installed and applies the right rules.
-
-**Information architecture** (init mode, before any visual decisions):
-- Core objects: 3-6 things users care about, each mapping to a nav destination
-- Navigation budget: 5-8 items for sidebar, 3-5 for top bar, everything else nests or goes to settings
-- Screen map with one focal point per screen and 2-4 elements above the fold
-- Content depth tiers: surface (daily), one click (weekly), deep (monthly) — every feature belongs to exactly one tier
-
-**Universal rules** (always enforced, any framework):
-- WCAG 2.1 AA: 4.5:1 contrast, focus states, alt text, form labels, 44x44px touch targets
-- `cursor-pointer` on all clickable elements
-- Responsive: works at 320px, consistent breakpoints
-
-Token compliance (no hardcoded colors, fonts, arbitrary values in UI files) is enforced by the token guard hook, not the design review.
-
-**Framework-specific rules** (adapted to detected stack):
-- Component-library projects: search existing registries before building custom, use semantic tokens, follow the framework's conventions
-- CSS-utility projects: utility classes only, no arbitrary values, no custom CSS classes
-- Component frameworks: use the framework's API, theme overrides in the theme file
-
-If no framework is detected, only universal rules apply.
 
 ## Stack
 
@@ -203,6 +206,7 @@ superskills/                             the plugin
 ├── commands/
 │   ├── strategy.md                     entry point: assessment, EIID, priorities
 │   ├── design.md                       design system with craft
+│   ├── redesign.md                     single-screen craft improvement
 │   └── review.md                       full quality audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          auto-invoked during planning
@@ -214,8 +218,8 @@ superskills/                             the plugin
 │   ├── claude-md-template.md            CLAUDE.md blank structure
 │   ├── design-system-template.md        design-system.md blank structure
 │   ├── decisions-template.md            decisions.md blank structure
-│   ├── design-critique.md              4-layer critique framework
-│   ├── design-craft.md                 subtle layering, motion, atmosphere, color
+│   ├── design-critique.md              6-layer critique (strategic alignment through identity)
+│   ├── design-craft.md                 direction, spatial composition, typography, identity, layering, atmosphere, motion, color
 │   └── examples/
 │       ├── claude-md-saas.md            filled example (fleet management SaaS)
 │       ├── design-system-saas.md        filled example (Nova style, dense data)
@@ -227,10 +231,10 @@ your-project/                            what gets generated
 └── .superskills/
     ├── report.md                        volatile findings (replaced each audit)
     ├── decisions.md                     architecture log (append-only)
-    └── design-system.md                 design direction + tokens + patterns
+    └── design-system.md                 design direction + references + tokens + patterns
 ```
 
-3 commands, 2 skills, 1 agent, 1 hook. 15 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
+4 commands, 2 skills, 1 agent, 1 hook. 16 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
 
 ## References
 
