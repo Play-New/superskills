@@ -87,10 +87,12 @@ From the folder scan, stack detection, user context, and research, build the val
 
 ### 6. Stack Recommendation
 
-For new projects:
+For existing projects, confirm detected stack and adapt recommendations.
 
-| Always | Role |
-|--------|------|
+For new projects, suggest this stack as a starting point. The user may choose differently.
+
+| Suggested | Role |
+|-----------|------|
 | Supabase | Database, auth, storage, embeddings |
 | Vercel | Hosting, edge functions |
 | Inngest | Workflows, cron, retry |
@@ -103,7 +105,7 @@ For new projects:
 | Telegram/Slack/Discord SDK | Messaging delivery |
 | Apify/Supermemory/Playwright | Enrichment, scraping |
 
-For existing projects, confirm detected stack and adapt recommendations.
+If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
 
 ### 7. Set Priorities
 
