@@ -217,6 +217,15 @@ WCAG 2.1 AA:
 7. Keyboard navigation: all interactive elements reachable via tab
 8. `cursor-pointer` on all clickable elements
 
+### Information Architecture (blocking if widespread)
+
+Read `.superskills/design-system.md` for the IA section. If no IA is documented, skip.
+
+1. **Navigation budget:** count navigation items in the actual code (sidebar, top bar, tab bar). Compare against the documented budget. Flag items that exist in code but not in the documented nav, and documented items missing from code.
+2. **Focal point:** for each primary screen, identify the element with the most visual weight (size, contrast, position). Compare against the documented focal point. If a different element dominates, flag it.
+3. **Content depth:** check that elements are at the correct tier. Surface items (documented as "multiple times daily") should be visible without interaction. One-click items should be behind a tab, drawer, or expand. Deep items should be behind navigation or settings. Flag tier violations: enrichment config visible on the surface, or delivery outputs buried deep.
+4. **Screen coverage:** compare implemented screens against the documented screen map. Flag undocumented screens (code exists, no IA entry) and unimplemented screens (IA entry exists, no code).
+
 ### Cross-File Consistency (blocking if widespread)
 
 Compare across all component files:
