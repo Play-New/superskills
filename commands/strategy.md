@@ -103,7 +103,7 @@ For new projects, suggest this stack as a starting point. The user may choose di
 |-------------|------|
 | Brevo | Email/SMS/WhatsApp delivery |
 | Telegram/Slack/Discord SDK | Messaging delivery |
-| Apify/Supermemory/Playwright | Enrichment, scraping |
+| Apify/Playwright | Enrichment, scraping |
 
 If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
 
