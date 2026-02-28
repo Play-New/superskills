@@ -101,7 +101,8 @@ For new projects, suggest this stack as a starting point. The user may choose di
 
 | Conditional | When |
 |-------------|------|
-| Brevo | Email/SMS/WhatsApp delivery |
+| Brevo | Email/SMS delivery |
+| Baileys | WhatsApp delivery |
 | Telegram/Slack/Discord SDK | Messaging delivery |
 | Apify/Playwright | Enrichment, scraping |
 
