@@ -148,7 +148,7 @@ The review covers:
 - **Tests:** vitest + Playwright setup (if missing) and full suite run
 - **Security:** OWASP Top 10, GDPR (6 checks), secrets scan, stack-adaptive checks (Supabase RLS, Vercel env vars, Inngest signing keys, Next.js Server Actions)
 - **Strategy:** EIID alignment per file, scope creep detection, 11-question opportunity scan
-- **Design:** accessibility (WCAG 2.1 AA, 8 checks), cross-file consistency, craft advisory (name test, swap test, composition, atmosphere, motion)
+- **Design:** accessibility (WCAG 2.1 AA, 8 checks), information architecture (nav budget, focal points, content depth, screen coverage), cross-file consistency, craft advisory (name test, swap test, composition, atmosphere, motion)
 - **Performance:** bundle analysis, Core Web Vitals, N+1 queries, API costs, stack-adaptive checks
 
 ## Design rules
