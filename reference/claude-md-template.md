@@ -47,7 +47,7 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 [detected constraints, one per line: "Use X, NOT Y, Z."]
 
 ## Code Architecture
-- No source file over 200 lines. Split by responsibility.
+- Split files by responsibility, not by line count. If a file does two things, split it. If it does one thing in 300 lines, leave it.
 - One component per file. One utility per file.
 - Colocation: tests next to source, types next to usage.
 - Prefer composition over inheritance.

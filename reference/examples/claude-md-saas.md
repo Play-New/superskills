@@ -43,7 +43,7 @@ Use Tailwind CSS, NOT styled-components, Emotion.
 Use pnpm, NOT npm, yarn, bun.
 
 ## Code Architecture
-- No source file over 200 lines. Split by responsibility.
+- Split files by responsibility, not by line count. If a file does two things, split it. If it does one thing in 300 lines, leave it.
 - One component per file. One utility per file.
 - Colocation: tests next to source, types next to usage.
 - Prefer composition over inheritance.
