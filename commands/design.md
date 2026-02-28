@@ -1,5 +1,5 @@
 ---
-description: Design system with craft. First run explores the product, chooses a direction, generates tokens. After that, audits consistency, tokens, accessibility, and craft.
+description: Design system with craft. First run explores the product, chooses a direction, generates tokens. With a target screen, redesigns it. After that, audits consistency, tokens, accessibility, and craft.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebFetch, WebSearch
 ---
 
@@ -7,7 +7,18 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebFetch, WebSearch
 
 ## Detect Mode
 
-Check for `.superskills/design-system.md` or globals.css with CSS custom properties or components.json. If a design system is configured, run **review mode**. Otherwise, run **init mode**.
+Three modes. Detection order matters.
+
+**1. Did the user provide a specific target?** A file path, screenshot, URL, or description of a specific screen or component. If yes, and a design system exists, run **redesign mode**. If yes but no design system exists, tell the user: "No design system found. Running init first to establish direction and tokens, then we can redesign the screen."
+
+**2. Does a design system exist?** Check for any of these:
+- `.superskills/design-system.md` (SuperSkills-managed, full context)
+- `globals.css` or `global.css` with CSS custom properties
+- `components.json` (shadcn config)
+- `theme.ts` or `theme.js` or `theme/index.ts`
+- `tailwind.config.ts` or `tailwind.config.js` with custom theme values
+
+If a design system exists and no specific target was provided, run **review mode**. If no design system exists, run **init mode**.
 
 ---
 
@@ -242,6 +253,141 @@ Write to two places:
 |----------|-----|------|
 | [first decision from init] | [rationale] | [date] |
 ```
+
+---
+
+## Redesign Mode
+
+Takes a specific screen or component and makes it better. Not a consistency audit (that's review mode). This is craft improvement on a single target, grounded in strategy.
+
+### 1. Load Design Context
+
+Read whatever design context exists, in priority order:
+
+**If `.superskills/design-system.md` exists** (SuperSkills-managed): read it for direction, tokens, component patterns, references. Full context available.
+
+**If not, extract from code:** scan globals.css / theme.ts / tailwind.config / components.json for the existing token set. Scan 5-10 component files for repeated values (spacing, colors, radius, heights). Build a working picture of the current design system from code evidence. This is the same "extract before propose" logic from init step 7, applied here.
+
+Read CLAUDE.md if it exists, for EIID mapping and user context. If no CLAUDE.md, work without strategic context and focus on craft.
+
+Read `reference/design-critique.md` and `reference/design-craft.md`.
+
+### 2. Identify Target
+
+Read the target files. If a screenshot or image was provided, view it. If a URL was provided, fetch and analyze it. Establish the current state.
+
+If the user pointed at a screenshot or URL without file paths, ask which source files implement that screen.
+
+### 3. Intent Assessment
+
+Show the user what you see (key observations about the current state). Then collect input in a single block. The user answers what they want, skips what they don't.
+
+**What's wrong:**
+"What bothers you about this screen? Be specific if you can: too dense, too generic, confusing hierarchy, feels unfinished, doesn't match the brand."
+
+**What works:**
+"Anything to keep exactly as is? Elements, patterns, layout choices that are right."
+
+**References:**
+"Any references for this screen specifically? A site that does this type of screen well, a screenshot, a Figma file."
+
+For each reference provided:
+- URLs: fetch the page, analyze the specific patterns relevant to this screen type (not the whole site)
+- Screenshots/images: view and extract applicable patterns
+- Figma URLs: get design context, extract relevant patterns
+
+**Priority:**
+"What matters most for this redesign?"
+- Visual identity: look more like the product's world, less like a template
+- Usability: easier to navigate, clearer hierarchy, faster to scan
+- Density: show more information without feeling crowded, or reduce clutter
+- Craft: polish, states, micro-interactions, surface treatment
+- Structure: reorganize content, fix layout problems, improve flow
+
+Skip questions the user already answered in their initial request. If they said "this dashboard looks like every other SaaS", that's "what's wrong" (generic) and "priority" (visual identity) already answered.
+
+### 4. Critique
+
+Apply the critique layers from `reference/design-critique.md` to the target screen. If CLAUDE.md with an EIID mapping exists, apply all six layers. If no strategic context, skip layer 0 and focus on layers 1-5.
+
+**Layer 0 — Strategic alignment** (requires EIID mapping):
+Does the screen serve the right EIID layer? Is the focal point aligned with the highest-value content? Does the density and tone match the user described in CLAUDE.md?
+
+**Layer 1 — Composition:**
+Does the layout have rhythm and hierarchy? Is there one clear focal point? Is spacing varied intentionally? Does spatial composition support the information architecture?
+
+**Layer 2 — Craft:**
+Surface layering, border treatment, interactive states, typography depth. Read `reference/design-craft.md` for the full range: subtle layering, atmosphere, spatial composition, typography character.
+
+**Layer 3 — Content:**
+Placeholder quality, voice consistency, empty states, error messages.
+
+**Layer 4 — Structure:**
+CSS smells: negative margins, calc for spacing, absolute positioning for layout, !important, magic numbers.
+
+**Layer 5 — Identity:**
+Run the four tests: name test (can you describe it specifically?), swap test (what's generic?), convergence test (would another AI produce the same?), screenshot test (recognizable without the logo?).
+
+Score each layer: **strong** (no issues), **adequate** (minor issues), **weak** (significant issues).
+
+Prioritize based on the user's stated priority from step 3. If they said "visual identity", weight layers 0 and 5 heavily. If they said "craft", weight layer 2. If they said "structure", weight layer 4.
+
+### 5. Propose
+
+For each layer scored "weak" or "adequate", propose specific changes:
+
+| Layer | Current | Proposed | Why |
+|-------|---------|----------|-----|
+| [layer] | [what exists now, specific] | [what to change, specific] | [rationale tied to strategy or craft principle] |
+
+If references were collected in step 3, explicitly connect proposals to reference patterns: "Borrowing the tight data density from [reference name]."
+
+Connect each proposal to the design system:
+- Which tokens apply?
+- Which component patterns to reuse?
+- Any new patterns this redesign establishes?
+
+Present the full proposal. Wait for user confirmation before implementing. The user may approve all, reject some, or adjust priorities.
+
+### 6. Implement
+
+Apply approved changes. Use existing design tokens. Follow framework rules:
+
+**shadcn + Tailwind:**
+- Semantic color tokens only (`text-foreground`, `bg-muted`), not raw colors
+- `gap-*` for spacing in flex/grid, not margins
+- CVA for component variants if adding new variant styles
+- `data-slot` attributes on wrappers
+- Before building custom components, search shadcn registries (base, community: @reui, @animate-ui, @diceui and others) for existing implementations
+
+**Chakra/MUI/Mantine:**
+- All changes through theme and framework APIs
+- No inline styles or custom CSS
+
+**Tailwind only:**
+- Utility classes, no arbitrary values
+
+After implementation:
+
+1. **Update measurements:** if new component patterns were established (new heights, padding values, radius), append them to `.superskills/design-system.md` Component Patterns table. If no `.superskills/design-system.md` exists, suggest running init to formalize the design system.
+2. **Log the decision:** if `.superskills/decisions.md` exists, append:
+   ```
+   ### [date] - Redesign: [screen name]
+   **Type:** redesign
+   **Summary:** [what changed and why, 1-2 sentences]
+   **Layers addressed:** [which critique layers were improved]
+   **References used:** [if any]
+   ```
+3. **Show the result:** describe what changed, layer by layer. If a screenshot was provided as input, suggest the user compare before and after.
+
+### Redesign Rules
+
+- One screen at a time. Do not scope-creep into adjacent screens.
+- Propose before implementing. The user approves changes.
+- Use existing tokens. Do not create new tokens without flagging it.
+- If the redesign reveals a design system gap (missing token, undocumented pattern), flag it but fix it in the design system, not with a local workaround.
+- Keep what works. The user said what to preserve in step 3. Respect it.
+- Tie every change to strategy or craft. No changes for aesthetic preference alone. "This looks better" is not a rationale. "The focal point now matches the highest-value EIID output" is.
 
 ---
 

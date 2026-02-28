@@ -36,11 +36,10 @@ From that point: the secrets guard watches file writes, skills advise during pla
 | Command | Does |
 |---------|------|
 | `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities — or alignment review, opportunity scan, and CLAUDE.md refresh |
-| `/super:design` | Design system with craft: direction assessment (references, assets, constraints), information architecture, token enforcement, consistency audit |
-| `/super:redesign` | Single-screen craft improvement: strategic critique, reference-informed proposals, implementation |
+| `/super:design` | Three modes: init (direction assessment with references, IA, tokens), redesign (single-screen craft improvement with a target), review (consistency audit) |
 | `/super:review` | Full quality audit: tests, security, strategy alignment, design consistency, performance |
 
-Each command detects whether setup has been done. First run configures. After that, it audits.
+Each command detects whether setup has been done. First run configures. After that, it audits. `/super:design` with a specific target (file path, screenshot, URL) triggers redesign mode.
 
 ## Hooks
 
@@ -58,7 +57,7 @@ One hook fires automatically:
 
 Two skills fire during planning:
 - **EIID awareness** reads CLAUDE.md for the EIID mapping and flags work that doesn't trace to any layer. Nudges toward `/super:strategy` when CLAUDE.md is stale (untracked deps, unmapped files, shifted approaches).
-- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, new variants when existing patterns fit, and changes that violate the documented information architecture. Nudges toward `/super:design` or `/super:redesign` when the component patterns table falls behind the codebase.
+- **Design awareness** reads `.superskills/design-system.md` and flags component builds when registry alternatives exist, aesthetic drift from the established direction, new variants when existing patterns fit, and changes that violate the documented information architecture. Nudges toward `/super:design` when the component patterns table falls behind the codebase.
 
 Design token enforcement and test running are on-demand: `/super:design` audits tokens, `/super:review` runs the full suite. They don't fire automatically because Stop hooks add latency and noise to every session.
 
@@ -74,8 +73,8 @@ Two concerns, two places.
 
 **`.superskills/`** contains volatile findings:
 - `report.md` — security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
-- `decisions.md` — architecture decisions log. Append-only. Updated by `/super:strategy` review, `/super:review`, and `/super:redesign`.
-- `design-system.md` — design direction, references, tokens, component patterns. Updated by `/super:design` and `/super:redesign` as the system evolves.
+- `decisions.md` — architecture decisions log. Append-only. Updated by `/super:strategy` review, `/super:review`, and `/super:design` redesign mode.
+- `design-system.md` — design direction, references, tokens, component patterns. Updated by `/super:design` as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This follows the same pattern as Anthropic's code-review plugin (reads CLAUDE.md, writes findings elsewhere) and Trail of Bits skills (standalone report files).
 
@@ -137,9 +136,13 @@ The approach lives inside each EIID layer, not in a separate section, because th
 
 ## Design
 
-`/super:design` handles the full design lifecycle. Init mode explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, and generates a token-based design system. Review mode audits consistency, accessibility, and craft.
+`/super:design` has three modes:
 
-`/super:redesign` takes a single screen and improves it. It runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, proposes changes tied to strategy or craft principles, and implements approved changes.
+**Init mode** explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, and generates a token-based design system.
+
+**Redesign mode** activates when a specific target is provided (file path, screenshot, URL). It loads whatever design context exists (SuperSkills-managed or extracted from code), runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, proposes changes, and implements approved changes. Works on any project with a design system, not just SuperSkills projects.
+
+**Review mode** audits consistency, accessibility, and craft across the whole codebase.
 
 The design critique starts from strategy. The element with the most visual weight on each screen should map to the highest-value EIID layer. Interpretation and delivery outputs dominate. Enrichment configuration stays buried. A beautiful interface that misaligns with the value chain is a failure.
 
@@ -205,8 +208,7 @@ superskills/                             the plugin
 │   └── pre-commit                      auto-version on commit
 ├── commands/
 │   ├── strategy.md                     entry point: assessment, EIID, priorities
-│   ├── design.md                       design system with craft
-│   ├── redesign.md                     single-screen craft improvement
+│   ├── design.md                       design system: init, redesign, review
 │   └── review.md                       full quality audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          auto-invoked during planning
@@ -234,7 +236,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + references + tokens + patterns
 ```
 
-4 commands, 2 skills, 1 agent, 1 hook. 16 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
+3 commands, 2 skills, 1 agent, 1 hook. 15 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
 
 ## References
 
