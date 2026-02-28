@@ -1,12 +1,13 @@
 {
   "name": "super",
-  "version": "2026.2.28.1641",
+  "version": "2026.2.28.1708",
   "description": "Autonomous skills for AI-native product development. EIID framework, stack-adaptive audits, strategic continuity.",
   "author": {
     "name": "Play New",
     "url": "https://github.com/Play-New"
   },
   "repository": "https://github.com/Play-New/superskills",
+  "homepage": "https://github.com/Play-New/superskills#readme",
   "license": "MIT",
-  "keywords": ["eiid", "strategy", "security", "design", "testing", "performance"]
+  "keywords": ["ai-native", "eiid", "strategy", "architecture", "design-system", "security", "testing", "performance", "audit"]
 }

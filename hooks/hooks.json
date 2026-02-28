@@ -1,5 +1,16 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f CLAUDE.md ] && grep -q EIID CLAUDE.md 2>/dev/null && [ ! -d .superskills ]; then echo 'Project has EIID mapping in CLAUDE.md but .superskills/ directory is missing. Run /super:strategy to complete setup.'; fi",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",

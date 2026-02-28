@@ -25,7 +25,42 @@ Then install in the project where you need it:
 
 This activates the plugin only in that project. Hooks, commands, and skills stay contained — other projects are not affected.
 
-To update: `/plugin marketplace update superskills`
+## Update
+
+Manual update:
+
+```
+/plugin marketplace update superskills
+```
+
+To receive updates automatically at startup, enable auto-update on the marketplace:
+
+1. Run `/plugin`
+2. Go to the **Marketplaces** tab
+3. Select `superskills`
+4. Select **Enable auto-update**
+
+From that point, Claude Code checks for new versions when it starts. If the plugin was updated, it shows a notification to restart.
+
+### Team setup
+
+Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new members get it automatically when they trust the project folder:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "superskills": {
+      "source": {
+        "source": "github",
+        "repo": "Play-New/superskills"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "super@superskills": true
+  }
+}
+```
 
 Run `/super:strategy` — it scans the folder, detects the stack, asks five questions (who's it for, who uses it, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
 
