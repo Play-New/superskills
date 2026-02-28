@@ -93,7 +93,7 @@ For new projects, suggest this stack as a starting point. The user may choose di
 
 | Suggested | Role |
 |-----------|------|
-| Supabase | Database, auth, storage, embeddings |
+| Supabase | Database, auth (email/password or magic link + Google OAuth), storage, embeddings |
 | Vercel | Hosting, edge functions |
 | Inngest | Workflows, cron, retry |
 | Next.js | Frontend, Server Components default |
