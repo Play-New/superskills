@@ -395,7 +395,7 @@ After implementation:
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Token compliance and component discovery are handled by the hook and skill respectively. Review focuses on what automation cannot catch.
 
-Read `reference/design-critique.md` for the full critique framework. Start with layer 0 (strategic alignment), then work through all five layers.
+Read `reference/design-critique.md` for the full critique framework. Work through all six layers (0 through 5).
 
 ### Accessibility (blocking)
 

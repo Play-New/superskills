@@ -98,27 +98,26 @@ Six checks:
 
 ### Stack-Adaptive Checks
 
-Detect from package.json. Apply only relevant sections.
+Detect from package.json. Apply checks for each detected tool. For tools not listed below, identify their security surface and apply equivalent checks.
 
-**Supabase:**
-- RLS enabled on all tables?
-- service_role key server-side only?
+**Database with auth (Supabase, Firebase, etc.):**
+- Row-level security or equivalent authorization rules enabled?
+- Admin/service keys server-side only?
 - Auth middleware on protected routes?
-- Storage policies configured?
+- Storage/bucket policies configured?
 
-**Vercel:**
-- Env vars split between Preview and Production?
-- Edge middleware for auth?
+**Hosting platform (Vercel, Netlify, etc.):**
+- Env vars split between preview and production?
 - Security headers configured?
-- No secrets in vercel.json?
+- No secrets in deployment config files?
 
-**Inngest:**
-- INNGEST_SIGNING_KEY validated?
+**Workflow engine (Inngest, Trigger.dev, etc.):**
+- Signing keys validated?
 - No PII in event payloads?
 - Steps idempotent?
 
-**Next.js:**
-- Server Actions validate input?
+**Framework (Next.js, Remix, Nuxt, etc.):**
+- Server actions/loaders validate input?
 - API routes check auth?
 - Dynamic route params sanitized?
 - No path traversal in file operations?
@@ -140,7 +139,7 @@ Everything else: severity rated HIGH / MEDIUM / LOW.
 
 Read CLAUDE.md EIID mapping. For each source file:
 1. Which EIID layer does it support? (enrichment / inference / interpretation / delivery / none)
-2. If "none", flag as scope creep.
+2. If "none": is it supporting infrastructure (tests, types, config, build, utilities used by EIID layers)? Expected, not scope creep. If it's application code that doesn't serve any EIID layer, flag as potential scope creep.
 3. Any dependency not traceable to the EIID mapping? Flag it.
 
 Run the opportunity scan:
@@ -248,30 +247,30 @@ Check `.superskills/report.md` Performance Budget section. If it has content, ru
 
 **Stack-adaptive checks:**
 
-Detect from package.json. Apply only relevant sections.
+Detect from package.json. Apply checks for each detected tool. For tools not listed below, identify their performance surface and apply equivalent checks.
 
-**Supabase:**
-- `.select('*')` usage? Use specific columns.
-- Batch upsert instead of single inserts?
+**Database (Supabase, Prisma, Drizzle, etc.):**
+- Over-fetching? Select specific columns, not all.
+- Batch operations instead of single inserts in loops?
 - Indexes on filtered/sorted columns?
-- Edge Functions for compute-heavy operations?
+- Edge/serverless functions for compute-heavy queries?
 
-**Vercel:**
-- ISR configured for semi-static pages?
-- Edge Runtime for API routes that need low latency?
-- next/image for all images?
-- next/font for all fonts?
+**Hosting (Vercel, Netlify, etc.):**
+- Static/incremental regeneration for semi-static pages?
+- Edge runtime for latency-sensitive routes?
+- Image optimization via platform tools?
+- Font optimization via platform tools?
 
-**Inngest:**
-- step.sleep() instead of polling loops?
+**Workflow engine (Inngest, Trigger.dev, etc.):**
+- Sleep/wait instead of polling loops?
 - Batching for high-frequency events?
 - Concurrency limits set?
 
-**Next.js:**
+**Framework (Next.js, Remix, Nuxt, etc.):**
 - Dynamic imports for heavy client components?
-- Server Components by default, Client Components only when needed?
+- Server-first rendering, client components only when needed?
 - Streaming for slow data sources?
-- Route segment config for static/dynamic?
+- Route-level static/dynamic configuration?
 
 ---
 

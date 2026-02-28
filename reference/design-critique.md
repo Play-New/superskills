@@ -1,6 +1,6 @@
 # Design Critique
 
-Five layers. Work through each in order. The first build was the draft. The critique is the design.
+Six layers. Work through each in order. The first build was the draft. The critique is the design.
 
 Before starting: read CLAUDE.md for the EIID mapping, user context, and business context. Read `.superskills/design-system.md` for the design direction, information architecture, and tokens. Every observation below is evaluated against what the product is for and who uses it. A beautiful interface that misaligns with the strategy is a failure. A functional interface that ignores its user's context is a failure.
 
