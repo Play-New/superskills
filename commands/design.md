@@ -445,7 +445,7 @@ Compare across all component files:
 
 ### Craft (advisory)
 
-Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply all five critique layers (0 through 4), then run the identity tests from layer 5.
+Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply all six critique layers (0 through 5).
 
 Flag craft issues as suggestions, not violations.
 
