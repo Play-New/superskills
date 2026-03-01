@@ -62,7 +62,7 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
 }
 ```
 
-Run `/super:strategy` — it scans the folder, detects the stack, asks five questions (who's it for, who uses it, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
+Run `/super:strategy` — it scans the folder, detects the stack, asks six questions (who's it for, who uses it, how they work today, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
 
 From that point: the secrets guard watches file writes, skills advise during planning (and nudge when files are stale), commands audit specific domains, and findings accumulate in `.superskills/`.
 
@@ -151,7 +151,7 @@ The web interface serves two roles: visualizations that don't fit in a message (
 
 ## The value chain
 
-`/super:strategy` scans the folder, detects the stack, and asks five questions: who's it for, who uses it, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
+`/super:strategy` scans the folder, detects the stack, and asks six questions: who's it for, who uses it, how they work today, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
 
 This produces a chain of dependencies from user need down to infrastructure. Every component in the system exists because something above it requires it. If you can't trace a component back to the user need, it shouldn't be there.
 
