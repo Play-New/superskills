@@ -15,8 +15,8 @@
 
 ### Feb 19, 2026 — Alignment Check
 **Type:** alignment-check
-**Summary:** Dashboard filter component added. Not scope creep — fleet managers need to filter by region, vehicle type, alert status. Maps to delivery layer (surface insights where user works).
-**EIID Layer:** delivery
+**Summary:** Fleet overview filter component added. Not scope creep — fleet managers need to filter by region, vehicle type, alert status. Maps to interpretation layer (visualizations that don't fit in a message).
+**EIID Layer:** interpretation
 **Action:** None needed, aligned
 
 ### Feb 21, 2026 — Drift Warning

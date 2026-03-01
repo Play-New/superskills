@@ -20,8 +20,9 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 
 ## EIID
 
-### Enrichment (data)
+### Enrichment (collect)
 **Have:** [sources already connected]
+**Human input:** [how people naturally feed data — photos, voice, chat, email, manual entry]
 **Missing:** [gaps to fill]
 **Connect:** [systems to integrate]
 **Approach:** [automate / differentiate / innovate — per component]
@@ -38,7 +39,7 @@ The plugin generates this file via `/super:strategy`. It contains stable project
 **Approach:** [automate / differentiate / innovate — per component]
 
 ### Delivery (reach)
-**Channels:** [where the user already is]
+**Channels:** [same channels used for input — the system is invisible, not a destination]
 **Triggers:** [when to send]
 **Timing:** [optimal moment]
 **Approach:** [automate / differentiate / innovate — per component]

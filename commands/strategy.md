@@ -31,25 +31,24 @@ Read package.json if it exists.
 
 ### 3. Assessment
 
-Five questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
+Six questions. Ask one at a time. Wait for each answer before asking the next. If the folder scan already surfaced relevant context, reference it in the question ("I see a Supabase setup and what looks like order data — who is this for?").
 
 1. **Who is this for?** You, your company, or a client? What do they do, where?
 2. **Who will use it?** Who will be the end user of your product?
-3. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
-4. **What's needed to deliver that value?** Tools, services, other products, skills.
-5. **What exists already?** What data and tools do you have access to?
+3. **How do they work today?** What tools are on their desk? Where do they communicate (email, WhatsApp, Slack, phone)? How do they currently manage the data this product will use? What does a typical day look like? The intelligence layer wraps around existing behavior — this determines where enrichment collects and delivery returns.
+4. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
+5. **What's needed to deliver that value?** Tools, services, other products, skills.
+6. **What exists already?** What data and tools do you have access to?
 
 If documents from the folder scan add information the user didn't mention, incorporate it. If they contradict the user's answers, ask to clarify.
 
 ### 4. Research
 
-Search the web close to the user's problem, not just the industry. Three searches:
+Search the web close to the user's problem, not just the industry. One focused search:
 
-1. **How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
-2. **What's commoditizing.** "[problem domain] AI automation [year]" — which parts of this solution space are becoming commodity? What can you buy instead of build? Where is the evolution axis (Wardley: genesis → custom → product → commodity) moving fastest?
-3. **Where value is shifting.** "[problem domain] platform" or "[industry] value chain restructuring" — are intermediaries being bypassed? Is value moving from execution to orchestration? Look for Choudary's reshuffle: where AI collapses execution costs, the ability to connect systems and coordinate flows becomes the new source of value.
+**How this problem gets solved today.** "[user role] [problem] tools" or "[user need] software" — what products, workflows, and solutions exist? What's good, what's broken, what's missing? This grounds the EIID mapping in reality.
 
-Use the assessment answers as context, but keep the searches anchored to the end user and their need.
+Use the research and your own knowledge to classify each component's evolution stage in step 5. What's commodity (multiple providers, standardized)? What requires human judgment? Where are new connections possible that were previously too expensive? The classification comes from informed judgment, not from separate searches.
 
 ### 5. EIID Mapping
 
@@ -64,8 +63,9 @@ From the folder scan, stack detection, user context, and research, build the val
 
 **Map to four layers:**
 
-#### Enrichment (data)
+#### Enrichment (collect)
 - Existing data sources (list concrete systems)
+- Human input channels: how do people naturally feed data? (photos, voice notes, chat messages, forwarded emails, manual entry). People should not change their behavior.
 - Missing data that is available (public APIs, partner data, user behavior)
 - Connections to build
 
@@ -79,7 +79,7 @@ From the folder scan, stack detection, user context, and research, build the val
 - Framing: comparison, trend, explanation, recommendation
 
 #### Delivery (reach)
-- Channels: email, Slack, WhatsApp, Telegram, SMS, Discord, dashboard
+- Channels: same channels people use for input. Email, Slack, WhatsApp, Telegram, SMS, Discord. Input and output share channels. The system is an invisible layer, not a destination.
 - Triggers: threshold crossed, schedule, event, user request
 - Timing: when is the insight most valuable?
 
@@ -122,65 +122,9 @@ If the user prefers a different tool for any role, use it. Generate technology c
 
 CLAUDE.md contains only stable project instructions. Findings go to `.superskills/`. Keep CLAUDE.md under 100 lines.
 
-Read `reference/examples/claude-md-saas.md` for tone and structure. Match that level of specificity.
+Follow `reference/claude-md-template.md` for structure. Read `reference/examples/claude-md-saas.md` for tone and level of specificity.
 
 **Before writing, show the user the full CLAUDE.md you intend to create.** Ask for confirmation. Incorporate feedback. Only write the file after approval.
-
-Create or update CLAUDE.md:
-
-```
-# [Project Name]
-
-## Business
-**Client:** [who is paying]
-**Industry:** [sector, size, geography]
-
-## User
-**End user:** [role, daily context]
-**Need:** [outcome, not feature]
-
-## Stack
-[Detected or recommended, with rationale]
-
-## EIID
-
-### Enrichment (data)
-**Have:** [sources already connected]
-**Missing:** [gaps to fill]
-**Connect:** [systems to integrate]
-**Approach:** [automate / differentiate / innovate — per component]
-
-### Inference (patterns)
-**Detect:** [what to spot]
-**Predict:** [what to forecast]
-**Flag:** [anomalies to catch]
-**Approach:** [automate / differentiate / innovate — per component]
-
-### Interpretation (insights)
-**Surface:** [what to tell the user]
-**Frame as:** [comparison, trend, explanation, recommendation]
-**Approach:** [automate / differentiate / innovate — per component]
-
-### Delivery (reach)
-**Channels:** [where the user already is]
-**Triggers:** [when to send]
-**Timing:** [optimal moment]
-**Approach:** [automate / differentiate / innovate — per component]
-
-## Technology Constraints
-[detected constraints, one per line: "Use X, NOT Y, Z."]
-
-## Code Architecture
-- Split files by responsibility, not by line count. If a file does two things, split it. If it does one thing in 300 lines, leave it.
-- One component per file. One utility per file.
-- Colocation: tests next to source, types next to usage.
-- Prefer composition over inheritance.
-- If a module has two distinct modes, split into separate files.
-
-## Design System
-**Framework:** [detected or recommended]
-**Token source:** [globals.css / theme.ts / etc.]
-```
 
 ### 9. Write .superskills/
 

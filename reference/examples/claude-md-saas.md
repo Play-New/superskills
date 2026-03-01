@@ -5,7 +5,7 @@
 **Industry:** Logistics, mid-market, DACH region
 
 ## User
-**End user:** Fleet manager, 30-80 vehicles, checks dashboard between site visits
+**End user:** Fleet manager, 30-80 vehicles, receives alerts on WhatsApp between site visits, uses web interface for fleet visualizations and configuration
 **Need:** Know which vehicles need attention before breakdowns happen, not after
 
 ## Stack
@@ -13,10 +13,11 @@ Next.js 15 (App Router), Supabase (database + auth + realtime), Inngest (schedul
 
 ## EIID
 
-### Enrichment (data)
+### Enrichment (collect)
 **Have:** Telematics API (GPS, fuel, mileage), maintenance records in Supabase
+**Human input:** Fleet managers forward maintenance receipts via email, drivers report issues via WhatsApp voice notes or photos of dashboard warnings
 **Missing:** Weather data for route conditions, tire pressure from OBD-II
-**Connect:** Telematics API polling every 5 min via Inngest cron
+**Connect:** Telematics API polling every 5 min via Inngest cron, email parsing for receipts, WhatsApp media processing for driver reports
 **Approach:** Automate — telematics polling is commodity (Inngest cron). Weather API is commodity (public APIs). OBD-II integration is differentiate (hardware-dependent, needs fleet manager input on which vehicles).
 
 ### Inference (patterns)
@@ -31,10 +32,10 @@ Next.js 15 (App Router), Supabase (database + auth + realtime), Inngest (schedul
 **Approach:** Differentiate — maintenance scheduling needs fleet manager judgment on priority. System provides data, human decides.
 
 ### Delivery (reach)
-**Channels:** Dashboard (primary), WhatsApp (urgent), email (weekly digest)
+**Channels:** WhatsApp (same channel drivers use for input), email (same channel managers use for receipts), web interface (fleet visualizations + configuration: alert rules, polling frequency, user roles, cron schedules)
 **Triggers:** Efficiency drop > 10%, maintenance window < 500km, idle > 2h
 **Timing:** WhatsApp alerts during business hours only (7-19 CET)
-**Approach:** Automate — auth (Supabase Auth), hosting (Vercel), email delivery (Brevo), WhatsApp delivery (Brevo). All commodity.
+**Approach:** Automate — auth (Supabase Auth), hosting (Vercel), email delivery (Brevo), WhatsApp delivery (Baileys). All commodity.
 
 ## Technology Constraints
 Use Supabase, NOT Firebase, AWS Amplify.

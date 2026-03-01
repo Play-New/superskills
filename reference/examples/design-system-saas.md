@@ -11,6 +11,8 @@
 **Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports. Settings at sidebar bottom. User profile in avatar menu.
 **Excluded from nav:** Integrations (inside Settings), Export (inside Reports), Vehicle Detail (drill-down from Fleet)
 
+Primary input happens outside the interface: drivers send WhatsApp voice notes and photos, managers forward email receipts. Primary alerts are delivered on WhatsApp and email. The web interface shows visualizations that don't fit in a message and configuration for the invisible layer.
+
 | Screen | Focal Point | Above the Fold | One Click | Deep |
 |--------|-------------|----------------|-----------|------|
 | Fleet Overview | Vehicles needing attention count | Attention count, fleet map, today's active/idle split | Vehicle list with sort/filter, mileage leaders | Bulk actions, export fleet data |
@@ -18,11 +20,12 @@
 | Alerts | Unacknowledged count | Unacknowledged count, active alerts list, severity breakdown | Alert timeline, acknowledged history | Alert rule configuration, notification channels |
 | Maintenance | Upcoming service list | Upcoming service list, overdue count, this week's schedule | Service history per vehicle, cost breakdown | Service provider management, parts inventory |
 | Reports | Fleet health score | Fleet health score, fuel efficiency trend, alert frequency | Custom date range, vehicle comparison, route analysis | Report builder, scheduled reports, export templates |
+| Settings | — | Enrichment sources + polling frequency, delivery channel config | Inference prompts, detection thresholds | User management, roles, cron schedules, integrations |
 
 **Content depth rules:**
-- Surface: current state — live positions, active alerts, today's numbers, items needing immediate action
+- Surface: interpretation visualizations — live positions on map, fleet trends, attention-needing vehicles. Things a WhatsApp message can't show.
 - One click: context — history tabs, trend charts, timelines, comparisons that explain the current state
-- Deep: configuration — alert rules, report builder, integrations, exports, bulk operations
+- Deep: configuration — enrichment sources, inference prompts, alert rules, delivery channels, user roles, cron schedules
 
 ## Tokens
 **Spacing base:** 4px

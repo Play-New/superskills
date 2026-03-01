@@ -119,9 +119,9 @@ Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This f
 
 Most software built with AI assistance is traditional software that happened to be written faster. The architecture stays the same: forms, CRUD, dashboards. AI helped type it, but the product could have been built in 2015.
 
-AI-native products are structured differently. They collect data from multiple sources, detect patterns and anomalies in that data, turn raw analysis into statements a human can act on, and deliver those statements where people already work, triggered by conditions that matter. A traditional CRM shows you a dashboard. An AI-native CRM sends your sales rep a WhatsApp message at 9am saying "Acme Corp's order volume dropped 30% this month, here are three possible reasons" and lets them respond with a voice note.
+AI-native products are structured differently. The intelligence acts as an invisible layer that wraps around existing behavior. People feed data the way they already work: a photo of a handwritten note, a forwarded email, a voice message on WhatsApp, a Slack thread. They don't learn a new interface or change their habits. The system collects from all these entry points, normalizes the data, detects patterns, turns analysis into actionable statements, and delivers results back through the same channels people chose. A traditional CRM shows you a dashboard. An AI-native CRM accepts a voice note from your sales rep on WhatsApp and sends them back "Acme Corp's order volume dropped 30% this month, here are three possible reasons" at 9am the next day.
 
-The difference is architectural. You need to think about data flow, inference, interpretation, and delivery as separate layers from the start.
+The difference is architectural. You need to think about data collection, inference, interpretation, and delivery as separate layers from the start. And you need to accept that input and output often share the same channels.
 
 ## EIID
 
@@ -129,7 +129,7 @@ SuperSkills organizes this into four layers.
 
 ```
  ┌─────────────────────────────────────────┐
- │  ENRICHMENT      sources + normalize     │
+ │  ENRICHMENT      collect + normalize      │
  ├─────────────────────────────────────────┤
  │  INFERENCE       detect, predict, flag   │
  ├─────────────────────────────────────────┤
@@ -139,15 +139,15 @@ SuperSkills organizes this into four layers.
  └─────────────────────────────────────────┘
 ```
 
-**Enrichment** is where data enters the system. Not just your database: Gmail inboxes, ERP exports, spreadsheets, public APIs, partner data feeds. A hardware distributor might have order history in SAP, supplier catalogs in Excel, and customer complaints in a shared mailbox. Enrichment means connecting all three and normalizing them into something inference can work with.
+**Enrichment** is where data enters the system. Not just databases and APIs: a photo of a handwritten inventory sheet, a forwarded email from a supplier, a voice note on WhatsApp, a Slack message, an ERP export, a spreadsheet attachment. People should not have to change how they work. A hardware distributor might have order history in SAP, supplier catalogs in Excel, customer complaints in a shared mailbox, and a warehouse manager who texts stock counts from his phone. Enrichment means accepting all of these, normalizing them into something inference can work with.
 
 **Inference** detects patterns, makes predictions, flags anomalies. This is the layer AI has commoditized fastest. What used to require a data science team and months of work is now an API call: "which orders deviate more than 20% from historical average?" or "which customers are likely to churn based on declining order frequency?" The compute is cheap. The hard part is knowing what questions to ask.
 
 **Interpretation** turns raw inference into something a person can act on. "Customer #4521 anomaly score: 0.87" means nothing. "Acme Corp's orders dropped 30% vs. last quarter, likely due to their Q3 budget freeze, and they have a renewal in 45 days" is an insight. Interpretation adds context: comparison to baselines, trend direction, likely explanation, and a recommended action.
 
-**Delivery** pushes insights where people already work. Email, Slack, WhatsApp, Telegram, SMS. Triggered by conditions: a threshold crossed, a schedule, an event, a user request. The critical design choice is timing. An insight about a churning customer is worth nothing if it arrives after the renewal date. A stock alert matters at market open, not at midnight.
+**Delivery** returns results through the same channels people already use. The person who sent a voice note on WhatsApp gets the answer on WhatsApp. The one who forwarded an email gets a reply in their inbox. Input and output share channels. Delivery is triggered by conditions: a threshold crossed, a schedule, an event, a user request. The critical design choice is timing. An insight about a churning customer is worth nothing if it arrives after the renewal date. A stock alert matters at market open, not at midnight.
 
-Dashboards are configuration surfaces, not discovery tools. The product should go where the user already is.
+The web interface serves two roles: visualizations that don't fit in a message (charts, maps, timelines, complex comparisons) and configuration. Configuration is the control plane for the invisible layer: enrichment sources and polling frequency, inference prompts and thresholds, interpretation framing, delivery channels per user and trigger rules, user management and cron schedules. It is not the primary input surface. If users need to type data into a dashboard to get value from the product, the enrichment layer has a gap.
 
 ## The value chain
 
@@ -179,7 +179,7 @@ The approach lives inside each EIID layer, not in a separate section, because th
 
 **Review mode** audits consistency, accessibility, and craft across the whole codebase.
 
-The design critique starts from strategy. The element with the most visual weight on each screen should map to the highest-value EIID layer. Interpretation and delivery outputs dominate. Enrichment configuration stays buried. A beautiful interface that misaligns with the value chain is a failure.
+The design critique starts from strategy. The interface is not the primary input surface: people feed data through their existing channels (chat, email, voice, photos). The interface shows visualizations that don't fit in a message and configuration that controls the system. Interpretation outputs (charts, trends, comparisons) get the most screen space. Enrichment and delivery configuration stays buried. A beautiful interface that misaligns with the value chain is a failure.
 
 **Information architecture** (init mode, before any visual decisions):
 - Core objects: 3-6 things users care about, each mapping to a nav destination
@@ -188,7 +188,7 @@ The design critique starts from strategy. The element with the most visual weigh
 - Content depth tiers: surface (daily), one click (weekly), deep (monthly) — every feature belongs to exactly one tier
 
 **Direction assessment** (init mode, after product exploration):
-- References: URLs, screenshots, Figma files, brand names — analyzed for applicable patterns
+- References: URLs, screenshots, Figma files, brand names, designers, design studios — analyzed for applicable patterns
 - Anti-references: things to explicitly avoid
 - Existing assets: brand materials that constrain choices
 - User confirmation of the proposed direction
