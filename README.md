@@ -27,10 +27,17 @@ This activates the plugin only in that project. Hooks, commands, and skills stay
 
 ## Update
 
-Manual update:
+Manual update (from inside Claude Code):
 
 ```
 /plugin marketplace update superskills
+/plugin install super@superskills --scope project
+```
+
+Or from the terminal:
+
+```
+claude plugin update super@superskills --scope project
 ```
 
 To receive updates automatically at startup, enable auto-update on the marketplace:
