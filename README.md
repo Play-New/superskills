@@ -13,10 +13,17 @@ A Claude Code plugin for building AI-native products.
 
 ```
 /plugin marketplace add Play-New/superskills
-/plugin menu
+/plugin install super@superskills
 ```
 
-Select `super` from the menu. Restart Claude Code.
+Or interactively:
+
+```
+/plugin marketplace add Play-New/superskills
+/plugin
+```
+
+Go to the **Discover** tab, select `super`, choose a scope (user, project, or local).
 
 ## Update
 
@@ -24,7 +31,7 @@ Select `super` from the menu. Restart Claude Code.
 /plugin marketplace update superskills
 ```
 
-To receive updates automatically, enable auto-update on the marketplace:
+To receive updates automatically:
 
 1. Run `/plugin`
 2. Go to the **Marketplaces** tab
@@ -37,6 +44,9 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
 
 ```json
 {
+  "enabledPlugins": {
+    "super@superskills": true
+  },
   "extraKnownMarketplaces": {
     "superskills": {
       "source": {
@@ -44,9 +54,6 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
         "repo": "Play-New/superskills"
       }
     }
-  },
-  "enabledPlugins": {
-    "super@superskills": true
   }
 }
 ```
