@@ -171,7 +171,7 @@ The approach lives inside each EIID layer, not in a separate section, because th
 
 **Init mode** explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, defines layout architecture (grid, breakpoints, page patterns), builds a typography scale, establishes composition rules (hierarchy, density, rhythm, proportion, whitespace), and generates a token-based design system.
 
-**Redesign mode** activates when a specific target is provided (file path, screenshot, URL). It loads whatever design context exists (SuperSkills-managed or extracted from code), runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, then applies craft principles (spatial composition, hierarchy, density, typography layering, surface treatment, atmosphere, identity) to generate improvements grounded in the design system. Proposals reference specific craft dimensions and design system constraints. Works on any project with a design system, not just SuperSkills projects.
+**Redesign mode** activates when a specific target is provided (file path, screenshot, URL). It loads whatever design context exists (SuperSkills-managed or extracted from code), runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, then applies four craft dimensions (spatial composition, typography, surfaces and depth, identity) to generate improvements grounded in the design system. Works on any project with a design system, not just SuperSkills projects.
 
 **Review mode** audits consistency, accessibility, and craft across the whole codebase.
 
@@ -209,7 +209,7 @@ The review covers:
 - **Tests:** vitest + Playwright setup (if missing) and full suite run
 - **Security:** OWASP Top 10, GDPR (6 checks), secrets scan, stack-adaptive checks (Supabase RLS, Vercel env vars, Inngest signing keys, Next.js Server Actions)
 - **Strategy:** EIID alignment per file, scope creep detection, 11-question opportunity scan
-- **Design:** accessibility (WCAG 2.1 AA, 8 checks), design system compliance (layout, typography, composition against documented values), cross-file consistency, craft advisory (spatial composition, typography character, surfaces and depth, atmosphere, identity)
+- **Design:** accessibility (WCAG 2.1 AA, 8 checks), design system compliance (layout, typography, composition against documented values), cross-file consistency, craft advisory (spatial composition, typography, surfaces and depth, identity)
 - **Performance:** bundle analysis, Core Web Vitals, N+1 queries, API costs, stack-adaptive checks
 
 ## Stack
