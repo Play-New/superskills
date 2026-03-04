@@ -1,8 +1,8 @@
 # Design Craft
 
-How to execute intentional interfaces. Not what to build, but how to build it well.
+Execution guidance for intentional interfaces. Craft is the accumulation of small decisions: which font, how much space, what color, how fast. Each one is minor in isolation. Together they determine whether a product feels designed or generated.
 
-Every decision here traces back to strategy. The EIID mapping determines what needs attention. The user context determines density, tone, and pace. Craft without strategy produces beautiful interfaces nobody needs. Strategy without craft produces useful interfaces nobody wants to use.
+Every decision here traces back to strategy. The EIID mapping determines what needs attention. The user context determines density, tone, and pace. Craft serves strategy. Without that connection, a beautiful interface fails just as hard as an ugly one.
 
 Read CLAUDE.md and `.superskills/design-system.md` before applying anything below. The direction chosen in `/super:design` determines which techniques apply and how far to push them.
 
@@ -31,9 +31,9 @@ Spatial decisions follow the information architecture. Focal points from the IA 
 
 ## Typography Character
 
-Type is the first thing users read and the last thing designers think about. The font choice is the single biggest signal of whether a product was designed or generated.
+Type is the first thing users read and the last thing designers think about. The font choice, the scale, the spacing between lines and letters: these are the single biggest signal of whether a product was designed or generated. Typography deserves more time than most teams give it.
 
-**The default test:** if the font ships with the framework, or appears on 50% of AI-generated sites, it is not a design decision. Inter, Geist, system-ui, and Roboto are fine fonts. They are also invisible. They say "nobody chose this."
+**The default test:** if the font ships with the framework, or appears on most AI-generated sites, it is not a design decision. Default fonts are fine fonts. They are also invisible. They say "nobody chose this."
 
 **Selection by character, not popularity:**
 - What does this product sound like? A children's app doesn't speak in the same voice as a compliance dashboard.
@@ -45,8 +45,8 @@ Type is the first thing users read and the last thing designers think about. The
 **Type as structure:**
 - Typography hierarchy should work without color. If removing all color leaves the hierarchy intact (through size, weight, and spacing alone), the type system works.
 - Three levels minimum: heading, body, caption. Most products need five: display, heading, body, label, caption.
-- Line heights: tighter for headings (1.1-1.2), generous for body (1.5-1.6), compact for labels (1.2-1.3).
-- Letter spacing: slightly tracked for all-caps labels (+0.05em), tight for large display text (-0.02em), default for body.
+- Line heights: tighter for headings (density, impact), generous for body (readability), compact for labels (efficiency). The exact values depend on the font's metrics and the direction's density.
+- Letter spacing: slightly tracked for all-caps labels (legibility), tight for large display text (cohesion), default for body.
 
 **Monospace for data:** numbers that need alignment (prices, metrics, IDs, timestamps) benefit from monospace or tabular figures. Mixing proportional body text with monospace data creates a natural visual separation between narrative and numbers.
 
@@ -64,12 +64,12 @@ Anti-convergence is not a style. It is a test: if another AI given similar promp
 
 ## Subtle Layering
 
-The goal is surfaces that layer like paper, not like colored blocks.
+The goal is surfaces that layer like paper, not like colored blocks. This is one of the most underestimated areas of interface craft. The difference between "flat" and "layered" is often invisible when described but immediately felt when seen.
 
-- **Lightness shifts:** 2-5% between adjacent surface levels. White (100%) to card (98%) to recessed (96%) to inset (93%). The eye registers depth without conscious effort.
-- **Border opacity:** use foreground color at 8-15% opacity instead of fixed gray values. `border-color: oklch(0% 0 0 / 0.08)` adapts to any surface and disappears when it's not needed.
-- **Shadow progression:** if using shadows, scale by elevation. Level 1: `0 1px 2px oklch(0% 0 0 / 0.05)`. Level 2: `0 2px 4px oklch(0% 0 0 / 0.08)`. Level 3: `0 4px 8px oklch(0% 0 0 / 0.1)`. Same angle, same hue, increasing spread and opacity.
-- **Dark mode inversion:** surfaces get lighter as they elevate (opposite of light mode). Background (10%) to card (14%) to raised (18%). Borders become foreground at 10-12% opacity.
+- **Lightness shifts:** small, consistent steps between adjacent surface levels. The eye should register depth without conscious effort. If the difference reads as a hard edge, it's too much. If adjacent surfaces look identical, it's too little. Test on multiple monitors: what looks subtle on a calibrated display might vanish on a low-contrast laptop screen.
+- **Border opacity:** use foreground color at low opacity instead of fixed gray values. The border should disappear when not needed and appear when it separates content. Adapts to any surface automatically.
+- **Shadow progression:** if using shadows, scale by elevation. Same angle, same hue, increasing spread and opacity with each level. The progression should feel continuous, not stepped.
+- **Dark mode inversion:** surfaces get lighter as they elevate (opposite of light mode). Borders use foreground color at low opacity, same principle as light mode but adjusted for dark backgrounds.
 
 Pick one depth strategy (borders-only, subtle-shadows, or layered) and apply it everywhere. Mixing strategies creates visual noise.
 
@@ -77,35 +77,27 @@ Pick one depth strategy (borders-only, subtle-shadows, or layered) and apply it 
 
 Backgrounds are environments, not fill colors.
 
-- **Gradient:** radial or linear, same hue family, 2-4% lightness range. A warm app might go from stone-50 center to stone-100 edges. Barely visible, but the screen feels alive.
-- **Grain:** CSS noise texture at 3-5% opacity over the base. Adds organic warmth. Works for editorial, warm, handmade directions. Wrong for clinical, technical, data-heavy directions.
+- **Gradient:** radial or linear, same hue family, narrow lightness range. Barely visible, but the screen feels alive. The gradient should be felt, not seen.
+- **Grain:** CSS noise texture at low opacity over the base. Adds organic warmth. Works for editorial, warm, handmade directions. Wrong for clinical, technical, data-heavy directions.
 - **Texture mapping:** match texture to direction. Paper grain for editorial. Subtle dot grid for technical. Clean gradient for consumer. Nothing for admin (density wins over atmosphere).
 
 Atmosphere is optional. Some directions (precision, density) are better with flat surfaces. The absence of atmosphere is also a choice. Document it.
 
 ## Motion
 
-Motion communicates state change, not decoration.
+Motion communicates state change, not decoration. Good motion is invisible. Bad motion is the first thing users notice. The difference between an interface that feels responsive and one that feels sluggish is often a single timing decision.
 
-**Duration scale:**
-- 100ms: color changes, opacity (instant feedback)
-- 150ms: hover states, focus rings (responsive)
-- 200ms: button press, toggle, small element transitions (snappy)
-- 300ms: modal enter, dropdown open, panel slide (smooth)
-- 500ms: page transition, skeleton to content (deliberate)
+**Duration scale:** build a scale from instant (color change, opacity) through responsive (hover, focus) to snappy (toggle, small transition) to smooth (modal, panel) to deliberate (page transition, skeleton). Each level should feel distinct. Instant feedback is the fastest the browser can render. Deliberate is slow enough to follow but fast enough to not feel sluggish. Test every transition. Adjust until it feels right, not just until it works.
 
-**Easing:**
-- Enter: `cubic-bezier(0, 0, 0.2, 1)` fast start, gentle land
-- Exit: `cubic-bezier(0.4, 0, 1, 1)` gentle start, fast disappear
-- Move: `cubic-bezier(0.4, 0, 0.2, 1)` smooth both ends
+**Easing:** three curves. Enter: fast start, gentle land. Exit: gentle start, fast disappear. Move: smooth both ends. The enter curve brings content in with energy. The exit curve lets it leave without lingering.
 
-**Orchestration:** one coordinated page load is better than 15 independent animations. Stagger content entry by 30-50ms per element, same direction, same easing. If elements animate independently with different timings, it feels broken.
+**Orchestration:** one coordinated page load is better than 15 independent animations. Stagger content entry with consistent delay per element, same direction, same easing. If elements animate independently with different timings, it feels broken.
 
-**Reduced motion:** wrap all animation in `@media (prefers-reduced-motion: no-preference)`. When reduced motion is preferred, replace motion with instant opacity transitions (150ms fade, no transform).
+**Reduced motion:** wrap all animation in `@media (prefers-reduced-motion: no-preference)`. When reduced motion is preferred, replace motion with instant opacity transitions, no transform.
 
 ## Color Intent
 
-Every color has a job. Document the job, not just the value.
+Every color has a job. Document the job, not just the value. A color palette is not a decoration. It is a communication system. The wrong shade of gray for secondary text can make an entire interface feel dead or noisy.
 
 - **Foreground hierarchy:** primary (text), secondary (labels, metadata), muted (placeholders, disabled). Three levels minimum.
 - **Surface hierarchy:** base, card/panel, recessed, inset. Four levels.
@@ -114,3 +106,22 @@ Every color has a job. Document the job, not just the value.
 - **Data:** chart colors that remain distinguishable in all three forms of color blindness (deuteranopia, protanopia, tritanopia). Use 4-6 colors maximum. Avoid red+green adjacency.
 
 **Rule:** if two elements use the same color for different purposes, one of them needs a new token.
+
+## Conversational and Notification Craft
+
+Non-visual channels deserve the same design attention as visual ones.
+
+**Message structure:** Lead with insight, not context. The recipient knows what happened in the first line, why it matters in the second. Context follows, never leads.
+
+**Information density per channel:**
+- SMS: one fact, one action, 160 characters. No formatting available.
+- WhatsApp / Slack / Telegram: headline + 2-3 context lines + action. Use native formatting (bold, lists, code blocks where supported).
+- Email: full narrative with header, key metrics, recommended action, deep link to visual layer for detail.
+
+**Interaction patterns:** Native to each channel. Reply-based for chat. Button-based where supported (Slack Block Kit, WhatsApp interactive messages). Link-based for email. Forcing web interaction patterns into chat creates friction.
+
+**Formatting as hierarchy:** Bold for headline, plain for context, monospace for IDs and numbers, links for drill-down. The same three-tier hierarchy as visual typography, different tools.
+
+**Timing as design:** When a message arrives is a design decision. Batching low-priority updates into a morning summary is good. A 3am alert for a non-urgent threshold crossing is bad. Delivery cadence communicates priority.
+
+**Cross-channel coherence:** Same numbers, same terms, same framing across dashboard and message. The dashboard shows more detail, but the core statement is identical. A user who reads the Slack message and then opens the dashboard should recognize the same insight immediately.

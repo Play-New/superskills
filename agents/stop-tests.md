@@ -1,6 +1,7 @@
 ---
 name: stop-tests
 description: Run tests before stopping. Block on failure. Write results to .superskills/report.md.
+invocation: Available on demand. Not auto-invoked by hooks. Called by `/super:review` test section or directly as a subagent.
 tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 

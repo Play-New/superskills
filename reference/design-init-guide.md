@@ -2,7 +2,28 @@
 
 Detailed process for each step of `/super:design` init mode. The command file defines the flow. This file defines the execution.
 
+## Interface Modality Assessment
+
+Read the EIID mapping from CLAUDE.md. For each layer, determine the interface modality:
+
+**Enrichment:** How does data enter the system? If users contribute through existing channels (chat messages, email, photos, voice), the design problem is input format and confirmation, not web forms. If enrichment requires manual configuration (API keys, polling rules, source selection), that configuration needs a visual settings surface.
+
+**Inference:** Where do patterns surface? If inference is an internal pipeline with no user-facing controls, no interface is needed. If users configure rules, thresholds, or models, that configuration needs a visual surface. If inference produces real-time status that users monitor, that needs a visual dashboard.
+
+**Interpretation:** How do users consume insights? Self-contained statements that fit in a message (a number, a verdict, a recommendation) work conversationally. Spatial understanding (charts, maps, timelines, multi-variable comparison) requires a visual surface. Most products have both: headline conversational, detail visual.
+
+**Delivery:** List every output channel. For each: input-only, output-only, or bidirectional? What format constraints does the channel impose?
+
+Produce the EIID Interface Map table (see `reference/design-system-template.md`).
+
+**Routing:**
+- If ALL layers are conversational, notification, or embedded: no graphical interface is needed. Skip visual design steps entirely. Write a design system covering message structure and channel formatting only. This is a valid, complete outcome.
+- If SOME layers need a visual surface: proceed with visual design steps, scoped to those layers only.
+- If ALL layers need a visual surface: proceed with the full visual design process.
+
 ## Explore the Product's World
+
+> This section applies to layers mapped to a visual modality. If no layers are visual, skip to writing the design system.
 
 Read CLAUDE.md for business context and EIID mapping. Before choosing any visual direction, explore:
 
@@ -88,7 +109,7 @@ Pick two: one display font (headings, hero text) and one body font (paragraphs, 
 
 If references included typography patterns, use them as starting points.
 
-Then expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. Eight levels is typical. The scale should produce three clearly distinguishable hierarchy tiers (primary, secondary, tertiary) through weight and size alone. Apply the hierarchy test: strip color from the page. If primary, secondary, and tertiary content are still visually distinct, the scale works. If hierarchy collapses without color, add more size or weight contrast between levels.
+Then expand from font choice to a full type scale. Define every level from Display through Mono: size, weight, line height, tracking, and usage. The scale should produce three clearly distinguishable hierarchy tiers (primary, secondary, tertiary) through weight and size alone. Apply the hierarchy test: strip color from the page. If primary, secondary, and tertiary content are still visually distinct, the scale works. If hierarchy collapses without color, add more size or weight contrast between levels.
 
 ## Layout Architecture
 

@@ -58,7 +58,7 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
 }
 ```
 
-Run `/super:strategy` — it scans the folder, detects the stack, asks six questions (who's it for, who uses it, how they work today, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
+Run `/super:strategy`. It scans the folder, detects the stack, asks six questions (who's it for, who uses it, how they work today, what they need, what's needed, what exists), then web research, EIID mapping, value chain, and strategic classification. It writes CLAUDE.md and `.superskills/`.
 
 From that point: the secrets guard watches file writes, skills advise during planning (and nudge when files are stale), commands audit specific domains, and findings accumulate in `.superskills/`.
 
@@ -66,7 +66,7 @@ From that point: the secrets guard watches file writes, skills advise during pla
 
 | Command | Does |
 |---------|------|
-| `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities — or strategy refresh when context has changed |
+| `/super:strategy` | Assessment, EIID mapping, value chain, scaffolding, priorities. Strategy refresh when context has changed |
 | `/super:design` | Two modes: init (direction assessment with references, IA, tokens) or redesign (single-screen craft improvement with a target) |
 | `/super:review` | Full quality audit: tests, security, strategy alignment, design consistency, performance |
 
@@ -100,12 +100,12 @@ Design token enforcement and test running are on-demand: `/super:design` audits 
 
 Two concerns, two places.
 
-**CLAUDE.md** contains stable project instructions: context, stack, EIID mapping with strategic approach per layer, technology constraints, design system config. It changes rarely — updated by `/super:strategy` (init or refresh) and `/super:design` (Design System section). Claude reads it at session start to understand the project. Target: under 100 lines.
+**CLAUDE.md** contains stable project instructions: context, stack, EIID mapping with strategic approach per layer, technology constraints, design system config. It changes rarely. Updated by `/super:strategy` (init or refresh) and `/super:design` (Design System section). Claude reads it at session start to understand the project. Target: under 100 lines.
 
 **`.superskills/`** contains volatile findings:
-- `report.md` — security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
-- `decisions.md` — architecture decisions log. Append-only. Updated by `/super:strategy` refresh, `/super:review`, and `/super:design` redesign mode.
-- `design-system.md` — design direction, references, information architecture, layout, typography scale, composition, tokens, component patterns. Updated by `/super:design` as the system evolves.
+- `report.md`: security, design, performance, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns across reviews.
+- `decisions.md`: architecture decisions log. Append-only. Updated by `/super:strategy` refresh, `/super:review`, and `/super:design` redesign mode.
+- `design-system.md`: design direction, references, information architecture, layout, typography scale, composition, tokens, component patterns. Updated by `/super:design` as the system evolves.
 
 Commands **read** CLAUDE.md for context and **write** to `.superskills/`. This follows the same pattern as Anthropic's code-review plugin (reads CLAUDE.md, writes findings elsewhere) and Trail of Bits skills (standalone report files).
 
@@ -147,7 +147,7 @@ The web interface serves two roles: visualizations that don't fit in a message (
 
 ## The value chain
 
-`/super:strategy` scans the folder, detects the stack, and asks six questions: who's it for, who uses it, how they work today, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest — dependencies, evolution, strategic classification.
+`/super:strategy` scans the folder, detects the stack, and asks six questions: who's it for, who uses it, how they work today, what they need, what's needed to deliver it, what exists already. Then it researches the problem space and deduces the rest: dependencies, evolution, strategic classification.
 
 This produces a chain of dependencies from user need down to infrastructure. Every component in the system exists because something above it requires it. If you can't trace a component back to the user need, it shouldn't be there.
 
@@ -169,11 +169,13 @@ The approach lives inside each EIID layer, not in a separate section, because th
 
 `/super:design` has two modes:
 
-**Init mode** explores the product's world, collects references (URLs, screenshots, Figma files, brand assets), defines information architecture grounded in the EIID mapping, defines layout architecture (grid, breakpoints, page patterns), builds a typography scale, establishes composition rules (hierarchy, density, rhythm, proportion, whitespace), and generates a token-based design system.
+**Init mode** starts by determining which EIID layers need a visual interface and which are conversational, notification-based, or embedded. For visual layers: explore the product's world, collect references, define information architecture, generate tokens and component patterns. For non-visual layers: define message structure and channel formatting. If no layers need a graphical interface, the design system documents conversational patterns only.
 
 **Redesign mode** activates when a specific target is provided (file path, screenshot, URL). It loads whatever design context exists (SuperSkills-managed or extracted from code), runs a strategic critique (six layers: strategic alignment, composition, craft, content, structure, identity), collects screen-specific references, then applies four craft dimensions (spatial composition, typography, surfaces and depth, identity) to generate improvements grounded in the design system. Works on any project with a design system, not just SuperSkills projects.
 
 Design audit (accessibility, IA, compliance, consistency, framework rules, craft) lives in `/super:review`.
+
+The first design decision is not visual. It is whether each EIID layer needs a visual surface at all. A delivery layer that sends WhatsApp messages needs message templates and channel formatting, not screens. An enrichment layer that accepts forwarded emails needs parsing rules, not a form. Only layers that require visualization or configuration get a graphical interface.
 
 The design critique starts from strategy. The interface is not the primary input surface: people feed data through their existing channels (chat, email, voice, photos). The interface shows visualizations that don't fit in a message and configuration that controls the system. Interpretation outputs (charts, trends, comparisons) get the most screen space. Enrichment and delivery configuration stays buried. A beautiful interface that misaligns with the value chain is a failure.
 
@@ -181,10 +183,10 @@ The design critique starts from strategy. The interface is not the primary input
 - Core objects: 3-6 things users care about, each mapping to a nav destination
 - Navigation budget: 5-8 items for sidebar, 3-5 for top bar, everything else nests or goes to settings
 - Screen map with one focal point per screen and 2-4 elements above the fold
-- Content depth tiers: surface (daily), one click (weekly), deep (monthly) — every feature belongs to exactly one tier
+- Content depth tiers: surface (daily), one click (weekly), deep (monthly). Every feature belongs to exactly one tier
 
 **Direction assessment** (init mode, after product exploration):
-- References: URLs, screenshots, Figma files, brand names, designers, design studios — analyzed for applicable patterns
+- References: URLs, screenshots, Figma files, brand names, designers, design studios, analyzed for applicable patterns
 - Anti-references: things to explicitly avoid
 - Existing assets: brand materials that constrain choices
 - User confirmation of the proposed direction
@@ -203,7 +205,7 @@ If no framework is detected, only universal rules apply.
 
 ## Review
 
-`/super:review` runs all audits on the full project: tests, security, strategy alignment, design consistency, performance. Tests run first — auditing broken code wastes time. If tests fail, it asks whether to continue with the remaining audits or stop. If agent teams are available, the remaining four audits run in parallel. Otherwise, they run in order.
+`/super:review` runs all audits on the full project: tests, security, strategy alignment, design consistency, performance. Tests run first. Auditing broken code wastes time. If tests fail, it asks whether to continue with the remaining audits or stop. If agent teams are available, the remaining four audits run in parallel. Otherwise, they run in order.
 
 The review covers:
 - **Tests:** vitest + Playwright setup (if missing) and full suite run
@@ -218,15 +220,15 @@ The review covers:
 
 Five infrastructure roles to fill:
 
-| Role | Criteria |
-|------|----------|
-| Database + auth | Managed, with row-level security and realtime |
-| Hosting | Edge-capable, preview deployments |
-| Workflows | Scheduled jobs, retry, event-driven |
-| Frontend | Server-side rendering, streaming |
-| UI components | Registry-based, token-driven styling |
+| Role | Default | Criteria |
+|------|---------|----------|
+| Database + auth | Supabase | Managed, with row-level security and realtime |
+| Hosting | Vercel | Edge-capable, preview deployments |
+| Workflows | Inngest | Scheduled jobs, retry, event-driven |
+| Frontend | Next.js | Server-side rendering, streaming |
+| UI components | shadcn + Tailwind | Registry-based, token-driven styling |
 
-Delivery channels (email, messaging, SMS) and enrichment tools (scraping, APIs) are added when the EIID mapping calls for them. The plugin doesn't prescribe specific tools. It detects what's installed and enforces consistency with that choice.
+Delivery channels (email, messaging, SMS) and enrichment tools (scraping, APIs) are added when the EIID mapping calls for them. Defaults are suggestions. If a different tool is preferred for any role, the plugin adapts and enforces consistency with that choice.
 
 ## Structure
 
@@ -245,7 +247,7 @@ superskills/                             the plugin
 │   ├── eiid-awareness/SKILL.md          auto-invoked during planning
 │   └── design-awareness/SKILL.md        auto-invoked during planning
 ├── agents/
-│   └── stop-tests.md                    test runner agent
+│   └── stop-tests.md                    test runner agent (on-demand, not auto-invoked)
 ├── hooks/hooks.json                     secrets guard only
 ├── reference/
 │   ├── claude-md-template.md            CLAUDE.md blank structure
@@ -253,10 +255,19 @@ superskills/                             the plugin
 │   ├── decisions-template.md            decisions.md blank structure
 │   ├── design-critique.md              6-layer critique (strategic alignment through identity)
 │   ├── design-craft.md                 direction, spatial composition, typography, identity, layering, atmosphere, motion, color
+│   ├── design-init-guide.md            detailed init process (modality assessment through tokens)
+│   ├── review-security-guide.md        full security audit checklist
+│   ├── review-performance-guide.md     full performance audit checklist
 │   └── examples/
-│       ├── claude-md-saas.md            filled example (fleet management SaaS)
-│       ├── design-system-saas.md        filled example (Nova style, dense data)
-│       └── decisions-saas.md            filled example (2 weeks of decisions)
+│       ├── claude-md-saas.md            SaaS example (fleet management, visual-heavy)
+│       ├── design-system-saas.md        SaaS design system (Nova style, dense data)
+│       ├── decisions-saas.md            SaaS decisions (2 weeks)
+│       ├── claude-md-consumer.md        consumer example (recipe assistant, mixed modality)
+│       ├── design-system-consumer.md    consumer design system (warm editorial, WhatsApp-first)
+│       ├── decisions-consumer.md        consumer decisions
+│       ├── claude-md-devtool.md         devtool example (dependency monitor, no visual UI)
+│       ├── design-system-devtool.md     devtool design system (message structure only)
+│       └── decisions-devtool.md         devtool decisions
 └── README.md
 
 your-project/                            what gets generated
@@ -267,7 +278,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + references + tokens + patterns
 ```
 
-3 commands, 2 skills, 1 agent, 1 hook. 15 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft.
+3 commands, 2 skills, 1 agent, 1 hook. 24 markdown files, 3 JSON in the plugin. Reference files show what the output looks like and how to execute craft. Three example sets demonstrate different EIID patterns: visual-heavy SaaS (FleetPulse), mixed modality consumer (RecipeBox), and no-visual devtool (DepWatch).
 
 ## References
 

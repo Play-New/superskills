@@ -10,7 +10,8 @@ When planning changes to the codebase:
 2. **User need check:** does this change trace back to the user need defined in CLAUDE.md? If not, why are we building it?
 3. **EIID layer:** which layer does it support? (enrichment / inference / interpretation / delivery / none). No layer? Potential scope creep. Flag it.
 4. **Evolution check:** is this component commodity (automate — don't build what you can buy), judgment-dependent (differentiate — enhance with better information), or new coordination (innovate — build it)?
-5. **Delivery check:** does this reach the user where they already are, or does it require context-switching?
+5. **Delivery check:** does this reach the user where they already are, or does it require context-switching? If `.superskills/design-system.md` contains an EIID Interface Map, verify the delivery channel matches the documented modality. Building a web notification system when the map specifies WhatsApp as the delivery channel is scope creep.
+5b. **Interface modality check:** if the change adds a new page, screen, or visual component, check which EIID layer it serves. If `.superskills/design-system.md` has an EIID Interface Map and that layer is mapped to conversational or notification modality, flag: "EIID layer [X] is mapped to [modality]. Adding a visual surface may be out of scope."
 6. **Profile check:** does the Project Profile flag any recurring patterns relevant to this change? (e.g., "new API routes tend to lack auth checks" — remind about auth if adding a route.)
 7. Surface missed opportunities from the 11-question scan only when clearly relevant to the current change.
 8. **Staleness nudge:** compare CLAUDE.md against the actual codebase. If any of these are true, suggest "CLAUDE.md may be stale. Consider running `/super:strategy` to refresh it."

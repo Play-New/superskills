@@ -27,7 +27,16 @@ Framework config files alone (`components.json`, `tailwind.config.ts`, `globals.
 
 Read `reference/design-init-guide.md` for detailed execution of each step. Read `reference/design-craft.md` for craft principles. Read `reference/examples/design-system-saas.md` for tone and level of specificity.
 
-### 1. Detect UI Framework
+### 1. Interface Modality Assessment
+
+Follow the Interface Modality Assessment section in `reference/design-init-guide.md`. Read CLAUDE.md for the EIID mapping. For each EIID layer, determine whether it needs a visual surface, conversational delivery, notification, or embedded interface. Produce the EIID Interface Map table.
+
+- If no layers need a visual surface: write the design system with EIID Interface Map, message structure patterns, and channel formatting only. Write to `.superskills/design-system.md`. Done. Skip all remaining steps.
+- If some or all layers need a visual surface: proceed with the remaining steps, scoped to visual layers only.
+
+### 2. Detect UI Framework
+
+Only execute if the modality assessment identified layers requiring a visual surface.
 
 Read package.json. Identify the UI framework:
 
@@ -42,22 +51,22 @@ Read package.json. Identify the UI framework:
 
 If none detected, ask the user. Suggest shadcn + Tailwind for new projects.
 
-### 2. Explore the Product's World
+### 3. Explore the Product's World
 
 Follow `reference/design-init-guide.md` — Explore section. Produce domain concepts, color world, signature, defaults to reject. Do not propose a direction until all four are produced.
 
-### 3. Direction Assessment
+### 4. Direction Assessment
 
 Follow `reference/design-init-guide.md` — Direction Assessment section. Collect references (URLs, screenshots, Figma, brand names, designers, studios), anti-references, existing assets, constraints. Process all inputs and produce a reference summary.
 
-### 4. Define Information Architecture
+### 5. Define Information Architecture
 
-Before any visual decisions, define the structure. The web interface is not the primary input surface. People feed data through their existing channels. The interface serves two purposes:
+Before any visual decisions, define the structure. For layers mapped to a visual modality, define the information architecture. People feed data through their existing channels. The visual surface handles what those channels cannot:
 
 1. **Visualizations** that don't fit in a message: charts, maps, timelines, trend comparisons, spatial views
-2. **Configuration** — the control plane for the invisible layer: enrichment sources, inference prompts, delivery rules, user management, cron schedules
+2. **Configuration** (the control plane for the invisible layer): enrichment sources, inference prompts, delivery rules, user management, cron schedules
 
-Read CLAUDE.md for the EIID mapping. Priority stack:
+Read CLAUDE.md for the EIID mapping. Within visual scope, priority stack:
 - **Interpretation** visualizations get the most screen space (trends, comparisons, spatial patterns)
 - **Inference** outputs support them (alerts, scores, indicators)
 - **Enrichment** configuration lives deep (set once, rarely touch)
@@ -67,27 +76,27 @@ Define: core objects (3-6), navigation budget (5-8 sidebar / 3-5 top bar), scree
 
 Do not proceed to style direction until IA is defined and confirmed.
 
-### 5. Choose Style Direction
+### 6. Choose Style Direction
 
 Follow `reference/design-init-guide.md` — Style Direction section. Three dimensions: density, shape, weight.
 
-### 6. Define Typography Scale
+### 7. Define Typography Scale
 
 Follow `reference/design-init-guide.md` — Typography Scale section. Brand fonts first. If none, pick display + body pairing that matches the direction. Then expand to full scale: all levels from Display through Mono with size, weight, line height, tracking, and usage.
 
-### 7. Define Layout Architecture
+### 8. Define Layout Architecture
 
 Follow `reference/design-init-guide.md` — Layout Architecture section. Grid, breakpoints, container strategy, page patterns. Decisions flow from IA.
 
-### 8. Define Composition Rules
+### 9. Define Composition Rules
 
 Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy, density map, section rhythm, proportion, whitespace. These bridge layout and tokens.
 
-### 9. Generate Token Layer
+### 10. Generate Token Layer
 
 Follow `reference/design-init-guide.md` — Token Generation section. Extract before propose: scan existing code for repeated values, formalize the most common ones. Framework-specific instructions in the guide.
 
-### 10. Write Design Configuration
+### 11. Write Design Configuration
 
 Follow `reference/design-system-template.md` for structure. Read `reference/examples/design-system-saas.md` for tone.
 
@@ -95,15 +104,17 @@ Write to two places:
 
 **CLAUDE.md** — Design System section (framework, style, token source, direction, navigation, typography, color character, signature).
 
-**`.superskills/design-system.md`** — full design decisions: direction, references, information architecture, layout, typography scale, composition, tokens, component patterns, decisions log.
+**`.superskills/design-system.md`** — full design decisions: EIID Interface Map, direction, references, information architecture, layout, typography scale, composition, tokens, component patterns, decisions log. Include the EIID Interface Map section from step 1. For non-visual layers, write message structure and channel formatting patterns instead of visual tokens.
 
 ---
 
 ## Redesign Mode
 
-Takes a specific screen or component and makes it better. Not a consistency audit (that's review mode). This is craft improvement on a single target, grounded in strategy.
+Craft improvement on a single target, grounded in strategy. Consistency audits belong in review mode.
 
 ### 1. Load Design Context
+
+Read the EIID Interface Map from `.superskills/design-system.md` (or extract from code if no documented design system exists). If the design system exists but has no EIID Interface Map section, skip modality-based scoping and proceed with visual redesign. If the redesign target belongs to a layer mapped to non-visual modality, focus the redesign on message structure and channel design rather than visual composition.
 
 Read whatever design context exists, in priority order:
 

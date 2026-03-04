@@ -96,22 +96,22 @@ From the folder scan, stack detection, user context, and research, build the val
 
 For existing projects, confirm detected stack and adapt recommendations.
 
-For new projects, suggest this stack as a starting point. The user may choose differently.
+For new projects, suggest a stack that fills these roles. The user may choose differently.
 
-| Suggested | Role |
-|-----------|------|
-| Supabase | Database, auth (email/password or magic link + Google OAuth), storage, embeddings |
-| Vercel | Hosting, edge functions |
-| Inngest | Workflows, cron, retry |
-| Next.js | Frontend, Server Components default |
-| shadcn + Tailwind | UI components and styling |
+| Role | Default | Description |
+|------|---------|-------------|
+| Full-stack framework with SSR | Next.js | Server-rendered pages, API routes, file-based routing |
+| Managed database with auth and realtime | Supabase | Database, authentication, storage, realtime subscriptions |
+| Workflow engine for scheduled jobs | Inngest | Background tasks, cron, retry logic, event-driven workflows |
+| Edge hosting with preview deployments | Vercel | Global CDN, serverless functions, branch previews |
+| Component library with token-driven styling | shadcn + Tailwind | Pre-built accessible components, design token integration |
 
-| Conditional | When |
-|-------------|------|
-| Brevo | Email/SMS delivery |
-| Baileys | WhatsApp delivery |
-| Telegram/Slack/Discord SDK | Messaging delivery |
-| Apify/Playwright | Enrichment, scraping |
+| Conditional Role | Default | When |
+|-------------------|---------|------|
+| Email/SMS delivery service | Brevo | Delivery layer uses email or SMS channels |
+| WhatsApp messaging library | Baileys | Delivery layer uses WhatsApp |
+| Chat platform SDK | Platform-specific SDK | Delivery layer uses Telegram, Slack, Discord, or similar |
+| Web scraping/automation tool | Firecrawl | Enrichment layer needs external data collection |
 
 If the user prefers a different tool for any role, use it. Generate technology constraints from whatever stack is chosen.
 
@@ -177,7 +177,7 @@ Then start building. The plugin watches what you do. When you want a check, run 
 
 ## Refresh Mode
 
-Takes an existing strategy and updates it because something changed. Not a consistency audit (that's `/review`). This is re-assessment with new context.
+Re-assessment with new context. Something changed in the business, users, data, or market. Consistency audits belong in `/review`.
 
 ### 1. Load Existing Context
 

@@ -8,10 +8,11 @@ Before starting: read CLAUDE.md for the EIID mapping, user context, and business
 
 Before critiquing pixels, check that the design serves the strategy.
 
+- If the design system contains an EIID Interface Map, check whether this screen should exist as visual at all. If content on this screen belongs to a layer mapped to conversational or notification modality, the screen is solving the wrong problem.
 - **EIID priority:** interpretation visualizations should dominate the screen — charts, trends, comparisons, spatial views that don't fit in a message. Inference outputs support them (indicators, alerts, scores). The web interface is not the primary input surface: people feed data through their existing channels (chat, email, voice, photos). Configuration (enrichment sources, inference prompts, delivery rules, user management) should be accessible but visually subordinate. If a configuration screen gets the same visual treatment as an interpretation visualization, the hierarchy is wrong.
 - **Focal point alignment:** the element with the most visual weight on each screen should map to the highest-value EIID layer present on that screen. If a settings toggle has more visual presence than the primary insight, the priorities are inverted.
 - **User context match:** a fleet manager at 6am scanning 30 vehicles needs density and speed. A teacher reviewing student progress needs warmth and clarity. The design should feel like it was made for the person described in CLAUDE.md, not for a generic "user." Check: does the density match their task complexity? Does the tone match their emotional context? Does the pace match their time pressure?
-- **Value chain visibility:** the most valuable parts of the product (what's built, not bought) should be the most prominent. Commodity features (auth, settings, profile) should be visually subordinate. If the login page has more design attention than the core insight screen, effort is misallocated.
+- **Value chain visibility:** the most valuable parts of the product (what's built, not bought) should be the most prominent. Commodity features (auth, settings, profile) should be visually subordinate. If the login page has more design attention than the core insight screen, effort is misallocated. If any EIID layer lacks visual representation, confirm whether it needs one before flagging its absence.
 
 If strategic alignment issues exist, they override all other critique layers. Fix alignment first.
 
@@ -27,6 +28,8 @@ Rhythm, proportion, focal points. If `.superskills/design-system.md` has Layout,
 - Is there a focal point on each screen? Where does the eye land first? Is that the right place given the EIID mapping? Does the focal element match the documented proportion?
 - Does the page use the full canvas, or is everything centered in a narrow column by default?
 - Does spatial composition support the information architecture? Surface-tier content gets prime real estate. Deep-tier content gets compact treatment.
+
+- EIID weight allocation: screens serving interpretation give most of the visual weight to the insight area. Inference screens lead with status indicators. Enrichment and delivery configuration is efficient and dense. If a configuration screen has the same layout generosity as an insight dashboard, the hierarchy reflects the file system, not the value chain.
 
 Uniform spacing and equal-weight elements are the signature of undesigned interfaces. Varying density communicates importance.
 
@@ -44,8 +47,8 @@ Five checks for structure before style:
 
 Micro-decisions that separate designed from generated.
 
-- **Surface hierarchy:** are there quiet tonal shifts between levels (2-5% lightness difference), or dramatic jumps? Surfaces should layer like sheets of paper, not stack like colored blocks.
-- **Borders:** low-opacity borders (8-15% opacity of foreground color) disappear when not needed and appear when they separate content. Solid 1px borders at full opacity are a default, not a choice.
+- **Surface hierarchy:** are there quiet tonal shifts between levels, or dramatic jumps? Surfaces should layer like sheets of paper, not stack like colored blocks. The difference should be felt, not counted.
+- **Borders:** low-opacity borders using foreground color disappear when not needed and appear when they separate content. Solid borders at full opacity are a default, not a choice.
 - **Interactive states:** every clickable element needs hover, focus, active, and disabled states. Not just "darker on hover" but states that feel intentional. A button press should feel like pressing something.
 - **Typography layering:** headings, body, captions, labels should each have distinct size, weight, AND color. Three levels of hierarchy minimum. If removing color leaves the hierarchy intact, the typography works.
 - **Depth without shadows:** borders-only depth works when border opacity creates the layering. Shadows work when they're consistent (same angle, same blur, scaled by elevation). Mixing both is usually a smell.
@@ -60,6 +63,7 @@ All visible text should form one coherent story.
 - Are empty states designed? What does the screen look like with zero data? That's the first thing new users see.
 - Do error messages explain what happened AND what to do next?
 - Does the content voice match the user described in CLAUDE.md? A developer tool can be terse. A consumer app should be friendly. A medical tool should be precise. The voice is not separate from the design.
+- Cross-channel consistency: if the same insight is delivered both visually and conversationally, language must be consistent. Same terms, same framing, same units across dashboard and chat message. For conversational delivery, content critique applies to message structure: headline, context, action.
 
 ## 4. Structure
 
@@ -84,3 +88,5 @@ The capstone. Run these tests after all other layers are addressed.
 **The convergence test:** could another AI, given a similar brief, produce something substantially identical? If yes, the design is following the path of least resistance. Identify what is generic and push it toward the product's specific world. The domain concepts, color world, and signature from the design system should be visible in the final interface.
 
 **The screenshot test:** show a screenshot without the logo or product name. Can someone guess what kind of product this is? What domain it serves? If the screenshot could be anything, the visual identity is not doing its job.
+
+- Channel identity: product identity persists across channels. A WhatsApp message, an email alert, and a dashboard screen should feel like the same product. If they don't, identity is incomplete.

@@ -1,5 +1,5 @@
 ---
-description: Full quality audit. Tests, security, strategy alignment, design consistency, performance — all at once.
+description: Full quality audit. Tests, security, strategy alignment, design consistency, performance. All at once.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
@@ -65,73 +65,9 @@ Run in sequence:
 
 ## 2. Security
 
-### OWASP Top 10
+Severity: blocking on critical findings, HIGH/MEDIUM/LOW otherwise.
 
-Scan all source files. For each item: PASS or FAIL with file:line.
-
-1. **Broken access control.** API routes without auth checks? Missing RLS?
-2. **Injection.** Unsanitized user input in queries, commands, templates?
-3. **XSS.** Unescaped user content rendered as HTML?
-4. **SSRF.** User-provided URLs fetched server-side without validation?
-5. **Security misconfiguration.** Debug mode on? CORS too permissive? Missing headers?
-6. **Vulnerable components.** Run `npm audit`. Flag critical/high.
-7. **Auth failures.** Weak session handling? Missing rate limiting?
-8. **Data integrity.** Missing input validation on Server Actions or API routes?
-9. **Logging failures.** Security events not logged? PII in logs?
-10. **CSRF.** State-changing actions without CSRF tokens? Missing SameSite cookies?
-
-### Secrets Scan
-
-- Hardcoded API keys, passwords, tokens in source files
-- `.env` or `.env.local` in .gitignore?
-- Secrets in git history (search for common patterns)
-
-### GDPR Compliance
-
-Six checks:
-1. Consent mechanism present?
-2. Data export capability?
-3. Data deletion capability?
-4. Data minimization practiced?
-5. Retention policy defined?
-6. Breach notification process documented?
-
-### Stack-Adaptive Checks
-
-Detect from package.json. Apply checks for each detected tool. For tools not listed below, identify their security surface and apply equivalent checks.
-
-**Database with auth (Supabase, Firebase, etc.):**
-- Row-level security or equivalent authorization rules enabled?
-- Admin/service keys server-side only?
-- Auth middleware on protected routes?
-- Storage/bucket policies configured?
-
-**Hosting platform (Vercel, Netlify, etc.):**
-- Env vars split between preview and production?
-- Security headers configured?
-- No secrets in deployment config files?
-
-**Workflow engine (Inngest, Trigger.dev, etc.):**
-- Signing keys validated?
-- No PII in event payloads?
-- Steps idempotent?
-
-**Framework (Next.js, Remix, Nuxt, etc.):**
-- Server actions/loaders validate input?
-- API routes check auth?
-- Dynamic route params sanitized?
-- No path traversal in file operations?
-
-### Blocking Rules
-
-**BLOCK** (must fix before proceeding):
-- Credentials hardcoded in source
-- SQL injection
-- XSS
-- Auth bypass on protected routes
-- PII exposure in logs, errors, or URLs
-
-Everything else: severity rated HIGH / MEDIUM / LOW.
+Read `reference/review-security-guide.md` for the full security audit checklist. Apply all checks relevant to the detected stack. Block on: credentials in code, SQL/NoSQL injection, XSS, authentication bypass, PII exposure without consent.
 
 ---
 
@@ -168,6 +104,17 @@ Run the opportunity scan:
 ## 4. Design
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Read `reference/design-critique.md` for the full critique framework. Work through all six layers (0 through 5).
+
+### EIID Modality Alignment
+
+Severity: blocking if widespread, warning if isolated.
+
+Read `.superskills/design-system.md` for the EIID Interface Map. If no EIID Interface Map section exists, skip this subsection.
+
+1. **Visual scope match:** Are there screens or pages for EIID layers mapped to non-visual modalities? Each is a candidate for removal or conversion to a conversational pattern.
+2. **Missing visual surfaces:** Are visual-mapped layers missing screens or components? Each gap means the product can't deliver on that layer's promise.
+3. **Channel coverage:** Are conversational or notification layers implemented? Missing channels mean delivery failures.
+4. **Cross-channel consistency:** Do the same terms, metrics, and framing appear in both visual and conversational surfaces? Inconsistency confuses users who use multiple channels.
 
 ### Accessibility (blocking)
 
@@ -215,12 +162,13 @@ Compare across all component files:
 
 ### Craft (advisory)
 
-Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply all six critique layers, evaluating four craft dimensions:
+Read `reference/design-critique.md` for the full critique framework. Read `reference/design-craft.md` for execution guidance. Apply all six critique layers, evaluating five craft dimensions:
 
 1. **Spatial composition:** density variation between zones, intentional asymmetry, grid-breaking at focal points, negative space as grouping. Uniform spacing everywhere signals undesigned.
 2. **Typography:** hierarchy works without color (size + weight alone produce three tiers), fonts chosen intentionally (not framework defaults), monospace for aligned data.
-3. **Surfaces and depth:** lightness shifts between levels (2-5%, not color jumps), consistent depth strategy (not mixed), opacity-based borders, complete interactive states.
+3. **Surfaces and depth:** subtle lightness shifts between levels (not color jumps), consistent depth strategy (not mixed), opacity-based borders, complete interactive states.
 4. **Identity:** signature element visible, committed direction (not half-measures), anti-convergence test, atmosphere matches direction (or deliberate absence).
+5. **Conversational and notification craft:** Do messages lead with insight? Is information density appropriate for the channel? Are interaction patterns native to the platform? Is delivery timing designed? Read `reference/design-craft.md` Conversational and Notification Craft section.
 
 Flag craft issues as suggestions, not violations.
 
@@ -228,76 +176,9 @@ Flag craft issues as suggestions, not violations.
 
 ## 5. Performance
 
-### Detect Mode
+Severity: blocking on regressions beyond budget, advisory otherwise.
 
-Check `.superskills/report.md` Performance Budget section. If it has content, run **review**. Otherwise, run **init** first.
-
-### Init
-
-1. Set targets:
-   - LCP < 2.5s
-   - Bundle < 200KB gzipped
-   - API response < 500ms
-   - CLS < 0.1
-   - INP < 200ms
-
-2. Configure bundle analysis: add `@next/bundle-analyzer` to devDependencies, add `analyze` script.
-
-3. Set up Web Vitals reporting in layout.tsx.
-
-4. Write budget to `.superskills/report.md` Performance Budget section.
-
-### Review
-
-**Bundle analysis:**
-- Run `npx next build` and check output sizes
-- Identify largest dependencies
-- Missing dynamic imports for heavy libraries?
-- Tree-shaking working? (check for barrel file imports)
-
-**Core Web Vitals:**
-- **LCP:** largest content paint sources. Images without next/image? Fonts without next/font?
-- **INP:** main thread blocking. Heavy synchronous operations?
-- **CLS:** layout shift sources. Images without dimensions? Dynamic content above the fold?
-
-**Database:**
-- N+1 query patterns (queries in loops)
-- Missing indexes
-- Over-fetching (SELECT * instead of specific columns)
-- Under-batching (multiple single inserts instead of batch)
-
-**API costs:**
-- Count LLM call sites
-- Estimate tokens per call
-- Estimate $/month at projected volume
-- Caching opportunities for repeated calls
-
-**Stack-adaptive checks:**
-
-Detect from package.json. Apply checks for each detected tool. For tools not listed below, identify their performance surface and apply equivalent checks.
-
-**Database (Supabase, Prisma, Drizzle, etc.):**
-- Over-fetching? Select specific columns, not all.
-- Batch operations instead of single inserts in loops?
-- Indexes on filtered/sorted columns?
-- Edge/serverless functions for compute-heavy queries?
-
-**Hosting (Vercel, Netlify, etc.):**
-- Static/incremental regeneration for semi-static pages?
-- Edge runtime for latency-sensitive routes?
-- Image optimization via platform tools?
-- Font optimization via platform tools?
-
-**Workflow engine (Inngest, Trigger.dev, etc.):**
-- Sleep/wait instead of polling loops?
-- Batching for high-frequency events?
-- Concurrency limits set?
-
-**Framework (Next.js, Remix, Nuxt, etc.):**
-- Dynamic imports for heavy client components?
-- Server-first rendering, client components only when needed?
-- Streaming for slow data sources?
-- Route-level static/dynamic configuration?
+Read `reference/review-performance-guide.md` for the full performance audit checklist. Init mode establishes baseline targets and tooling. Review mode measures against those targets. Block on: bundle size regression >20%, missing lazy loading for routes, unindexed queries on user-facing paths.
 
 ---
 

@@ -7,6 +7,23 @@
 **Signature:** The attention count — a single amber number at the top of every screen showing vehicles needing action right now. No other fleet tool leads with this.
 **Rejected defaults:** Rounded consumer app look, blue-heavy SaaS palette, card-heavy dashboard with big spacing
 
+## EIID Interface Map
+
+| Layer | Modality | Surface | Rationale |
+|-------|----------|---------|-----------|
+| Enrichment | mixed | WhatsApp photos + voice notes, email forwarding, telematics API | Drivers contribute through WhatsApp (conversational). Telematics polling is automated. API keys and polling config need a visual settings surface. |
+| Inference | visual | web dashboard | Pattern detection rules and thresholds are user-configurable. Anomaly monitoring needs a real-time visual dashboard. |
+| Interpretation | visual | web dashboard + WhatsApp/email | Charts, maps, and trend comparisons require a visual surface. Headlines (attention count, fleet health score) also delivered conversationally. |
+| Delivery | mixed | WhatsApp + email + web | Urgent alerts go to WhatsApp and email (conversational). Full context and drill-down live on the web dashboard (visual). |
+
+**Visual scope:** Inference (configuration + monitoring), Interpretation (charts, maps, trends), and Delivery (drill-down detail, configuration) need graphical interfaces. This is a visual-heavy product.
+**Non-visual scope:** Enrichment input is primarily conversational (drivers on WhatsApp). Delivery alerts go to WhatsApp and email. These channels need message structure design alongside the visual dashboard.
+
+## References
+**Borrowed:** Tight sidebar density from Linear (240px fixed, minimal chrome). Amber-on-dark attention signal from industrial control panels. Monospace data alignment from Bloomberg terminal aesthetic.
+**Avoided:** Generic card grid dashboards (every SaaS looks the same). Low-contrast gray text on white (unreadable at 6am). Blue-heavy palettes (no domain connection to fleet operations).
+**Assets:** None. Greenfield project.
+
 ## Information Architecture
 **Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports. Settings at sidebar bottom. User profile in avatar menu.
 **Excluded from nav:** Integrations (inside Settings), Export (inside Reports), Vehicle Detail (drill-down from Fleet)
@@ -83,6 +100,37 @@ Primary input happens outside the interface: drivers send WhatsApp voice notes a
 | Card | auto | 16px | 4px | 1px border, no shadow |
 | Table row | 36px | 8px 12px | 0 | Alternating slate-50 rows |
 | Modal | auto | 24px | 8px | Only element with shadow |
+
+## Conversational Patterns
+
+### WhatsApp Alert (fleet manager)
+```
+*attention* 3 vehicles need action
+VH-042: fuel 23% below baseline (3 days)
+VH-017: overdue service by 480km
+VH-089: idle >4 hours, engine running
+→ Open dashboard for details
+```
+
+### WhatsApp Driver Input (confirmation)
+```
+Got it. Photo logged for VH-042.
+Fuel receipt: 68L at Shell Bergamo, EUR 1.42/L.
+Next service in 2,400km.
+```
+
+### Email Alert (daily summary)
+```
+Subject: FleetPulse Daily — 3 attention, 2 overdue
+
+3 vehicles need attention today.
+2 maintenance services overdue.
+Fleet fuel efficiency: 8.2 km/L (down 4% this week).
+
+Top priority: VH-042 fuel anomaly (3 consecutive days below baseline).
+
+→ Open FleetPulse dashboard
+```
 
 ## Decisions
 | Decision | Why | Date |
