@@ -105,7 +105,7 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For every touchpoint the user perceives — a screen, an agent response, a prompt output, a notification, a CLI message, a workflow status:
    - Are the experience patterns present? Feedback on actions, appropriate pacing, loading/processing that communicates work?
    - Does the voice match? Same tone and terminology across all surfaces?
-   - Has the absence test been applied? For every element the user perceives — visual or textual — would the feeling survive without it?
+   - Has the absence test been applied? For every element the user perceives across any modality, would the target feeling survive without it? If yes, remove it.
    - Does this touchpoint feel like the same product as every other touchpoint?
 
 **On regression:** if verify step 2 (full test suite) fails on tests from earlier pieces, the current piece broke something. Revert the current piece's changes, analyze why the regression happened, and try a different approach. This counts toward the 5-iteration limit. If all 5 iterations regress earlier pieces, skip and report — do not leave a regression in place.

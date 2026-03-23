@@ -68,6 +68,8 @@ Use the research and your own knowledge to classify each component's evolution s
 
 From the folder scan, stack detection, user context, and research, build the value chain and map it to EIID.
 
+**Minimal surface applies to the mapping itself.** Every component in the EIID mapping must trace to the user need. Challenge each one: is this component needed to deliver the value, or is it "nice to have"? A mapping with 4 tightly connected components beats one with 12 loosely justified ones. If a component exists because "products like this usually have it", remove it.
+
 **Build the value chain.** Work backward from the user need through what's needed and what exists down to infrastructure. What depends on what? What's missing?
 
 **Classify each component.** Use the research to determine evolution, not the user's opinion:
@@ -85,7 +87,7 @@ From the folder scan, stack detection, user context, and research, build the val
 
 **Graduation pattern:** start from the simplest level that works. An LLM call that covers 90% of cases beats an agent that covers 100% at 10x the cost. Graduate up (LLM call → workflow → agent) when edge cases justify the complexity. Graduate down (agent → workflow → code) when patterns stabilize and volume demands it.
 
-Record the implementation level in each EIID layer's Approach field: `via [LLM call / workflow / agent / code / buy]`. Graduation trigger is optional: "Innovate via workflow. Graduate to code when recipe DB > 10k" or "Automate via buy, commodity auth service."
+Record in each EIID layer's Approach field both the strategic classification and the implementation level. Format: `[Automate / Differentiate / Innovate] via [LLM call / workflow / agent / code / buy]. Graduation: [trigger, optional]`. Examples: "Differentiate via workflow. Graduation: code when recipe DB > 10k." or "Automate via buy." Graduation triggers are optional for commodity components (no graduation needed) but recommended for LLM call, workflow, and agent levels (these will change as volume grows).
 
 **Record the target feeling** in the EIID mapping header. This is the emotional benchmark for every decision that follows: design direction, experience patterns, build verification. Example: "Target feeling: calm control — the fleet manager glances and knows everything is fine."
 
@@ -160,7 +162,7 @@ If the user prefers a different tool for any role, use it. Generate technology c
    - **Differentiate** (risk-based value increasing): requires human judgment, benefits from better information
    - **Innovate** (coordination-based value emerging): newly possible connections between systems, teams, data
 3. Set priorities: automate first (quick wins), innovate flagged for careful design.
-4. Write the first Architecture Decision to `.superskills/decisions.md`.
+4. Write the first decision to `.superskills/decisions.md` (type: `decision`).
 
 ### 8. Write CLAUDE.md
 
@@ -200,9 +202,11 @@ Read CLAUDE.md and `.superskills/decisions.md`. Understand the current EIID mapp
 
 ### 2. Change Assessment
 
-Show the user what the current strategy says (key elements: business, user, EIID layers, approach classifications). Then collect input in a single block. The user answers what's relevant, skips what isn't.
+Show the user what the current strategy says (key elements: business, user, target feeling, EIID layers, approach classifications). Then collect input in a single block. The user answers what's relevant, skips what isn't.
 
 **What changed:** "What's different from when the strategy was created? Business direction, target users, data sources, market, constraints."
+
+**Target feeling:** "The current target feeling is '[read from CLAUDE.md]'. Does this still describe how users should feel? A business pivot, a new user segment, or a shift in product scope can change the emotional benchmark."
 
 **What still holds:** "Anything that should stay exactly as is?"
 
@@ -223,6 +227,8 @@ Rebuild the value chain from the updated context. For each component:
 - **Removed?** Components that no longer apply. Remove them.
 
 Map to the same four layers (Enrichment, Inference, Interpretation, Delivery) with updated content.
+
+**Update the target feeling.** If the user confirmed the feeling still holds, keep it. If it changed, record the new target feeling in the EIID mapping header. The target feeling drives design direction, experience patterns, and build verification — changing it cascades through everything downstream. If it changed, flag: "Target feeling changed. Run `/super:design` to update experience patterns."
 
 ### 5. Update Priorities
 

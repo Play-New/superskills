@@ -17,6 +17,14 @@ claude plugin marketplace add Play-New/superskills
 claude plugin install super
 ```
 
+Update:
+
+```bash
+claude plugin marketplace update superskills
+```
+
+Auto-update: run `/plugin` in Claude Code, select `superskills` under Marketplaces, enable auto-update.
+
 ---
 
 ## The problem
@@ -180,7 +188,8 @@ Delivery channels and enrichment tools are added when the EIID mapping calls for
 ```
 superskills/                             the plugin
 ├── .claude-plugin/
-│   └── plugin.json                     plugin definition
+│   ├── plugin.json                     plugin definition
+│   └── marketplace.json                marketplace registry
 ├── commands/
 │   ├── strategy.md                     EIID mapping, classification, implementation levels
 │   ├── design.md                       modality assessment, experience, visual execution
@@ -208,7 +217,7 @@ superskills/                             the plugin
 └── README.md
 ```
 
-4 commands, 3 skills, 1 agent, 2 hooks. 31 markdown files, 2 JSON.
+4 commands, 3 skills, 1 agent, 2 hooks. 31 markdown files, 3 JSON.
 
 ## References
 

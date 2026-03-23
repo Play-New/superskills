@@ -7,6 +7,8 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 
 Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining seven domains sequentially.
 
+**Review reports. Review does not fix.** Every finding is a report entry with location, severity, and suggested fix. The user decides what to fix and when. Do not modify source code, configuration, dependencies, or infrastructure during review. The only files review writes to are `.superskills/report.md` and `.superskills/decisions.md`.
+
 ## Prerequisites
 
 Read CLAUDE.md. If no EIID mapping exists, stop and suggest `/super:strategy` first.
@@ -51,9 +53,11 @@ Run in sequence:
 
 ## 2. Security
 
-Severity: blocking on critical findings, HIGH/MEDIUM/LOW otherwise.
+Severity: blocking on critical findings, HIGH/MEDIUM/LOW otherwise. Report all findings — do not apply fixes.
 
 Read `reference/review-security-guide.md` for the full security audit checklist. Apply all checks relevant to the detected stack. Block on: credentials in code, SQL/NoSQL injection, XSS, authentication bypass, PII exposure without consent.
+
+For each finding, report: severity, file:line, what's wrong, and how to fix it. The user or `/super:build` applies the fix.
 
 ---
 
@@ -217,6 +221,10 @@ Compare across all component files:
 - **Chakra/MUI/Mantine:** all styling through framework APIs, theme overrides in theme file
 - **Tailwind only:** utility classes only, no arbitrary values
 
+### Signature Element (advisory)
+
+If `.superskills/design-system.md` documents a signature element, verify it is present in the built product. The signature is the one thing that makes this product recognizable — if it's documented but missing from the implementation, the product feels generic. Check: does the signature appear where users encounter the product most frequently?
+
 ### Craft (advisory)
 
 Apply all six critique layers from `reference/design-critique.md`, evaluating craft dimensions from `reference/design-craft.md`. Include conversational and notification craft for non-visual layers. Include agent interaction craft for user-facing agents. Flag craft issues as suggestions, not violations.
@@ -227,7 +235,9 @@ Apply all six critique layers from `reference/design-critique.md`, evaluating cr
 
 Severity: blocking on regressions beyond budget, advisory otherwise.
 
-Read `reference/review-performance-guide.md` for the full performance audit checklist. Init mode establishes baseline targets and tooling. Review mode measures against those targets. Block on: bundle size regression >20%, missing lazy loading for routes, unindexed queries on user-facing paths.
+**Detect mode.** Check if `.superskills/report.md` has a Performance Budget section. If not, run the init steps from `reference/review-performance-guide.md` to establish baseline targets and tooling first. If it exists, run review mode and measure against those targets.
+
+Read `reference/review-performance-guide.md` for the full performance audit checklist. Block on: bundle size regression >20%, missing lazy loading for routes, unindexed queries on user-facing paths.
 
 ---
 

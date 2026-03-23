@@ -37,7 +37,7 @@ Concrete, observable behaviors that produce the target feeling. These apply to E
 - [what is deliberately absent — per modality. Visual: "no confirmation dialogs for reversible actions." Conversational: "no 'Is there anything else?' after every answer." Workflow: "no notification for routine completions." Agent: "no explanation unless asked."]
 - [what is deliberately quiet — not every event deserves attention in every channel]
 
-**The absence test:** For every element the user perceives — a screen element, a message, a prompt clause, a workflow step, a notification — try removing it. If the target feeling survives, remove it. This applies to words in a prompt as much as buttons on a screen.
+**The absence test:** for every element the user perceives across any modality — a screen element, a message, a prompt clause, a workflow notification, a CLI line, an agent response — remove it. If the target feeling survives without it, the element should not exist.
 
 ## EIID Interface Map
 

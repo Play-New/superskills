@@ -1,4 +1,4 @@
-# Architecture Decisions
+# Project Decisions
 
 ## Active
 

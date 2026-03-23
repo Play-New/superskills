@@ -106,7 +106,7 @@ For each pattern, define per-modality behavior. Not every product has every moda
 
 **Restraint:** what is deliberately absent? Per-modality: no confirmation dialogs for reversible actions (visual), no "Is there anything else?" after every answer (conversational), no notification for routine completions (workflow). Deliberate quiet.
 
-**The absence test:** for every element the user perceives — a screen element, a message, a prompt clause, a workflow step, a notification — try removing it. If the target feeling survives, remove it.
+**The absence test:** for every element the user perceives across any modality — a screen element, a message, a prompt clause, a workflow notification, a CLI line, an agent response — remove it. If the target feeling survives without it, the element should not exist.
 
 Read `reference/design-craft.md` Part 1 for the principles behind each pattern. Read `reference/design-system-template.md` Experience Patterns section for the output format.
 

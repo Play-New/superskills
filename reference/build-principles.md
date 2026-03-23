@@ -65,7 +65,7 @@ The target feeling (defined in strategy, refined in design) guides every visible
 
 **Experience patterns are not polish.** Micro-interactions, transitions, gratification moments, restraint — these are built into the code from the first component, not applied as a final pass. A loading state that says "Checking 3 sources..." is built alongside the API call, not added later. A success animation on task completion is part of the task component, not a separate ticket.
 
-**The absence test runs continuously.** For every element on screen: would the target feeling survive without it? If yes, remove it. This applies to animations too — don't animate what the user sees 50 times a day. Restraint is harder than addition, and more important.
+**The absence test runs continuously.** For every element the user perceives across any modality — a screen element, a message, a prompt clause, a workflow notification, a CLI line, an agent response — remove it. If the target feeling survives without it, the element should not exist. This applies to animations, copy, agent explanations, workflow status messages, and prompt clauses equally. Restraint is harder than addition, and more important.
 
 **Gratification earns its place.** Not every action gets a celebration. Saving a form is a subtle check. Completing onboarding is a moment. Hitting a milestone is a delight. The scale of feedback matches the significance of the achievement.
 

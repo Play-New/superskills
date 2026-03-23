@@ -51,6 +51,8 @@ Follow `reference/design-init-guide.md` — Direction Assessment section. Collec
 
 **This is the core design step.** It comes before any visual decisions because experience patterns shape everything that follows. Do not skip this for any product.
 
+**Rule zero applies here.** Before defining patterns for a modality, ask: does this layer need this modality at all? If interpretation can be delivered conversationally, don't design a visual dashboard. If a workflow runs silently, don't add status notifications. Every pattern earns its place.
+
 Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors for EVERY modality in the EIID Interface Map. These patterns make the feeling executable — an AI can verify their presence or absence.
 
 Read the target feeling from CLAUDE.md. Read the EIID Interface Map from step 1. For each modality the product uses, define:
@@ -60,7 +62,7 @@ Read the target feeling from CLAUDE.md. Read the EIID Interface Map from step 1.
 - **Voice and tone:** how the product speaks — consistently, across all text surfaces. Prompts, error messages, agent responses, notifications, empty states, CLI output, email subjects. Same personality everywhere. Define it once, apply it to all modalities.
 - **Gratification:** proportional to achievement, per modality. Visual: animation on milestone. Agent: warmer response on meaningful completion. CLI: summary showing improvement. Notification: subject line IS the win.
 - **Restraint:** what you deliberately don't do, per modality. Visual: no confirmation dialogs for reversible actions. Conversational: no "Is there anything else?" Agent: no explanation dump. Prompts: no clause that doesn't change the output. Workflow: no notification for routine steps.
-- **The absence test:** for every element the user perceives — a screen element, a message, a prompt clause, a workflow notification — try removing it. If the target feeling survives, remove it.
+- **The absence test:** for every element the user perceives across any modality — a screen element, a message, a prompt clause, a workflow notification, a CLI line, an agent response — remove it. If the target feeling survives without it, the element should not exist. (See `reference/build-principles.md` section 5 for the canonical definition.)
 
 Write to `.superskills/design-system.md` under Experience Patterns section.
 
@@ -160,7 +162,7 @@ Read whatever design context exists, in priority order:
 
 **If not, extract from code:** scan globals.css / theme.ts / tailwind.config / components.json for the existing token set. Scan 5-10 component files for repeated values (spacing, colors, radius, heights). Build a working picture of the current design system from code evidence.
 
-Read CLAUDE.md if it exists, for EIID mapping and user context. If no CLAUDE.md, work without strategic context and focus on craft.
+Read CLAUDE.md if it exists, for EIID mapping, user context, and **target feeling**. The target feeling is the emotional benchmark for the redesign — every proposed change must either serve it or not undermine it. If no CLAUDE.md, work without strategic context and focus on craft.
 
 Read `reference/design-critique.md` and `reference/design-craft.md`.
 
@@ -175,6 +177,8 @@ If the user pointed at a screenshot or URL without file paths, ask which source 
 Show the user what you see (key observations about the current state). Then collect input in a single block. The user answers what they want, skips what they don't.
 
 **What's wrong:** "What bothers you about this screen? Be specific if you can."
+
+**Feeling check:** If a target feeling exists in CLAUDE.md, state it and ask: "The target feeling is '[feeling]'. Does this screen match it? Does the redesign need to change the feeling, or bring the screen closer to it?"
 
 **What works:** "Anything to keep exactly as is?"
 
@@ -194,6 +198,11 @@ Skip questions the user already answered in their initial request.
 
 Apply the critique layers from `reference/design-critique.md` to the target. If CLAUDE.md with an EIID mapping exists, apply all layers. If no strategic context, skip layer 0 and focus on the remaining layers.
 
+**Feeling alignment.** Before scoring layers, test the target against the target feeling and experience patterns from `.superskills/design-system.md`:
+- Does this screen produce the target feeling? If not, what undermines it?
+- Are the documented experience patterns present? (feedback, pacing, voice, gratification, restraint)
+- Apply the absence test: for every element the user perceives, would the target feeling survive without it?
+
 Score each layer: **strong**, **adequate**, **weak**. Prioritize based on the user's stated priority.
 
 ### 5. Propose
@@ -204,7 +213,7 @@ For each proposed change:
 
 | Layer | Current | Proposed | Why |
 |-------|---------|----------|-----|
-| [layer] | [what exists now, specific] | [what to change, specific] | [craft principle from design-craft.md + design system constraint] |
+| [layer] | [what exists now, specific] | [what to change, specific] | [how this serves the target feeling + craft principle from design-craft.md + design system constraint] |
 
 Present the full proposal. Wait for user confirmation before implementing.
 
