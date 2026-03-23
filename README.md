@@ -10,7 +10,8 @@
 A Claude Code plugin that changes the shape of software.
 
 ```bash
-claude plugin add --from github:Play-New/superskills
+claude plugin marketplace add Play-New/superskills
+claude plugin install super
 ```
 
 ---

@@ -1,0 +1,14 @@
+{
+  "name": "superskills",
+  "owner": {
+    "name": "Play New",
+    "url": "https://github.com/Play-New"
+  },
+  "plugins": [
+    {
+      "name": "super",
+      "source": ".",
+      "description": "AI-native product development. EIID framework for strategy, design, build, and quality audits."
+    }
+  ]
+}
