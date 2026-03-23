@@ -19,7 +19,7 @@ Framework config files alone (`components.json`, `tailwind.config.ts`, `globals.
 **2. Route:**
 - **No documented design system** → run **init mode**
 - **Documented design system exists + user provided a target** (file path, screenshot, URL, or description of a specific screen or component) → run **redesign mode**
-- **Documented design system exists + no target** → tell the user: "Design system already exists. Provide a target screen or component to redesign. Run `/review` for a full design audit."
+- **Documented design system exists + no target** → tell the user: "Design system already exists. Provide a target screen or component to redesign. Run `/super:review` for a full design audit."
 
 ---
 

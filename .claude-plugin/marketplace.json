@@ -6,7 +6,7 @@
   },
   "metadata": {
     "version": "2026.3.16.2246",
-    "description": "EIID-driven strategy, design, and quality audits for AI-native products. Claude Code plugin."
+    "description": "EIID-driven strategy, design, build, and quality audits for AI-native products. Claude Code plugin."
   },
   "plugins": [
     {

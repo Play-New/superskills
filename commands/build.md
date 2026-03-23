@@ -151,7 +151,7 @@ If the target doesn't trace to any EIID layer, flag it. Don't build scope creep 
 
 Rule zero first: is this the simplest way to deliver this value? Can the target be achieved with less? Fewer new screens, fewer new tables, fewer new endpoints. Challenge the scope before committing to it.
 
-Then produce a plan. Same format as init mode: what, why, how, depends on. Show what will change in existing code and what will be new.
+Then produce a plan. Same format as init mode: what, why, how, acceptance criteria, depends on. Show what will change in existing code and what will be new.
 
 **Present the plan. The user approves before building.** Extending existing code is higher risk than starting fresh — a bad extension can break working features. The plan is the checkpoint.
 
@@ -161,7 +161,7 @@ Same loop as init mode (test → build → verify → next). Same autonomy after
 
 ### 5. Integration
 
-Full test suite. Log to `decisions.md`. Report.
+Full test suite. Log to `.superskills/decisions.md`. Report.
 
 ---
 

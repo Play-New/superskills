@@ -221,7 +221,9 @@ Agent architecture is skipped entirely if no EIID component uses agent, workflow
 
 ## Skills and hooks
 
-**Secrets guard** (hook, automatic): blocks hardcoded secrets on file write/edit. Ignores .env, config, migrations, lock files.
+**Secrets guard** (hook, PostToolUse): blocks hardcoded secrets on file write/edit. Ignores .env, config, migrations, lock files, markdown, JSON config.
+
+**Session integrity** (hook, SessionStart): warns when CLAUDE.md contains an EIID mapping but `.superskills/` directory is missing — likely a broken setup.
 
 **EIID awareness** (skill, during planning): flags work that doesn't trace to an EIID layer. Checks implementation level mismatches (an LLM call using tool loops is under-classified, an agent that never iterates is over-classified). Checks parity: new UI actions need a corresponding agent tool. Nudges toward `/super:strategy` when CLAUDE.md is stale (untracked deps, unmapped files, shifted approaches, shifted implementation levels).
 
@@ -276,17 +278,18 @@ superskills/                             the plugin
 │   └── build-awareness/SKILL.md         shared standards + quality during implementation
 ├── agents/
 │   └── stop-tests.md                    test runner (on-demand)
-├── hooks/hooks.json                     secrets guard
+├── hooks/hooks.json                     secrets guard + session integrity check
 ├── reference/
 │   ├── claude-md-template.md            CLAUDE.md structure
 │   ├── design-system-template.md        design-system.md structure
 │   ├── decisions-template.md            decisions.md structure
 │   ├── design-critique.md              6-layer critique
-│   ├── design-craft.md                 10 craft dimensions
+│   ├── design-craft.md                 craft dimensions (experience + visual)
 │   ├── design-init-guide.md            modality assessment through tokens
 │   ├── build-principles.md             design principles for construction
 │   ├── review-security-guide.md        security checklist
 │   ├── review-performance-guide.md     performance checklist
+│   ├── report-template.md              report.md structure
 │   └── examples/
 │       ├── claude-md-saas.md            FleetPulse: visual-heavy, all code/buy
 │       ├── design-system-saas.md        dense data, Nova style
@@ -310,7 +313,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + tokens + patterns
 ```
 
-4 commands, 3 skills, 1 agent, 1 hook. 31 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
+4 commands, 3 skills, 1 agent, 2 hooks. 31 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
 
 ## References
 

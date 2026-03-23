@@ -7,6 +7,14 @@
 **Signature:** The attention count — a single amber number at the top of every screen showing vehicles needing action right now. No other fleet tool leads with this.
 **Rejected defaults:** Rounded consumer app look, blue-heavy SaaS palette, card-heavy dashboard with big spacing
 
+## Experience Patterns
+
+**Feedback:** Visual surfaces — interactive elements respond in <100ms. Table row hover highlights the row. Alert acknowledgment shows a brief checkmark before the row moves to history. WhatsApp — photo receipt confirmation arrives within 5 seconds of upload. Email — daily summary subject line IS the key metric ("FleetPulse Daily — 3 attention, 2 overdue").
+**Pacing:** Operational tool — answer first, detail on demand. The dashboard leads with the attention count (headline), not a loading animation. WhatsApp alerts lead with severity and vehicle count, context follows. CLI/API responses return the number first, breakdown second.
+**Voice and tone:** Terse, factual, no filler. "3 vehicles need attention" not "We noticed some vehicles that may require your attention." Same voice in dashboard labels, WhatsApp messages, email subjects, and error messages. The product speaks like a competent dispatcher.
+**Gratification:** Subtle. When all vehicles are healthy, the attention count shows "0" in green — a quiet win. WhatsApp daily summary leads with the positive ("Fleet running clean today") when there are no alerts. No confetti, no celebration animations. The gratification is absence of problems.
+**Restraint:** No toast notifications for routine events (vehicle check-in, successful sync). No WhatsApp messages for resolved alerts (silence IS the resolution signal). No confirmation dialogs for reversible actions (acknowledge alert, dismiss notification). Dashboard shows no empty states with illustrations — an empty alert list just says "No active alerts."
+
 ## EIID Interface Map
 
 | Layer | Modality | Surface | Rationale |
@@ -23,14 +31,6 @@
 **Borrowed:** Tight sidebar density from Linear (240px fixed, minimal chrome). Amber-on-dark attention signal from industrial control panels. Monospace data alignment from Bloomberg terminal aesthetic.
 **Avoided:** Generic card grid dashboards (every SaaS looks the same). Low-contrast gray text on white (unreadable at 6am). Blue-heavy palettes (no domain connection to fleet operations).
 **Assets:** None. Greenfield project.
-
-## Experience Patterns
-
-**Feedback:** Visual surfaces — interactive elements respond in <100ms. Table row hover highlights the row. Alert acknowledgment shows a brief checkmark before the row moves to history. WhatsApp — photo receipt confirmation arrives within 5 seconds of upload. Email — daily summary subject line IS the key metric ("FleetPulse Daily — 3 attention, 2 overdue").
-**Pacing:** Operational tool — answer first, detail on demand. The dashboard leads with the attention count (headline), not a loading animation. WhatsApp alerts lead with severity and vehicle count, context follows. CLI/API responses return the number first, breakdown second.
-**Voice and tone:** Terse, factual, no filler. "3 vehicles need attention" not "We noticed some vehicles that may require your attention." Same voice in dashboard labels, WhatsApp messages, email subjects, and error messages. The product speaks like a competent dispatcher.
-**Gratification:** Subtle. When all vehicles are healthy, the attention count shows "0" in green — a quiet win. WhatsApp daily summary leads with the positive ("Fleet running clean today") when there are no alerts. No confetti, no celebration animations. The gratification is absence of problems.
-**Restraint:** No toast notifications for routine events (vehicle check-in, successful sync). No WhatsApp messages for resolved alerts (silence IS the resolution signal). No confirmation dialogs for reversible actions (acknowledge alert, dismiss notification). Dashboard shows no empty states with illustrations — an empty alert list just says "No active alerts."
 
 ## Information Architecture
 **Navigation:** Sidebar — Fleet, Alerts, Maintenance, Routes, Reports. Settings at sidebar bottom. User profile in avatar menu.

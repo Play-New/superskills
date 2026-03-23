@@ -39,7 +39,7 @@ Check for vitest.config.ts OR a `test` script in package.json. If found, run **v
 
 Run in sequence:
 
-1. `npm test -- --run`
+1. `npm test` (add `-- --run` for vitest, `-- --watchAll=false` for jest)
 2. If Playwright configured: `npx playwright test`
 3. `npx tsc --noEmit`
 
@@ -304,7 +304,7 @@ Tests:        [passed/failed/skipped]
 Security:     [blocking count] blocking, [high count] high
 Build:        [surface count] excess, [security count] security issues
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
-Experience:   [feeling issues] feeling, [pattern issues] patterns, [responsive issues] responsive
+Experience:   [feeling issues] feeling, [pattern issues] patterns, [coherence issues] coherence
 Design:       [violation count] violations
 Performance:  [issue count] issues
 Agent:        [issue count] issues (or "skipped — no agent components")

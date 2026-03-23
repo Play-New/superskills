@@ -6,6 +6,14 @@
 **Signature:** The risk bar. Three filled/empty squares (filled squares = higher risk) next to every dependency in CLI output. Visible at a glance, no color dependency.
 **Rejected defaults:** Web dashboard with charts, color-coded dependency trees, interactive upgrade wizards
 
+## Experience Patterns
+
+**Feedback:** CLI — scan progress shows "Checking 142 dependencies..." with a counter that increments. Slack DM arrives only for breaking changes in production deps. GitHub comment appears when a PR touches an affected dependency. Every channel's feedback is proportional to the event's importance.
+**Pacing:** Fast and direct — answer first, always. CLI output leads with the risk table, not a summary paragraph. Slack DM leads with severity and package name, not "DepWatch has detected an update." GitHub comment leads with risk level and migration estimate, details in a collapsible section.
+**Voice and tone:** Terse like a senior teammate. No greetings, no sign-offs, no "I found that..." framing. CLI: `■■■ lodash 4.17→5.0 3 moderate`. Slack: `*breaking* lodash 4.17 → 5.0 — 3 repos affected`. The product never explains itself — it reports facts and suggests actions.
+**Gratification:** Minimal. A clean scan shows "0 breaking changes" — that's the reward. Weekly summary leads with "No action needed this week" when applicable. No badges, no streaks, no progress indicators for dependency health. The gratification is trust: developers trust the output immediately.
+**Restraint:** No Slack message for devDependency patch updates. No notification for resolved issues (the absence of the alert IS the resolution). No interactive CLI prompts during scan (breaks CI/cron). No color as primary information carrier (risk squares work in monochrome). Weekly batching for non-breaking updates — most weeks, DepWatch is silent.
+
 ## EIID Interface Map
 
 | Layer | Modality | Surface | Rationale |
@@ -22,14 +30,6 @@
 **Borrowed:** Slack message density from Sentry alerts (severity + key fact + one action). CLI table compactness from `npm outdated` (aligned columns, no decoration). GitHub comment structure from Dependabot (collapsible details, migration command).
 **Avoided:** Verbose changelogs pasted into Slack (information overload). Color-coded terminal output as primary information carrier (inaccessible). Interactive CLI prompts during scan (breaks CI/cron usage).
 **Assets:** None.
-
-## Experience Patterns
-
-**Feedback:** CLI — scan progress shows "Checking 142 dependencies..." with a counter that increments. Slack DM arrives only for breaking changes in production deps. GitHub comment appears when a PR touches an affected dependency. Every channel's feedback is proportional to the event's importance.
-**Pacing:** Fast and direct — answer first, always. CLI output leads with the risk table, not a summary paragraph. Slack DM leads with severity and package name, not "DepWatch has detected an update." GitHub comment leads with risk level and migration estimate, details in a collapsible section.
-**Voice and tone:** Terse like a senior teammate. No greetings, no sign-offs, no "I found that..." framing. CLI: `■■■ lodash 4.17→5.0 3 moderate`. Slack: `*breaking* lodash 4.17 → 5.0 — 3 repos affected`. The product never explains itself — it reports facts and suggests actions.
-**Gratification:** Minimal. A clean scan shows "0 breaking changes" — that's the reward. Weekly summary leads with "No action needed this week" when applicable. No badges, no streaks, no progress indicators for dependency health. The gratification is trust: developers trust the output immediately.
-**Restraint:** No Slack message for devDependency patch updates. No notification for resolved issues (the absence of the alert IS the resolution). No interactive CLI prompts during scan (breaks CI/cron). No color as primary information carrier (risk squares work in monochrome). Weekly batching for non-breaking updates — most weeks, DepWatch is silent.
 
 ## Conversational Patterns
 
