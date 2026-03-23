@@ -11,6 +11,9 @@ A Claude Code plugin that changes the shape of software.
 
 ```bash
 claude plugin marketplace add Play-New/superskills
+```
+
+```bash
 claude plugin install super
 ```
 
