@@ -13,6 +13,10 @@ Full audit of the project. Run tests first (broken code makes other audits unrel
 
 Read CLAUDE.md. If no EIID mapping exists, stop and suggest `/super:strategy` first.
 
+Read `.superskills/report.md` Project Profile section if it exists. Note recurring patterns, previously flagged issues, and which EIID layers have the most findings. Use this context to prioritize: recurring issues that survived a previous review deserve higher severity.
+
+For shared definitions (EIID, implementation levels, graduation, target feeling, experience patterns, absence test, Rule Zero), see `reference/concepts.md`.
+
 ---
 
 ## 1. Tests
@@ -51,7 +55,66 @@ Run all configured test suites in sequence: unit/integration tests, then browser
 
 Severity: blocking on critical findings, HIGH/MEDIUM/LOW otherwise. Report all findings — do not apply fixes.
 
-Read `reference/review-security-guide.md` for the full security audit checklist. Apply all checks relevant to the detected stack. Block on: credentials in code, SQL/NoSQL injection, XSS, authentication bypass, PII exposure without consent.
+### OWASP Top 10
+
+Scan all source files. For each item: PASS or FAIL with file:line.
+
+1. **Broken access control.** API routes without auth checks? Missing RLS? Server actions callable without session validation?
+2. **Injection.** Unsanitized user input in queries, commands, templates? String concatenation in SQL/NoSQL instead of parameterized queries?
+3. **XSS.** Unescaped user content rendered as HTML? `dangerouslySetInnerHTML` or equivalent without sanitization?
+4. **SSRF.** User-provided URLs fetched server-side without validation? Missing allowlist for external requests?
+5. **Security misconfiguration.** Debug mode on? CORS too permissive? Missing security headers (CSP, X-Frame-Options, X-Content-Type-Options)?
+6. **Vulnerable components.** Run `npm audit`. Flag critical/high. Check for outdated dependencies with known CVEs.
+7. **Auth failures.** Weak session handling? Missing rate limiting on login/signup? No account lockout after failed attempts?
+8. **Data integrity.** Missing input validation on Server Actions or API routes? No schema validation (zod, yup, etc.) on user-facing endpoints?
+9. **Logging failures.** Security events not logged? PII in logs? No audit trail for admin actions?
+10. **CSRF.** State-changing actions without CSRF tokens? Missing SameSite cookies? GET requests that mutate state?
+
+### Secrets Scan
+
+- Hardcoded API keys, passwords, tokens in source files
+- `.env` or `.env.local` in .gitignore?
+- Secrets in git history (search for common patterns: `sk-`, `AKIA`, `ghp_`, `password =`, `secret =`)
+- Service account JSON files committed to the repo
+- Private keys or certificates in the source tree
+
+### GDPR Compliance
+
+**Applicability gate:** Does this product collect or process personal data? If no user accounts, no PII in any data flow, and no EU users, skip entirely. If applicable: consent before collection, data export/deletion capabilities, data minimization, retention policy, breach notification process.
+
+### Stack-Adaptive Security Checks
+
+Detect from package.json. For tools not listed, identify their security surface and apply equivalent checks.
+
+- **Database with auth:** RLS on all user-data tables? Admin keys server-side only? Auth middleware on protected routes? Storage policies? Realtime respects RLS?
+- **Hosting:** env vars split preview/production? Security headers? No secrets in deployment config? Preview deployments restricted?
+- **Workflow engine:** webhook signing keys validated? No PII in event payloads? Steps idempotent? Errors don't leak internal state?
+- **Framework:** server actions validate input? API routes check auth? Route params sanitized? Middleware on all protected groups?
+- **Payment:** webhook signature verification? Amount validated server-side? Subscription status checked before access?
+
+### Agent Security
+
+Skip if no agent components.
+
+- **Isolation:** OS-level sandboxing (containers, not application access controls). Each agent in its own sandbox with selective data mounting — only what the job needs.
+- **No secrets in agent environment.** Keys stay host-side. Agents access tools through controlled interfaces.
+- **Treat agents as untrusted.** Design the sandbox assuming the agent will use every capability it has.
+- **Agent-to-agent isolation.** Multiple agents must not share environment, filesystem, or database access.
+- **Audit trail.** Log file writes, network calls, tool invocations, and data access.
+
+### Adversarial Testing for LLM Components
+
+Skip if no user input reaches an LLM.
+
+- **Prompt injection.** Test direct ("ignore previous instructions"), indirect (instructions in uploaded docs/images), and encoding tricks (base64, unicode). Every user-facing prompt needs a system boundary the user cannot override.
+- **Output manipulation.** Can the LLM output harmful content or fake system messages? Schema validation catches structural, content filtering catches semantic.
+- **Tool abuse.** Can a user message trick the agent into unauthorized tool calls? Each tool must enforce its own authorization independent of agent reasoning.
+- **Data exfiltration.** Can the agent be convinced to leak other users' data, system prompts, or keys? Context should never contain data unauthorized for the current user.
+- **Memory poisoning.** If cross-session memory exists: can a user plant instructions that affect future sessions? Memory stores facts, not instructions.
+
+### Blocking Rules
+
+**BLOCK** (must fix before proceeding): credentials in source, SQL/NoSQL injection, XSS, auth bypass on protected routes, PII exposure in logs/errors/URLs. Everything else: HIGH / MEDIUM / LOW.
 
 For each finding, report: severity, file:line, what's wrong, and how to fix it. The user or `/super:build` applies the fix.
 
@@ -61,7 +124,7 @@ For each finding, report: severity, file:line, what's wrong, and how to fix it. 
 
 Severity: blocking on security posture, advisory on design.
 
-Read `reference/build-principles.md`. Apply to the existing codebase:
+Apply rule zero (see `reference/concepts.md`) to the existing codebase:
 
 ### Minimal Surface
 - Are there screens, endpoints, tables, or components that don't trace to the EIID mapping? Flag each.
@@ -96,26 +159,12 @@ Read CLAUDE.md EIID mapping. For each source file:
 2. If "none": is it supporting infrastructure (tests, types, config, build, utilities used by EIID layers)? Expected, not scope creep. If it's application code that doesn't serve any EIID layer, flag as potential scope creep.
 3. Any dependency not traceable to the EIID mapping? Flag it.
 
-Run the opportunity scan:
+Run the opportunity scan per EIID layer:
 
-**Enrichment:**
-1. Any data source connected but not used for inference?
-2. Any two data sources that could be cross-referenced but are not?
-3. Any public API or external data that would fill a gap in the current schema?
-
-**Inference:**
-4. Any collected data with patterns not being analyzed?
-5. Any prediction the existing data supports but nobody built?
-6. Any anomaly detection that would catch problems before users notice?
-
-**Interpretation:**
-7. Any analysis result generated but not surfaced to users?
-8. Any insight that lacks context (trend, comparison, explanation) to be actionable?
-
-**Delivery:**
-9. Any channel the users frequent that the system does not reach?
-10. Any timing improvement (deliver sooner, deliver at the right moment)?
-11. Any trigger condition that would catch events currently missed?
+- **Enrichment:** data sources connected but unused for inference? Sources that could be cross-referenced? External data that fills a schema gap?
+- **Inference:** collected data with unanalyzed patterns? Predictions the data supports but nobody built? Anomaly detection that would catch problems early?
+- **Interpretation:** analysis results generated but not surfaced? Insights lacking context (trend, comparison, explanation) to be actionable?
+- **Delivery:** channels users frequent but the system doesn't reach? Timing improvements? Trigger conditions that would catch missed events?
 
 ---
 
@@ -123,23 +172,18 @@ Run the opportunity scan:
 
 Severity: advisory, but high-impact findings can block.
 
-Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for experience patterns. If neither exists, skip.
+Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for experience patterns. If neither exists, skip. For definitions of target feeling, experience patterns, and absence test, see `reference/concepts.md`.
 
 ### Experience Alignment
 
 For each touchpoint the user perceives — screens, agent responses, notifications, prompts, CLI output, workflow messages, emails:
 1. **First impression test:** what sensation does this touchpoint produce? Does it match the target feeling?
-2. **Absence audit:** for each element the user perceives (visual or textual), would the target feeling survive without it? Flag candidates for removal.
+2. **Absence audit:** for each element the user perceives, would the target feeling survive without it? Flag candidates for removal.
 3. **Noise audit:** is there clutter that undermines the feeling? Visual: competing animations, toast storms. Conversational: explanation dumps, unnecessary follow-up questions. Prompts: clauses that don't change output. Workflows: notifications for routine steps.
 
 ### Experience Pattern Compliance
 
-If `.superskills/design-system.md` has an Experience Patterns section:
-1. **Feedback:** does every user action get acknowledgment appropriate to its modality? Visual: animation/state change. Conversational: status message. CLI: progress indicator. Workflow: step update.
-2. **Pacing:** does the rhythm match the target feeling? Fast and precise, or gentle and spacious? Check across all modalities — an agent that dumps a wall of text breaks pacing even if the dashboard is clean.
-3. **Voice consistency:** does the product speak with one voice? Same tone, same terminology across dashboard, agent responses, error messages, notifications, emails, CLI output. Flag divergences.
-4. **Gratification:** are meaningful completions marked with proportional feedback in each modality? Is mundane interaction appropriately quiet?
-5. **Restraint:** are there touchpoints that could be removed or simplified? Confirmation dialogs where undo works. Agent explanations nobody asked for. Workflow notifications for routine completions. Prompt clauses that add no value.
+If `.superskills/design-system.md` has an Experience Patterns section, check each pattern (feedback, pacing, voice, gratification, restraint) against implementation. See `reference/concepts.md` for the canonical definition of each pattern.
 
 ### Cross-Modality Coherence
 
@@ -221,7 +265,7 @@ If `.superskills/design-system.md` documents a signature element, verify it is p
 
 ### Craft (advisory)
 
-Apply all six critique layers from `reference/design-critique.md`, evaluating craft dimensions from `reference/design-craft.md`. Include conversational and notification craft for non-visual layers. Include agent interaction craft for user-facing agents. Flag craft issues as suggestions, not violations.
+Apply all six critique layers from `reference/design-critique.md`. Include conversational and notification craft for non-visual layers. Include agent interaction craft for user-facing agents. Flag craft issues as suggestions, not violations.
 
 ---
 
@@ -229,9 +273,45 @@ Apply all six critique layers from `reference/design-critique.md`, evaluating cr
 
 Severity: blocking on regressions beyond budget, advisory otherwise.
 
-**Detect mode.** Check if `.superskills/report.md` has a Performance Budget section. If not, run the init steps from `reference/review-performance-guide.md` to establish baseline targets and tooling first. If it exists, run review mode and measure against those targets.
+### Detect Mode
 
-Read `reference/review-performance-guide.md` for the full performance audit checklist. Block on: bundle size regression >20%, missing lazy loading for routes, unindexed queries on user-facing paths.
+Check if `.superskills/report.md` has a Performance Budget section. If not, run **init**. If it exists, run **review**.
+
+### Init
+
+Derive targets from the product's context. Not every product has the same performance needs:
+- A visual SaaS used daily needs tight Core Web Vitals because users notice lag on pages they visit hundreds of times. Use Google's thresholds as starting points: LCP < 2.5s, CLS < 0.1, INP < 200ms. Set bundle and API response targets based on the product's complexity.
+- A CLI tool cares about execution time and output speed, not web vitals.
+- A conversational product cares about response latency — how fast the agent or workflow returns an answer.
+- A background workflow cares about throughput and cost, not user-facing latency.
+
+For non-visual products, define equivalent targets: CLI execution time, agent response time, workflow throughput. Configure the appropriate measurement tools for the stack. Write the budget to `.superskills/report.md` Performance Budget section.
+
+### Review
+
+Measure against established targets.
+
+**Bundle analysis.** Run the framework build command and check output sizes. Identify largest dependencies (anything >50KB gzipped deserves scrutiny). Check for: missing dynamic imports for heavy libraries (chart libs, editors, syntax highlighters), barrel file imports that defeat tree-shaking, duplicate dependencies (two versions of the same library), unused CSS or duplicate utility classes.
+
+**Core Web Vitals** (visual surfaces only):
+- **LCP:** hero images, large text blocks, above-fold components. Images without framework optimization? Fonts without framework font loading? Render-blocking resources? Slow TTFB?
+- **INP:** heavy synchronous operations during interaction? Long tasks (>50ms) on user input? State updates causing large re-renders? Third-party scripts blocking main thread?
+- **CLS:** images without explicit dimensions? Dynamic content injected above the fold after initial render? Font swap causing shift? Embeds without reserved space?
+
+**Database performance.** N+1 query patterns. Missing indexes on WHERE/ORDER BY/JOIN columns. Over-fetching (SELECT * instead of specific columns). Under-batching (single inserts in loops instead of batch). Unindexed queries on user-facing paths (blocking). Large result sets without pagination.
+
+**API cost analysis.** Count LLM call sites. Estimate tokens per call (input + output) and $/month at projected volume. Caching opportunities for repeated identical inputs. Model selection: expensive models where cheaper ones suffice? Streaming responses where appropriate?
+
+### Stack-Adaptive Performance Checks
+
+Detect from package.json. Apply for each detected tool. For tools not listed, identify their performance surface and apply equivalent checks.
+
+- **Database (Supabase, Prisma, Drizzle, etc.):** select specific columns, not all. Batch operations instead of insert loops. Indexes on filtered/sorted columns. Connection pooling for serverless.
+- **Hosting (Vercel, Netlify, etc.):** static/incremental regeneration for semi-static pages. Edge runtime for latency-sensitive routes. Image and font optimization via platform tools. CDN caching headers.
+- **Workflow engine (Inngest, Trigger.dev, etc.):** sleep/wait instead of polling loops. Batching for high-frequency events. Concurrency limits. Fan-out instead of sequential processing.
+- **Framework (Next.js, Remix, Nuxt, etc.):** dynamic imports for heavy client components. Server-first rendering. Streaming for slow data sources. Route-level static/dynamic configuration. Prefetching for likely navigation. Suspense boundaries around slow components.
+
+**Block on:** bundle size regression >20% from budget, missing lazy loading for routes, unindexed queries on user-facing paths.
 
 ---
 
@@ -284,20 +364,9 @@ For each tool exposed to agents:
 
 ## Output
 
-Write all findings to `.superskills/`:
+Write findings to `.superskills/`. Each domain **replaces** its section in `.superskills/report.md` (test results keep last 3 runs). Strategy findings **append** to `.superskills/decisions.md`.
 
-- Test results → **replace** Test Report section in `.superskills/report.md` (keep last 3 runs)
-- Security findings → **replace** Security Findings section in `.superskills/report.md`
-- Build quality findings → **replace** Build Quality section in `.superskills/report.md`
-- Strategy findings → **append** to `.superskills/decisions.md`
-- Experience findings → **replace** Experience section in `.superskills/report.md`
-- Design findings → **replace** Design Findings section in `.superskills/report.md`
-- Performance findings → **replace** Performance Budget section in `.superskills/report.md`
-- Agent architecture findings → **replace** Agent Architecture section in `.superskills/report.md`
-
-**Update status counts** at the top of `.superskills/report.md`.
-
-**Update Project Profile** in `.superskills/report.md`: note which EIID layers have the most code, which issues recur, and any patterns learned.
+**Update status counts** at the top of `.superskills/report.md`. **Update Project Profile:** note which EIID layers have the most code, which issues recur, and patterns learned.
 
 Print a summary at the end:
 

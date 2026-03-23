@@ -199,21 +199,17 @@ superskills/                             the plugin
 │   └── stop-tests.md                    test runner (on-demand)
 ├── hooks/hooks.json                     secrets guard + session integrity
 ├── reference/
-│   ├── claude-md-template.md            CLAUDE.md structure
-│   ├── design-system-template.md        design-system.md structure
-│   ├── decisions-template.md            decisions.md structure
-│   ├── report-template.md              report.md structure
+│   ├── concepts.md                     canonical definitions (EIID, rule zero, experience patterns)
 │   ├── design-critique.md              6-layer strategic critique
-│   ├── design-craft.md                 craft dimensions (experience + visual)
-│   ├── design-init-guide.md            modality assessment through tokens
-│   ├── build-principles.md             construction principles
-│   ├── review-security-guide.md        security checklist
-│   ├── review-performance-guide.md     performance checklist
+│   ├── claude-md-template.md            CLAUDE.md output format
+│   ├── design-system-template.md        design-system.md output format
+│   ├── decisions-template.md            decisions.md output format
+│   ├── report-template.md              report.md output format
 │   └── examples/                       FleetPulse, RecipeBox, DepWatch
 └── README.md
 ```
 
-4 commands, 3 skills, 1 agent, 2 hooks. 31 markdown files, 3 JSON.
+4 commands, 3 skills, 1 agent, 2 hooks. 24 markdown files, 3 JSON.
 
 ## References
 

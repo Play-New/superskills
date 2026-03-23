@@ -5,19 +5,25 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash, WebSearch, WebFetch
 
 # Build
 
-Read `reference/build-principles.md` before every build decision.
+Read `reference/concepts.md` for shared definitions (rule zero, experience patterns, absence test, graduation).
 
-## Rule Zero
+## How Build Thinks
 
-Before adding anything — a screen, a component, an endpoint, a table, a setting, a dependency — ask:
+Build is a conversation first, then a machine. The conversation sharpens the vision. The machine doesn't stop until the vision is real.
 
-1. **Does this trace to the EIID mapping?** If not, don't build it.
-2. **Is there a simpler way?** Fewer screens. Fewer components. Fewer abstractions. The simplest version that delivers the value.
-3. **Does this earn its place?** Every element a user sees, every endpoint, every table column must justify its existence against the user need. If removing it wouldn't hurt the outcome, remove it.
+Every decision passes through rule zero (see `reference/concepts.md`): does this trace to the EIID mapping? Is there a simpler way? Does it earn its place?
 
-This is not a UI guideline. It applies to everything: data models, API routes, background jobs, agent tools, visual surfaces. A product with 3 screens that each do one thing perfectly beats a product with 12 screens. A schema with 4 tables that model the real relationships beats 10 tables that model hypothetical ones.
+Five principles guide construction:
 
-Rule zero overrides all other build decisions. When in doubt, build less.
+**Design runs through everything.** Design is not a visual layer applied after construction. The information architecture shapes the schema — the core objects in the IA are the core tables. Endpoints follow user actions, not hypothetical operations. Components carry the direction's character from the first line. The fleet dashboard is dense and operational from the first component. The recipe app is warm from the first component.
+
+**Intelligence is transparent.** For products with LLM calls, workflows, or agents: prompts live in discoverable locations, not inline in business logic. The system shows what it's doing ("Checking 3 sources...") not just that it's doing something. Every LLM call has schema-validated input and output. Graduation markers in code document when the approach should change.
+
+**Security is a posture, not a checklist.** Hostile input on every boundary. Auth middleware (one place, not scattered), RLS on user data from day one, secrets in env validated at startup, schema validation at every boundary. Inside the boundary, trust the types.
+
+**Experience is built in, not polished on.** The target feeling and experience patterns (see `reference/concepts.md`) are embedded from the first component, not applied as a final pass. A loading state that says "Matching recipes from your pantry..." is built alongside the API call. Restraint is harder than addition.
+
+**Build the invisible parts to be correct. Build the visible parts to be felt.**
 
 ## Detect Mode
 
@@ -91,6 +97,8 @@ The user corrects, adds, removes. Iterate until they say it's right. **This is t
 ### 3. Readiness
 
 Now check the technical foundation. Read CLAUDE.md, `.superskills/design-system.md`, `.superskills/decisions.md`, `.superskills/report.md` (if they exist).
+
+If `.superskills/report.md` has a Project Profile section, read it for recurring patterns from previous reviews. Factor these into the build — if review keeps finding the same issues, address them proactively.
 
 Three gates:
 
@@ -167,7 +175,7 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 5. **Verify beyond tests:**
    - Types check (`npx tsc --noEmit`)
    - If visual: structural verification — correct tokens, components, layout patterns. Flag screens that need the user to see the running product.
-   - **Feeling check:** re-read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For every touchpoint the user perceives, does it carry the product's character? Would removing any element hurt the experience? If not, remove it.
+   - **Feeling check:** re-read the target feeling from CLAUDE.md and the experience patterns from `reference/concepts.md`. For every touchpoint the user perceives, does it carry the product's character? Apply the absence test. Would removing any element hurt the experience? If not, remove it.
 
 6. **Log** to `.superskills/decisions.md`. Re-read the log before the next piece — if earlier pieces had issues or patterns, use that context.
 
@@ -209,7 +217,7 @@ Collect their description, examples, references. Challenge the same way as init 
 
 ### 2. Context
 
-Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`, `.superskills/report.md` (if they exist). Understand what exists and what review flagged.
+Read CLAUDE.md, `.superskills/decisions.md`, `.superskills/design-system.md`, `.superskills/report.md` (if they exist). Understand what exists and what review flagged. Read the Project Profile for recurring patterns.
 
 Map the target to EIID. If it doesn't trace to any layer, flag it. Don't build scope creep silently.
 
@@ -241,7 +249,7 @@ Full test suite results. Log to `.superskills/decisions.md`. Report.
 
 - **Rule zero above all.** Build less. Every piece earns its place.
 - **Vision before plan.** The user describes perfection in their own words. Build understands it before proposing anything.
-- **Tests are the plan.** The experience proposal becomes e2e tests. The tests are the spec, the progress tracker, and the quality gate. All in one.
+- **Tests are the plan.** The experience proposal becomes tests. The tests are the spec, the progress tracker, and the quality gate. All in one.
 - **Install what you need.** Browser tests, integration tests, CLI tests — whatever this product requires. The test infrastructure is not optional — set it up automatically.
 - **Autonomous after vision approval.** No checkpoints during the build. Log, don't ask.
 - **Don't stop until it's right.** The build loop runs until all tests pass. Not "mostly pass." All of them.
