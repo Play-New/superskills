@@ -1,17 +1,17 @@
 ---
 name: design-awareness
-description: Design awareness during planning. Challenges whether UI changes should exist at all, then checks direction, hierarchy, and system compliance.
+description: Experience and design awareness during planning. Challenges whether changes earn their place, checks feeling alignment across all modalities, then direction, hierarchy, and system compliance.
 user-invocable: false
 ---
 
-When planning changes to UI code:
+When planning changes to any code that produces something a user perceives — UI, agent responses, prompts, notifications, CLI output, workflow messages, error handling:
 
 1. If `.superskills/design-system.md` does not exist, stop. No design system configured.
 2. Read `.superskills/design-system.md` for direction, tokens, and component patterns. Read CLAUDE.md for the Design System section.
 
 3. **Should this exist?** Before checking how it looks — should this screen, component, or element exist at all? Does it serve the EIID mapping? Is there a simpler way to deliver this value? Can the information be part of an existing screen instead of a new one? Can the interaction be conversational instead of visual? Apply the absence test: would the target feeling (from CLAUDE.md) survive without this element? Flag additions that don't earn their place.
 
-3b. **Feeling alignment.** Read the target feeling from CLAUDE.md. Does this UI change contribute to or undermine the target feeling? If experience patterns exist in `.superskills/design-system.md`, check: are micro-interactions, transitions, and restraint patterns being followed? Flag additions that create noise (unnecessary animations, competing visual weight, generic loading states) against the target feeling.
+3b. **Feeling alignment.** Read the target feeling from CLAUDE.md. Does this change contribute to or undermine the target feeling — in any modality? Check experience patterns from `.superskills/design-system.md`: feedback, pacing, voice, restraint. Flag additions that create noise against the feeling — not just visual noise, but conversational noise (agent over-explaining), workflow noise (unnecessary notifications), prompt noise (clauses that don't change output).
 
 4. **Modality check:** if `.superskills/design-system.md` contains an EIID Interface Map, check: does this UI change target a layer mapped to visual modality? If adding a visual component for a layer mapped to conversational or notification delivery, flag: "This layer is mapped to [modality] delivery. Confirm a visual surface is needed before proceeding."
 

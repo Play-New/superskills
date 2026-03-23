@@ -15,10 +15,10 @@ When writing or editing application source code (not config, not tests, not mark
    - A new component that duplicates what an existing component does
    - A new dependency for something achievable with what's already installed
 
-3. **Feeling check.** If the code produces anything a user sees (UI, messages, errors, agent responses): read the target feeling from CLAUDE.md and experience patterns from `.superskills/design-system.md`. Does this code contribute to the target feeling or undermine it? Specifically:
-   - Are experience patterns present? Feedback on user actions, appropriate transitions, loading states that communicate work?
-   - Has the absence test been applied? Could any visible element be removed without losing the feeling?
-   - Does it carry the direction's character? A fleet dashboard component should feel dense and operational. A recipe component should feel warm and generous. Flag output that feels generic, templated, or disconnected from the direction.
+3. **Feeling check.** If the code produces anything a user perceives — UI, agent responses, prompt output, notifications, CLI messages, workflow status, error messages: read the target feeling from CLAUDE.md and experience patterns from `.superskills/design-system.md`. Does this code contribute to the target feeling or undermine it? Specifically:
+   - Are experience patterns present? Feedback, pacing, voice consistency — appropriate for this modality?
+   - Has the absence test been applied? Could any element the user perceives be removed without losing the feeling?
+   - Does it carry the product's character? Same voice, same terminology, same personality as every other touchpoint. Flag output that feels generic, templated, or inconsistent with other surfaces.
 
 4. **EIID traceability.** Which layer does this code serve? If none, and it's not supporting infrastructure (tests, types, config, shared utilities), flag: "This doesn't trace to the EIID mapping."
 

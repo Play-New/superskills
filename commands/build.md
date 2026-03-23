@@ -78,6 +78,7 @@ Produce the build plan. Each piece:
 - **What:** concrete, tied to EIID
 - **Why:** which user need it serves
 - **How:** implementation level from the mapping (code/buy/LLM call/workflow/agent)
+- **Acceptance criteria:** 2-4 concrete, testable outcomes. These come from the strategy and user need, not from the implementation approach. "Fleet overview shows vehicles that need attention sorted by urgency" — not "renders a table with sorting." The criteria become the tests in the build loop.
 - **Depends on:** prerequisite pieces
 
 Order by dependency. Infrastructure before intelligence. Intelligence before surfaces.
@@ -92,7 +93,7 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 
 **Test → Build → Verify → Next.**
 
-**Test:** write acceptance tests first. Tests define the outcome, not the implementation. What does this piece DO? Not how it's structured.
+**Test:** write acceptance tests from the plan's criteria, not from the implementation you're about to write. The plan (approved by the user) defines what each piece must DO. Tests encode those criteria. If you write the test and the code in the same mental pass, the test validates your approach, not the spec — this is the universal failure mode of AI test-first development. Read the plan. Write tests that would pass for ANY correct implementation, not just yours.
 
 **Build:** implement. Follow the approach from the EIID mapping. For visual surfaces, build with the design system — tokens, typography, composition, the direction's character. Every visual element must earn its place. If a screen has 8 cards, ask: can it be 3? If a form has 10 fields, ask: which 4 actually matter?
 
@@ -101,11 +102,11 @@ Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop.
 2. Full test suite passes (no regression)
 3. Types check (`npx tsc --noEmit`)
 4. If visual: structural verification — are the right tokens, components, and layout patterns used? Does the code match the design direction? Note: the build loop cannot render pages or see visual output. Structural checks (correct classes, tokens, component usage, layout patterns) are the proxy. True visual verification requires the user to see the running product. Flag screens that need visual review in the report.
-5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For anything the user sees or interacts with:
-   - Are the experience patterns present? Micro-interactions on actions, appropriate transitions, loading states that communicate work?
-   - Are gratification moments in place for meaningful completions?
-   - Has the absence test been applied? For every visible element, would the feeling survive without it?
-   - Does the overall sensation match the target feeling? A product targeting "calm control" should not have toast storms, competing animations, or noisy empty states.
+5. **Feeling check:** read the target feeling from CLAUDE.md and the experience patterns from `.superskills/design-system.md`. For every touchpoint the user perceives — a screen, an agent response, a prompt output, a notification, a CLI message, a workflow status:
+   - Are the experience patterns present? Feedback on actions, appropriate pacing, loading/processing that communicates work?
+   - Does the voice match? Same tone and terminology across all surfaces?
+   - Has the absence test been applied? For every element the user perceives — visual or textual — would the feeling survive without it?
+   - Does this touchpoint feel like the same product as every other touchpoint?
 
 **On regression:** if verify step 2 (full test suite) fails on tests from earlier pieces, the current piece broke something. Revert the current piece's changes, analyze why the regression happened, and try a different approach. This counts toward the 5-iteration limit. If all 5 iterations regress earlier pieces, skip and report — do not leave a regression in place.
 
@@ -173,3 +174,4 @@ Full test suite. Log to `decisions.md`. Report.
 - **The strategy is truth.** If what you're building contradicts CLAUDE.md, stop and report. Don't deviate silently.
 - **Design is not decoration.** The direction, the signature, the character — these are present in every piece, not applied at the end. A fleet dashboard feels like a control room from line one. A recipe app feels warm from line one.
 - **Prompts are visible.** Every LLM prompt is discoverable, inspectable, and if user-facing, editable. No buried prompts in business logic.
+- **Context drift is real.** On builds with 5+ pieces, the agent's context window fills and earlier instructions get compressed. The plan, CLAUDE.md, and `.superskills/design-system.md` are the ground truth — re-read them before each piece, not once at the start. For very long builds, consider splitting into independent sessions per piece: each session reads from disk (plan, strategy, design system), builds one piece, commits, exits. The filesystem is the memory, not the conversation.

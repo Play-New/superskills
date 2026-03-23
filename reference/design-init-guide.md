@@ -23,32 +23,32 @@ Produce the EIID Interface Map table (see `reference/design-system-template.md`)
 
 ## Explore the Product's World
 
-> This section applies to layers mapped to a visual modality. If no layers are visual, skip to writing the design system.
+> This section applies to ALL products, not just visual ones. A WhatsApp-only product, a CLI tool, an agent — all have a world, a voice, a signature. Skip only the visual-specific items (color world, spatial composition, atmosphere) for non-visual products.
 
-Read CLAUDE.md for business context and EIID mapping. Before choosing any visual direction, explore:
+Read CLAUDE.md for business context and EIID mapping. Before choosing any direction, explore:
 
-**How should they feel?** This is the foundational question. Read the target feeling from CLAUDE.md (set during strategy). Everything that follows — every direction choice, every token, every interaction pattern — serves this feeling. If strategy defined "calm control", every design decision is tested against: does this contribute to calm control, or does it create noise?
+**How should they feel?** This is the foundational question. Read the target feeling from CLAUDE.md (set during strategy). Everything that follows — every direction choice, every token, every message pattern, every prompt, every agent behavior — serves this feeling. If strategy defined "calm control", every design decision is tested against: does this contribute to calm control, or does it create noise?
 
-**Who opens this interface?** Not "users" — the actual person. Where are they? What's on their mind? A teacher at 7am with coffee is not a developer debugging at midnight.
+**Who interacts with this product?** Not "users" — the actual person. Where are they? What's on their mind? What device, what channel, what moment? A fleet manager getting a WhatsApp alert between site visits is not a developer reading CLI output at their desk.
 
-**What must they accomplish?** The verb. Grade submissions. Find the broken deployment. Approve the payment.
+**What must they accomplish?** The verb. Grade submissions. Find the broken deployment. Approve the payment. Choose what to cook.
 
-**What should this feel like?** Translate the target feeling into sensory terms. "Clean and modern" means nothing. Warm like a notebook? Cold like a terminal? Dense like a trading floor? Calm like a reading app? The sensory description bridges the abstract feeling to concrete design choices.
+**What should this feel like?** Translate the target feeling into sensory and behavioral terms. Not "clean and modern" — that means nothing. For visual products: warm like a notebook? Dense like a trading floor? For conversational products: concise like a colleague? Warm like a friend? For CLI: precise like a surgical tool? For agents: knowledgeable like an expert? Proactive like an assistant?
 
 Then produce:
 
-- **Domain concepts:** 5+ metaphors and vocabulary from this product's world. Not features — territory.
-- **Color world:** 5+ colors that exist naturally in this product's domain. If this were a physical space, what would you see?
-- **Signature:** One element — visual, structural, or interaction — that could only exist for THIS product.
-- **Defaults to reject:** 3 obvious choices you will NOT use. Name them explicitly so you can avoid them.
+- **Domain concepts:** 5+ metaphors and vocabulary from this product's world. Not features — territory. These apply to naming, voice, terminology across all modalities.
+- **Color world:** (visual products only) 5+ colors that exist naturally in this product's domain.
+- **Signature:** One element that could only exist for THIS product. Can be visual (a unique component), behavioral (an agent that proactively surfaces relevant info), conversational (a distinctive way of presenting insights), structural (a CLI output format that makes data scannable in a unique way).
+- **Defaults to reject:** 3 obvious choices you will NOT use. Name them explicitly. This applies to all modalities — "no generic chatbot greeting" is as valid as "no generic card grid."
 
-Also consider:
+For visual products, also consider:
 
-- **Spatial composition:** asymmetry, overlap, density variation, grid-breaking as intentional choices. Not every layout sits on a centered 12-column grid.
-- **Atmosphere:** backgrounds are not solid colors. Gradient, grain, texture that matches the direction. A reading app's warm paper texture is not a trading floor's dark matte surface.
-- **Anti-convergence:** if another AI given similar prompts would produce substantially identical output, the design has failed. What makes this product visually distinct from a default template?
+- **Spatial composition:** asymmetry, overlap, density variation, grid-breaking as intentional choices.
+- **Atmosphere:** backgrounds as environments. Gradient, grain, texture that matches the direction.
+- **Anti-convergence:** if another AI given similar prompts would produce substantially identical output, the design has failed.
 
-Do not propose a direction until all four items above are produced.
+Do not propose a direction until domain concepts, signature, and defaults to reject are produced.
 
 ## Direction Assessment
 

@@ -109,32 +109,38 @@ Every color has a job. Document the job, not just the value. A color palette is 
 
 ## Experience Craft
 
-The difference between a product that works and a product that feels right. This section exists because AI-generated interfaces are functionally correct and experientially dead. They lack the micro-decisions that make software feel crafted: the transitions, the feedback, the gratification moments, the deliberate absences.
+The difference between a product that works and a product that feels right. This applies to EVERY touchpoint — not just screens. A prompt, a workflow notification, an agent reply, a CLI output, an email, a WhatsApp message — every point where the product touches the user is an experience surface. AI-generated products are functionally correct and experientially dead at every layer, not just the UI.
 
-Experience craft is not decoration applied after construction. It is the WHY behind every behavior pattern. A 200ms ease-out transition exists because the product should feel gentle. A 100ms snap exists because the product should feel precise. The timing IS the feeling.
+Experience craft is the WHY behind every behavior pattern. A prompt that leads with the answer exists because the product should feel respectful of the user's time. A loading message that says "Matching recipes from your pantry..." exists because the product should feel like it's working for you, not processing you.
 
-**Micro-interaction principles:**
-- Every user action gets feedback within 100ms. Button press, form submit, toggle, swipe. The type of feedback matches the feeling: a subtle scale for calm products, a crisp color change for precise products.
-- Loading states are specific, not generic. "Checking 3 sources..." not a spinner. The loading state communicates work, which builds trust and tolerance for latency.
-- Success states are proportional to achievement. Saving a form is a subtle check. Completing an onboarding flow is a moment. Hitting a milestone is a celebration. Most AI-built products treat all successes the same.
+**Feedback principles:**
+- Every user action gets acknowledgment. The modality determines the form: visual surfaces use animation (100-200ms). Conversational channels use typing indicators and status messages. CLI uses progress bars. Notifications use delivery confirmation. The principle is universal — the implementation varies.
+- Loading and processing states communicate WHAT the system is doing, not just THAT it is doing something. "Checking 3 sources..." not a spinner. "Matching against your pantry..." not "Processing...". This applies equally to a web UI loading state and an agent's first message before delivering a result.
+- Success feedback is proportional to achievement. A routine save is subtle. Completing a meaningful goal is a moment. This proportion applies in every modality: a WhatsApp agent's response to "I made the recipe!" should feel warmer than its response to "ok."
 
-**Transition principles:**
-- Content enters with direction and purpose. Staggered fade-in with slight vertical shift creates the feeling of content assembling itself. Instant pop-in feels mechanical.
-- State changes are smooth, not binary. A toggle doesn't jump — it slides. A panel doesn't appear — it expands. The animation duration matches the product's energy: fast for operational tools, gentle for reflective tools.
-- Page transitions create continuity. The user should feel like they're moving through a space, not jumping between disconnected views.
+**Pacing principles:**
+- The product has a rhythm that matches the target feeling. A precise operational tool is fast — answers first, details on demand. A warm reflective product is gentle — context before decision, space to think.
+- In conversational flows: answer first, reasoning second. Lead with the insight, offer the "why" on request. Most AI agents dump their chain of thought. That's the agent's experience, not the user's.
+- In workflows: communicate progress at each meaningful step, not just at completion. A 3-minute workflow that's silent until the end feels broken. One that says "Step 2/4: Checking availability..." feels alive.
+- In prompts: the structure of the prompt shapes the structure of the response. A prompt that asks for a list gets a list. A prompt that asks for a story gets a story. The prompt IS the pacing tool.
+
+**Voice and tone principles:**
+- The product speaks with one voice across all surfaces. The same personality in error messages, success messages, agent responses, email subjects, WhatsApp replies, CLI output, and toast notifications. A warm product is warm when it fails too. A precise product doesn't suddenly get chatty in its onboarding email.
+- Terminology is consistent across modalities. The dashboard says "3 vehicles need attention." The WhatsApp message says "3 vehicles need attention." Not "3 alerts detected" in one and "attention required for 3 assets" in the other.
+- Error communication is actionable everywhere. "Photo too dark to read the receipt. Try with better lighting, or type the items instead" — not "Error: image processing failed." This applies to every error in every channel.
 
 **Gratification principles:**
-- Non-functional delight earns its place when it reinforces the target feeling. A progress ring that fills smoothly when a fleet is all-green says "everything is fine" more powerfully than text.
-- Empty states have personality. The first thing a new user sees should embody the product's character, not a gray "no data" message.
-- Discovery rewards: small, unexpected touches that reward exploration. A keyboard shortcut hint that appears once. A subtle animation on first use of a feature. These create the sense that someone cared.
+- Non-functional delight earns its place when it reinforces the target feeling. Visual: a progress ring that fills when the fleet is all-green. Conversational: an agent that remembers you made last week's recipe and asks how it went. CLI: a summary line that shows improvement over last run. Email: a subject line that IS the insight, not a notification label.
+- First impressions have personality. The first thing a new user encounters — first screen, first agent message, first CLI output, first email — should embody the product's character.
+- Discovery rewards across modalities. A keyboard shortcut hint. An agent that proactively surfaces something useful you didn't ask for. A CLI flag you didn't know about that appears when relevant.
 
 **Restraint principles:**
-- For every element, try removing it. If the feeling survives without it, remove it. This applies to animations too — don't animate what the user sees 50 times a day.
-- Silence is a pattern. Not every action needs a toast. Not every state needs an indicator. The product should be quiet when nothing requires attention.
-- Undo over confirmation. A 3-second undo window is faster and calmer than a "Are you sure?" dialog. Confirmation dialogs say "we don't trust you." Undo says "we've got you."
-- Whitespace as luxury. Generous spacing around the focal point says "this matters." Tight spacing in data tables says "scan this efficiently." The contrast between them IS the hierarchy.
+- For every touchpoint, try removing it. If the feeling survives without it, remove it. This applies to words in a prompt, steps in a workflow, fields in a form, lines in a CLI output, sentences in an agent response.
+- Silence is a pattern. Not every event needs a notification. Not every agent response needs an explanation. Not every workflow step needs a status update. The product should be quiet when nothing requires attention.
+- In conversation: don't ask "Is there anything else?" after every answer. Don't front-load disclaimers. Don't repeat the question before answering.
+- In prompts: every clause in a system prompt that doesn't change the output should be removed. Prompt bloat produces response bloat.
 
-**The feeling test:** After building a screen, close your eyes and reopen. What do you feel in the first 500ms? Before you read any text, before you identify any element — what's the sensation? If it doesn't match the target feeling, something is wrong. This is the test that separates designed from generated.
+**The feeling test:** After building any touchpoint — a screen, a prompt, an agent flow, a notification template, a CLI output format — ask: does this feel like the same product? Does it carry the target feeling? A "calm control" product should feel calm in its WhatsApp messages as much as in its dashboard. If any touchpoint breaks the feeling, it breaks the product.
 
 ## Conversational and Notification Craft
 

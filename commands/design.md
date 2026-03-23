@@ -96,15 +96,16 @@ Follow `reference/design-init-guide.md` — Composition Rules section. Hierarchy
 
 ### 10. Define Experience Patterns
 
-Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors. These patterns make the feeling executable — an AI can verify their presence or absence.
+Translate the target feeling (from CLAUDE.md strategy) into concrete, observable behaviors for EVERY modality in the EIID Interface Map. These patterns make the feeling executable — an AI can verify their presence or absence.
 
-Read the target feeling from CLAUDE.md. Read the direction from step 3. For this product's feeling and direction, define:
+Read the target feeling from CLAUDE.md. Read the EIID Interface Map from step 1. For each modality the product uses, define experience patterns:
 
-- **Micro-interactions:** feedback on every user action. What happens on click, hover, complete, error? Not "add hover states" — specific: timing, easing, visual change. A fleet dashboard might have crisp 100ms transitions (control). A recipe app might have gentle 200ms ease-outs (warmth).
-- **Transitions:** how content enters, exits, changes state. Staggered fade-in or instant? Spring easing or linear? The transition rhythm IS the product's pace.
-- **Gratification moments:** the non-functional delights. What happens when a user completes something meaningful? Not a generic toast — something that reinforces the feeling. These moments are what users remember.
-- **Restraint patterns:** what you deliberately don't do. No confirmation modals for reversible actions (undo instead). No toast storms. No animation on elements the user sees 50 times a day. Restraint is the hardest pattern to execute because AI defaults to adding, not removing.
-- **The absence test:** for every element, try removing it. If the target feeling survives, remove it.
+- **Feedback:** how the system acknowledges user actions. Visual surfaces: timing, animation, states. Conversational channels: typing indicators, progress messages. Agents: transparency about what they're doing. CLI: progress bars, status lines. Workflows: step-by-step updates. Email/notifications: delivery confirmation, subject lines that confirm the action.
+- **Pacing:** the rhythm of the experience. A precise tool is fast — answer first, detail on demand. A warm product is gentle — context then decision. In agents: lead with insight, offer reasoning on request. In workflows: status at meaningful steps, not just at completion. In prompts: the prompt structure shapes the response rhythm.
+- **Voice and tone:** how the product speaks — consistently, across all text surfaces. Prompts, error messages, agent responses, notifications, empty states, CLI output, email subjects. Same personality everywhere. Define it once, apply it to all modalities.
+- **Gratification:** proportional to achievement, per modality. Visual: animation on milestone. Agent: warmer response on meaningful completion. CLI: summary showing improvement. Notification: subject line IS the win.
+- **Restraint:** what you deliberately don't do, per modality. Visual: no confirmation dialogs for reversible actions. Conversational: no "Is there anything else?" Agent: no explanation dump. Prompts: no clause that doesn't change the output. Workflow: no notification for routine steps.
+- **The absence test:** for every element the user perceives — a screen element, a message, a prompt clause, a workflow notification — try removing it. If the target feeling survives, remove it.
 
 Write to `.superskills/design-system.md` under Experience Patterns section. Follow `reference/design-system-template.md` format.
 

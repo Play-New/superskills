@@ -127,26 +127,25 @@ Read CLAUDE.md for the target feeling. Read `.superskills/design-system.md` for 
 
 ### Feeling Alignment
 
-For each screen or user-facing component:
-1. **First impression test:** what sensation does the screen produce in the first 500ms, before reading any text? Does it match the target feeling?
-2. **Absence audit:** for each visible element, would the target feeling survive without it? Flag candidates for removal.
-3. **Noise audit:** are there competing animations, toast storms, unnecessary indicators, or visual clutter that undermine the feeling?
+For each touchpoint the user perceives — screens, agent responses, notifications, prompts, CLI output, workflow messages, emails:
+1. **First impression test:** what sensation does this touchpoint produce? Does it match the target feeling?
+2. **Absence audit:** for each element the user perceives (visual or textual), would the target feeling survive without it? Flag candidates for removal.
+3. **Noise audit:** is there clutter that undermines the feeling? Visual: competing animations, toast storms. Conversational: explanation dumps, unnecessary follow-up questions. Prompts: clauses that don't change output. Workflows: notifications for routine steps.
 
 ### Experience Pattern Compliance
 
 If `.superskills/design-system.md` has an Experience Patterns section:
-1. **Micro-interactions:** does every user action get feedback? Is the feedback type and timing appropriate for the target feeling?
-2. **Transitions:** does content enter/exit with appropriate motion? Are state changes smooth, not binary?
-3. **Loading states:** are they specific ("Checking 3 sources...") or generic (spinner)? Generic loading states undermine transparency.
-4. **Gratification moments:** are meaningful completions marked with proportional feedback? Is mundane interaction appropriately quiet?
-5. **Restraint:** are confirmation dialogs used where undo would be better? Are there animations on high-frequency elements?
-6. **Empty states:** do they have personality that matches the direction, or are they generic "no data" messages?
+1. **Feedback:** does every user action get acknowledgment appropriate to its modality? Visual: animation/state change. Conversational: status message. CLI: progress indicator. Workflow: step update.
+2. **Pacing:** does the rhythm match the target feeling? Fast and precise, or gentle and spacious? Check across all modalities — an agent that dumps a wall of text breaks pacing even if the dashboard is clean.
+3. **Voice consistency:** does the product speak with one voice? Same tone, same terminology across dashboard, agent responses, error messages, notifications, emails, CLI output. Flag divergences.
+4. **Gratification:** are meaningful completions marked with proportional feedback in each modality? Is mundane interaction appropriately quiet?
+5. **Restraint:** are there touchpoints that could be removed or simplified? Confirmation dialogs where undo works. Agent explanations nobody asked for. Workflow notifications for routine completions. Prompt clauses that add no value.
 
-### Responsive Experience
+### Cross-Modality Coherence
 
-1. **Touch targets:** 44x44px minimum on mobile, appropriate spacing to prevent mis-taps
-2. **Layout adaptation:** does the feeling survive across breakpoints? A calm desktop experience that becomes cramped on mobile has lost the feeling.
-3. **Interaction adaptation:** hover patterns on desktop need touch equivalents on mobile. The experience patterns must work across devices.
+1. **Same product test:** if a user interacts via dashboard, then via WhatsApp, then reads an email — do all three feel like the same product?
+2. **Terminology match:** same terms, same framing, same units across all surfaces.
+3. **If visual surfaces exist:** touch targets 44x44px minimum, feeling survives across breakpoints, hover patterns have touch equivalents.
 
 ---
 
