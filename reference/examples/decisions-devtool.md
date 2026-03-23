@@ -1,5 +1,7 @@
 # Architecture Decisions
 
+## Active
+
 ### Mar 1, 2026 — No Web Dashboard
 **Type:** decision
 **Summary:** EIID Interface Map shows all layers are automated, conversational, or notification-based. Risk summaries fit in a Slack message. Dependency lists fit in a CLI table. Building a web dashboard would add infrastructure cost and maintenance burden for information that is already accessible where developers work. The three existing channels (Slack, CLI, GitHub comments) cover all use cases without a browser.

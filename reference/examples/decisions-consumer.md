@@ -1,5 +1,7 @@
 # Architecture Decisions
 
+## Active
+
 ### Mar 1, 2026 — WhatsApp as Primary Interface
 **Type:** decision
 **Summary:** WhatsApp over a web app for primary interaction. EIID analysis: enrichment is photo capture (already happens on phone), interpretation fits in a message (recipe card), delivery is conversational. Building a web-first recipe browser would force users out of their natural flow. The web archive exists for reference, not interaction.

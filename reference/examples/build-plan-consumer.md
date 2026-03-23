@@ -7,10 +7,9 @@ Mixed modality consumer product. Agents + workflows. WhatsApp is primary. Web is
 - **Auth:** yes — users have saved recipes and preferences
 - **Schema:** yes — users, recipes, ingredients, pantry_items, collections. Minimal: what the product actually queries.
 - **Layout shell:** yes, but minimal — top bar, 3 items, 640px constrained. This is not a dashboard.
-- **Settings:** yes — dietary preferences, notification timing. Prompt management because the product has an agent.
+- **Settings:** yes — dietary preferences, notification timing, prompt management (the agent's behavior is shaped by prompts the user should see and adjust).
 - **Visual surfaces:** yes, but secondary — the web archive is for browsing saved recipes, not primary interaction.
 - **Agent runtime:** yes — the conversational recipe agent IS the product. WhatsApp-native.
-- **Prompt management:** yes — the agent's behavior is shaped by prompts the user should see and adjust.
 
 ## What This Product Does NOT Need
 

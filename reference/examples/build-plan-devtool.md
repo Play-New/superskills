@@ -21,7 +21,7 @@ No visual UI. CLI + Slack + GitHub. Single LLM call for interpretation.
 
 ## Build Order
 
-1. **Scaffold** — CLI entry point with subcommands (scan, watch, config, detail). No framework, just Node.js.
+1. **Scaffold** — CLI entry point with subcommands (scan, watch, config, detail, migrate). No framework, just Node.js.
 2. **Config** — `.depwatch.json` management. Add/remove repos, set thresholds, Slack webhook. Validate on read.
 3. **Enrichment** — GitHub repo scanner (read package.json, lockfiles), npm registry client (versions, changelogs, type signatures). Rate limit management.
 4. **Inference** — semver analyzer, type signature comparator, changelog parser. Three independent analyzers, all pure code.
