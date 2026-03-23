@@ -59,9 +59,9 @@ Not a checklist — a posture. The build assumes hostile input on every boundary
 
 **Validate at boundaries.** User input, API responses, webhook payloads, agent outputs. Trust nothing from outside. Use schema validation (zod or equivalent). Inside the boundary, trust the types.
 
-## 5. The Feeling Is the Product
+## 5. Experience Is Built In
 
-Before "does it work?" ask "how does it feel?" The target feeling (defined in strategy, refined in design) is the ultimate measure of every visible piece. A product that is functionally correct and experientially dead has failed.
+The target feeling (defined in strategy, refined in design) guides every visible piece. A product that is functionally correct and experientially dead has missed the point — EIID restructures software around how intelligence flows, and experience is how users perceive that flow.
 
 **Experience patterns are not polish.** Micro-interactions, transitions, gratification moments, restraint — these are built into the code from the first component, not applied as a final pass. A loading state that says "Checking 3 sources..." is built alongside the API call, not added later. A success animation on task completion is part of the task component, not a separate ticket.
 

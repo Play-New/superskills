@@ -62,7 +62,7 @@ Add the marketplace and pre-enable the plugin in `.claude/settings.json` so new 
 
 ## What it does
 
-Run `/super:strategy`. It scans the folder, detects the stack, asks seven questions (including "how should they feel?" — the emotional benchmark for all design and build decisions), researches the problem space, and produces an EIID mapping with strategic classification, implementation levels, and a target feeling. If any component uses agent, workflow, or LLM call, it adds an agent architecture step. Output: CLAUDE.md (stable instructions) and `.superskills/` (volatile findings).
+Run `/super:strategy`. It scans the folder, detects the stack, asks seven questions, researches the problem space, and produces an EIID mapping with strategic classification, implementation levels, and a target feeling for experience design. If any component uses agent, workflow, or LLM call, it adds an agent architecture step. Output: CLAUDE.md (stable instructions) and `.superskills/` (volatile findings).
 
 From that point: the secrets guard watches file writes, three skills advise during planning, four commands handle specific domains, and findings accumulate in `.superskills/`.
 

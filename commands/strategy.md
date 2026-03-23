@@ -44,7 +44,7 @@ Seven questions. Ask one at a time. Wait for each answer before asking the next.
 2. **Who will use it?** Who will be the end user of your product?
 3. **How do they work today?** What tools are on their desk? Where do they communicate (email, WhatsApp, Slack, phone)? How do they currently manage the data this product will use? What does a typical day look like? The intelligence layer wraps around existing behavior — this determines where enrichment collects and delivery returns.
 4. **What do they want to achieve?** Not features — outcomes. Their goal, the value they're looking for.
-5. **How should they feel?** When this product works perfectly — what's the emotional state? Not "satisfied" or "happy." Specific: in control? Relieved? Empowered? Calm? Delighted? This answer shapes every design and build decision. The feeling is the product. Everything else is implementation.
+5. **How should they feel?** When this product works perfectly — what's the emotional state? Not "satisfied" or "happy." Specific: in control? Relieved? Empowered? Calm? Delighted? This answer shapes design and build decisions — it's the quality benchmark for how users perceive the product.
 6. **What's needed to deliver that value?** Tools, services, other products, skills.
 7. **What exists already?** What data and tools do you have access to?
 

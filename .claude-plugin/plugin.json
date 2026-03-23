@@ -1,7 +1,7 @@
 {
   "name": "super",
   "version": "2026.3.16.2246",
-  "description": "EIID-driven strategy, design, build, and quality audits for AI-native products. Claude Code plugin.",
+  "description": "AI-native product development. EIID framework for strategy, design, build, and quality audits. Claude Code plugin.",
   "author": {
     "name": "Play New",
     "url": "https://github.com/Play-New"
