@@ -87,6 +87,8 @@ Present the plan. The user approves, reorders, removes, or adds. **This is the o
 
 For each piece in the approved plan:
 
+Skills (eiid-awareness, design-awareness, build-awareness) fire during the loop. They are advisory — the build incorporates their feedback automatically and logs observations, but does not stop for them. Only hard failures (tests, types) stop the loop.
+
 **Test → Build → Verify → Next.**
 
 **Test:** write acceptance tests first. Tests define the outcome, not the implementation. What does this piece DO? Not how it's structured.

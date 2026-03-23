@@ -1,6 +1,6 @@
 ---
 name: design-awareness
-description: Design system awareness during planning. Fires when Claude enters plan mode or proposes UI changes. Checks token compliance, component reuse, and aesthetic consistency.
+description: Design awareness during planning. Challenges whether UI changes should exist at all, then checks direction, hierarchy, and system compliance.
 user-invocable: false
 ---
 
@@ -8,16 +8,23 @@ When planning changes to UI code:
 
 1. If `.superskills/design-system.md` does not exist, stop. No design system configured.
 2. Read `.superskills/design-system.md` for direction, tokens, and component patterns. Read CLAUDE.md for the Design System section.
-3. **Modality check:** if `.superskills/design-system.md` contains an EIID Interface Map, check: does this UI change target a layer mapped to visual modality? If adding a visual component for a layer mapped to conversational or notification delivery, flag: "This layer is mapped to [modality] delivery. Confirm a visual surface is needed before proceeding."
-4. **Channel design check:** if the change involves message templates, notification formatting, or chat responses, and `.superskills/design-system.md` contains an EIID Interface Map, check against it. Does the message structure match documented patterns? Does the message lead with insight? Is terminology consistent with visual surfaces?
-4b. **Agent interaction check:** if the change involves agent-generated output visible to users, check: is the agent's tone consistent with the design direction? Does the agent communicate what it's doing (transparency)? Are error messages actionable, not raw?
-5. **Component discovery:** before building any custom component, search for existing implementations. Run `npx shadcn@latest add` to explore available registries and components. Check the shadcn ecosystem: base registry, community registries (@reui, @animate-ui, @diceui, and others). If a component exists, install it instead of building custom.
-6. **Direction check:** does this change match the established aesthetic direction? Flag drift from the documented feel, color world, or signature element.
-7. **Pattern reuse:** if `.superskills/design-system.md` has documented measurements (heights, padding, radius), use them. Do not create new variants when an existing pattern fits.
-8. **Hierarchy check:** if `.superskills/design-system.md` has an Information Architecture section, check three things. Navigation budget: if the change adds a nav item, count existing items against the budget; exceeding means something moves down or the new item nests inside an existing screen. Focal point: if the change adds content to a screen's primary zone, check if it competes with the documented focal point. Content depth: if the change surfaces something that belongs at one-click or deep tier based on documented rules, flag it.
-9. **Layout compliance:** if `.superskills/design-system.md` has a Layout section, check that new components use documented grid, breakpoints, and page patterns. Flag components that bypass the grid or use undocumented breakpoints.
-10. **Typography compliance:** if `.superskills/design-system.md` has a Typography Scale section, check that new text elements use documented levels. Flag sizes or weights not in the scale.
-11. **Composition compliance:** if `.superskills/design-system.md` has a Composition section, check density zones and section rhythm. Flag uniform spacing where the density map says it should vary. Flag spacing values that don't match the documented section rhythm.
-12. **Staleness nudge:** if `.superskills/design-system.md` has a Component Patterns table, count how many UI components exist in the codebase vs. how many are documented in the table. If the gap is 5+ undocumented components, suggest: "Component patterns table is behind. Consider running `/super:design` to update it." Same for direction: if the current change conflicts with the documented direction in multiple ways, suggest `/super:design [screen name]` to redesign the affected screen.
 
-One line per observation. Only when relevant. Not blocking. Brief.
+3. **Should this exist?** Before checking how it looks — should this screen, component, or element exist at all? Does it serve the EIID mapping? Is there a simpler way to deliver this value? Can the information be part of an existing screen instead of a new one? Can the interaction be conversational instead of visual? Flag additions that don't earn their place.
+
+4. **Modality check:** if `.superskills/design-system.md` contains an EIID Interface Map, check: does this UI change target a layer mapped to visual modality? If adding a visual component for a layer mapped to conversational or notification delivery, flag: "This layer is mapped to [modality] delivery. Confirm a visual surface is needed before proceeding."
+
+5. **Channel design check:** if the change involves message templates, notification formatting, or chat responses, check against the EIID Interface Map. Does the message structure match documented patterns? Does the message lead with insight? Is terminology consistent with visual surfaces?
+
+5b. **Agent interaction check:** if the change involves agent-generated output visible to users, check: is the agent's tone consistent with the design direction? Does the agent communicate what it's doing (transparency)? Are error messages actionable, not raw?
+
+6. **Component discovery:** before building any custom component, search for existing implementations. Check shadcn registries and community registries. If a component exists, install it instead of building custom.
+
+7. **Direction check:** does this change carry the product's character? Not "are the colors right" — does it feel like this product? A fleet dashboard component should feel dense and operational. A recipe component should feel warm and generous. Flag output that feels generic or templated.
+
+8. **Hierarchy check:** if an IA section exists, check navigation budget (exceeding means something moves down), focal point (new content shouldn't compete with the documented focal), content depth (surface-tier items stay on surface, deep items stay deep).
+
+9. **System compliance:** tokens, layout grid, typography scale, composition rhythm. Use documented values, not arbitrary ones. Don't create new variants when existing patterns fit.
+
+10. **Staleness nudge:** if 5+ undocumented components exist vs. the Component Patterns table, suggest `/super:design` to update. If multiple direction conflicts, suggest `/super:design [screen]` to redesign.
+
+One line per observation. Only when relevant. Not blocking. Challenge, don't lecture.
