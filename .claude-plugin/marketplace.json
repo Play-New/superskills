@@ -6,13 +6,13 @@
   },
   "metadata": {
     "version": "2026.3.16.2246",
-    "description": "Autonomous skills for AI-native product development"
+    "description": "EIID-driven strategy, design, and quality audits for AI-native products. Claude Code plugin."
   },
   "plugins": [
     {
       "name": "super",
       "version": "2026.3.16.2246",
-      "description": "EIID framework, stack-adaptive audits, strategic continuity.",
+      "description": "EIID-driven strategy, design, build, and quality audits for AI-native products.",
       "author": {
         "name": "Play New",
         "url": "https://github.com/Play-New"

@@ -193,7 +193,7 @@ Re-assessment with new context. Something changed in the business, users, data, 
 
 ### 1. Load Existing Context
 
-Read CLAUDE.md and `.superskills/decisions.md`. Understand the current EIID mapping, stack, user context, and decision history.
+Read CLAUDE.md and `.superskills/decisions.md`. Understand the current EIID mapping, stack, user context, and decision history. Focus on **Active** decisions — archived decisions are context, not constraints.
 
 ### 2. Change Assessment
 
@@ -229,9 +229,14 @@ Reclassify each EIID element: automate / differentiate / innovate. Set updated p
 
 Follow the same structure as init mode step 8. **Show the full updated CLAUDE.md to the user before writing.** Highlight what changed from the previous version. Ask for confirmation.
 
-### 7. Log Decision
+### 7. Archive and Log
 
-Append to `.superskills/decisions.md`. Follow the format in `reference/examples/decisions-saas.md`.
+**Archive stale decisions.** Scan the Active section of `.superskills/decisions.md`. For each active decision, check: does the context that justified it still hold given the new information? If not, move it to the Archived section with the date and reason. Examples:
+- A "via buy" decision for a service that no longer exists → archive, replace with new decision
+- A "differentiate" classification for something that's now commodity → archive, reclassify
+- A build decision for code that was removed or replaced → archive
+
+**Log the refresh decision.** Append a new entry to the Active section of `.superskills/decisions.md`. Follow the format in `reference/decisions-template.md`. Summarize what changed in this refresh and why.
 
 ---
 

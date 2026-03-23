@@ -207,18 +207,19 @@ If the project uses LLM calls, workflows, or agents, shared standards include pr
 
 ## Review
 
-Six audits. Tests run first (broken code makes other audits unreliable). The remaining five run in parallel when agent teams are available.
+Seven audits. Tests run first (broken code makes other audits unreliable). The remaining six run in parallel when agent teams are available.
 
 | Audit | Severity | Scope |
 |-------|----------|-------|
 | **Tests** | Blocking | vitest + Playwright setup and full suite |
 | **Security** | Blocking on critical | OWASP Top 10, GDPR, secrets, stack-adaptive checks |
+| **Build standards** | Blocking on auth/schema | Shared standards compliance (auth, schema, settings, error handling, logging, layout) |
 | **Strategy** | Advisory | EIID alignment per file, scope creep, 11-question opportunity scan |
 | **Design** | Blocking if widespread | Accessibility, IA, design system compliance, conversational/agent pattern compliance, consistency, framework rules, craft |
 | **Performance** | Blocking on regression | Bundle, Core Web Vitals, N+1 queries, API costs |
 | **Agent architecture** | Blocking on parity gaps | Implementation level, graduation readiness, tool quality, testing, feedback loop |
 
-Agent architecture is skipped entirely if no EIID component uses agent, workflow, or LLM call.
+Agent architecture is skipped entirely if no EIID component uses agent, workflow, or LLM call. Build standards skips checks for features the project doesn't have.
 
 ## Skills and hooks
 
@@ -228,12 +229,14 @@ Agent architecture is skipped entirely if no EIID component uses agent, workflow
 
 **Design awareness** (skill, during planning): flags registry alternatives, aesthetic drift, pattern reuse, IA violations, agent interaction consistency. Nudges toward `/super:design` when component patterns fall behind.
 
+**Build awareness** (skill, during implementation): checks shared standards compliance when writing source code. Flags auth middleware gaps, unstructured errors, console.log logging, untested behavior, EIID traceability gaps, implementation level mismatches, and inline prompts that should be in config.
+
 ## Where things go
 
 **CLAUDE.md** contains stable project instructions: context, stack, EIID mapping with strategic approach and implementation level per layer, technology constraints, design system config. It changes rarely. Updated by `/super:strategy` (init or refresh) and `/super:design` (Design System section). Claude reads it at session start. Target: under 100 lines.
 
 **`.superskills/`** contains volatile findings:
-- `report.md`: security, design, performance, agent architecture, test findings. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns.
+- `report.md`: test results, security, build standards, design, performance, agent architecture findings. Build progress tracking. Replaced on each audit. Status counts at the top. Project Profile tracks recurring patterns.
 - `decisions.md`: architecture decisions log. Append-only. Updated by `/super:strategy` refresh, `/super:review`, and `/super:design` redesign.
 - `design-system.md`: EIID Interface Map, direction, references, IA, layout, typography scale, composition, tokens, component patterns, conversational patterns, agent interaction patterns. Updated by `/super:design` as the system evolves.
 
@@ -271,7 +274,8 @@ superskills/                             the plugin
 │   └── review.md                       six-domain audit
 ├── skills/
 │   ├── eiid-awareness/SKILL.md          strategic alignment during planning
-│   └── design-awareness/SKILL.md        design compliance during planning
+│   ├── design-awareness/SKILL.md        design compliance during planning
+│   └── build-awareness/SKILL.md         shared standards + quality during implementation
 ├── agents/
 │   └── stop-tests.md                    test runner (on-demand)
 ├── hooks/hooks.json                     secrets guard
@@ -290,12 +294,15 @@ superskills/                             the plugin
 │       ├── claude-md-saas.md            FleetPulse: visual-heavy, all code/buy
 │       ├── design-system-saas.md        dense data, Nova style
 │       ├── decisions-saas.md            SaaS decisions
+│       ├── build-plan-saas.md          FleetPulse: build decomposition, all code/buy
 │       ├── claude-md-consumer.md        RecipeBox: mixed modality, agents + workflows
 │       ├── design-system-consumer.md    warm editorial, WhatsApp-first, agent interaction patterns
 │       ├── decisions-consumer.md        consumer decisions
+│       ├── build-plan-consumer.md      RecipeBox: build with agents, prompt management
 │       ├── claude-md-devtool.md         DepWatch: no visual UI, single LLM call
 │       ├── design-system-devtool.md     message structure only
-│       └── decisions-devtool.md         devtool decisions
+│       ├── decisions-devtool.md         devtool decisions
+│       └── build-plan-devtool.md       DepWatch: CLI build, no visual, LLM call
 └── README.md
 
 your-project/                            what gets generated
@@ -306,7 +313,7 @@ your-project/                            what gets generated
     └── design-system.md                 design direction + tokens + patterns
 ```
 
-4 commands, 2 skills, 1 agent, 1 hook. 27 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
+4 commands, 3 skills, 1 agent, 1 hook. 31 markdown files, 3 JSON. Three examples demonstrate the spectrum: FleetPulse (visual-heavy SaaS, all code/buy), RecipeBox (mixed modality consumer, agents and workflows with graduation), DepWatch (no-visual devtool, single LLM call with graduation to template).
 
 ## References
 

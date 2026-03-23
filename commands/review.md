@@ -1,11 +1,11 @@
 ---
-description: Full quality audit. Tests, security, strategy, design, performance, agent architecture. All at once.
+description: Full quality audit. Tests, security, build standards, strategy, design, performance, agent architecture. All at once.
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
 # Review
 
-Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining five domains. If agent teams are available, run the remaining five in parallel. Otherwise, run everything sequentially.
+Full audit of the project. Run tests first (broken code makes other audits unreliable), then the remaining six domains. If agent teams are available, run the remaining six in parallel. Otherwise, run everything sequentially.
 
 ## Prerequisites
 
@@ -57,7 +57,59 @@ Read `reference/review-security-guide.md` for the full security audit checklist.
 
 ---
 
-## 3. Strategy
+## 3. Build Standards
+
+Severity: blocking if auth or schema standards are violated, advisory otherwise.
+
+Read `reference/shared-standards.md`. For each standard that applies to the project (skip standards for features the project doesn't have), check compliance:
+
+### Auth
+- Is there a single middleware file protecting all routes? Or scattered per-route checks?
+- Does every protected API route validate session before processing?
+- Does the auth flow use the stack's auth service (as specified in CLAUDE.md), not custom?
+
+### Database Schema
+- RLS enabled on every table with user data? Policies for select/insert/update/delete?
+- Indexes on columns used in WHERE, ORDER BY, JOIN?
+- `created_at` and `updated_at` on every table?
+- Types generated from schema, not hand-written?
+
+### Settings
+- Settings page with grouped concerns?
+- If the project uses LLM calls/workflows/agents: are prompts visible and editable?
+- Is there a reset-to-default for user prompt overrides?
+
+### Error Handling
+- Structured API error format (`{ error, code? }`) used consistently?
+- Error boundaries on route segments?
+- No stack traces or technical details in user-facing errors?
+- Agent errors follow design system patterns (actionable, not raw)?
+
+### Logging
+- Structured JSON format, not console.log?
+- No PII in logs (email, names, passwords)?
+- Request logging middleware with method, path, status, duration?
+
+### Layout Shell (if visual layers exist)
+- Navigation matches IA from design system exactly? No extra items?
+- Active state on current route?
+- Responsive at documented breakpoints?
+- All values from design tokens, no arbitrary values?
+
+Output table:
+
+| Standard | Status | Issues |
+|----------|--------|--------|
+| Auth | PASS/FAIL/SKIP | [details] |
+| Schema | PASS/FAIL/SKIP | [details] |
+| Settings | PASS/FAIL/SKIP | [details] |
+| Error handling | PASS/FAIL/SKIP | [details] |
+| Logging | PASS/FAIL/SKIP | [details] |
+| Layout shell | PASS/FAIL/SKIP | [details] |
+
+---
+
+## 4. Strategy
 
 Read CLAUDE.md EIID mapping. For each source file:
 1. Which EIID layer does it support? (enrichment / inference / interpretation / delivery / none)
@@ -87,7 +139,7 @@ Run the opportunity scan:
 
 ---
 
-## 4. Design
+## 5. Design
 
 Read CLAUDE.md and `.superskills/design-system.md` for context. Read `reference/design-critique.md` for the full critique framework. Work through all six layers (0 through 5).
 
@@ -161,7 +213,7 @@ Apply all six critique layers from `reference/design-critique.md`, evaluating cr
 
 ---
 
-## 5. Performance
+## 6. Performance
 
 Severity: blocking on regressions beyond budget, advisory otherwise.
 
@@ -169,7 +221,7 @@ Read `reference/review-performance-guide.md` for the full performance audit chec
 
 ---
 
-## 6. Agent Architecture
+## 7. Agent Architecture
 
 Skip this section entirely if no EIID component uses agent, workflow, or LLM call.
 
@@ -222,6 +274,7 @@ Write all findings to `.superskills/`:
 
 - Test results → **replace** Test Report section in `.superskills/report.md` (keep last 3 runs)
 - Security findings → **replace** Security Findings section in `.superskills/report.md`
+- Build standards findings → **replace** Build Standards section in `.superskills/report.md`
 - Strategy findings → **append** to `.superskills/decisions.md`
 - Design findings → **replace** Design Findings section in `.superskills/report.md`
 - Performance findings → **replace** Performance Budget section in `.superskills/report.md`
@@ -238,6 +291,7 @@ Print a summary at the end:
 
 Tests:        [passed/failed/skipped]
 Security:     [blocking count] blocking, [high count] high
+Build:        [pass count]/[total count] standards passing
 Strategy:     [scope-creep count] scope creep, [opportunity count] opportunities
 Design:       [violation count] violations
 Performance:  [issue count] issues
