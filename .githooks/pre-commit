@@ -9,10 +9,7 @@ VERSION=$(date +"%Y.%-m.%-d.%H%M")
 # Update plugin.json
 perl -pi -e "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" .claude-plugin/plugin.json
 
-# Update marketplace.json (both metadata and plugin entry)
-perl -pi -e "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" .claude-plugin/marketplace.json
-
-# Stage the updated files
-git add .claude-plugin/plugin.json .claude-plugin/marketplace.json
+# Stage the updated file
+git add .claude-plugin/plugin.json
 
 echo "Version updated to $VERSION"
